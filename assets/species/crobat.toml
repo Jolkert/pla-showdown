@@ -1,0 +1,10 @@
+id = "crobat"
+types = ["poison", "flying"]
+
+[base_stats]
+hp = 85
+atk = 90
+def = 80
+spatk = 70
+spdef = 80
+spe = 130

@@ -1,0 +1,10 @@
+id = "elekid"
+types = ["electric"]
+
+[base_stats]
+hp = 45
+atk = 63
+def = 37
+spatk = 65
+spdef = 55
+spe = 95

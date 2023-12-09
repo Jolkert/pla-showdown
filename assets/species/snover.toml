@@ -1,0 +1,10 @@
+id = "snover"
+types = ["grass", "ice"]
+
+[base_stats]
+hp = 60
+atk = 62
+def = 50
+spatk = 62
+spdef = 60
+spe = 40

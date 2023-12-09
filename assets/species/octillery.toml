@@ -1,0 +1,10 @@
+id = "octillery"
+types = ["water"]
+
+[base_stats]
+hp = 75
+atk = 105
+def = 75
+spatk = 105
+spdef = 75
+spe = 45

@@ -1,0 +1,10 @@
+id = "mesprit"
+types = ["psychic"]
+
+[base_stats]
+hp = 80
+atk = 105
+def = 105
+spatk = 105
+spdef = 105
+spe = 80

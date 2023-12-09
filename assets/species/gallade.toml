@@ -1,0 +1,10 @@
+id = "gallade"
+types = ["psychic", "fighting"]
+
+[base_stats]
+hp = 68
+atk = 125
+def = 65
+spatk = 65
+spdef = 115
+spe = 80

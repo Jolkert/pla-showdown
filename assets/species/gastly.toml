@@ -1,0 +1,10 @@
+id = "gastly"
+types = ["ghost", "poison"]
+
+[base_stats]
+hp = 30
+atk = 35
+def = 30
+spatk = 100
+spdef = 35
+spe = 80

@@ -1,0 +1,10 @@
+id = "enamorus-incarnate"
+types = ["fairy", "flying"]
+
+[base_stats]
+hp = 74
+atk = 115
+def = 70
+spatk = 135
+spdef = 80
+spe = 106

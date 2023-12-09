@@ -1,0 +1,10 @@
+id = "machop"
+types = ["fighting"]
+
+[base_stats]
+hp = 70
+atk = 80
+def = 50
+spatk = 35
+spdef = 35
+spe = 35

@@ -1,0 +1,10 @@
+id = "shinx"
+types = ["electric"]
+
+[base_stats]
+hp = 45
+atk = 65
+def = 34
+spatk = 40
+spdef = 34
+spe = 45

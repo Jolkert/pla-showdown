@@ -1,0 +1,10 @@
+id = "ralts"
+types = ["psychic", "fairy"]
+
+[base_stats]
+hp = 28
+atk = 25
+def = 25
+spatk = 45
+spdef = 35
+spe = 40

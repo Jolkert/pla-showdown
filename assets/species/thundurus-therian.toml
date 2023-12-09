@@ -1,0 +1,10 @@
+id = "thundurus-therian"
+types = ["electric", "flying"]
+
+[base_stats]
+hp = 79
+atk = 105
+def = 70
+spatk = 145
+spdef = 80
+spe = 101

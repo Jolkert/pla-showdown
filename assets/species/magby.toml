@@ -1,0 +1,10 @@
+id = "magby"
+types = ["fire"]
+
+[base_stats]
+hp = 45
+atk = 75
+def = 37
+spatk = 70
+spdef = 55
+spe = 83

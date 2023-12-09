@@ -1,0 +1,10 @@
+id = "avalugg-hisui"
+types = ["ice", "rock"]
+
+[base_stats]
+hp = 95
+atk = 127
+def = 184
+spatk = 34
+spdef = 36
+spe = 38

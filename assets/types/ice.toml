@@ -1,0 +1,4 @@
+id = "ice"
+weaknesses = ["fighting", "rock", "steel", "fire"]
+resistances = ["ice"]
+immunities = []

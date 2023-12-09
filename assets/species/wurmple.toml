@@ -1,0 +1,10 @@
+id = "wurmple"
+types = ["bug"]
+
+[base_stats]
+hp = 45
+atk = 45
+def = 35
+spatk = 20
+spdef = 30
+spe = 20

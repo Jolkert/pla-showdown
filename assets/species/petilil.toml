@@ -1,0 +1,10 @@
+id = "petilil"
+types = ["grass"]
+
+[base_stats]
+hp = 45
+atk = 35
+def = 50
+spatk = 70
+spdef = 50
+spe = 30

@@ -1,0 +1,4 @@
+id = "electric"
+weaknesses = ["ground"]
+resistances = ["flying", "electric", "steel"]
+immunities = []

@@ -1,0 +1,10 @@
+id = "munchlax"
+types = ["normal"]
+
+[base_stats]
+hp = 135
+atk = 85
+def = 40
+spatk = 40
+spdef = 85
+spe = 5

@@ -1,0 +1,10 @@
+id = "golbat"
+types = ["poison", "flying"]
+
+[base_stats]
+hp = 75
+atk = 80
+def = 70
+spatk = 65
+spdef = 75
+spe = 90

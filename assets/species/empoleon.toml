@@ -1,0 +1,10 @@
+id = "empoleon"
+types = ["water", "steel"]
+
+[base_stats]
+hp = 84
+atk = 86
+def = 88
+spatk = 111
+spdef = 101
+spe = 60

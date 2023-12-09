@@ -1,0 +1,10 @@
+id = "vulpix"
+types = ["fire"]
+
+[base_stats]
+hp = 38
+atk = 41
+def = 40
+spatk = 50
+spdef = 65
+spe = 65

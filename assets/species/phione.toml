@@ -1,0 +1,10 @@
+id = "phione"
+types = ["water"]
+
+[base_stats]
+hp = 80
+atk = 80
+def = 80
+spatk = 80
+spdef = 80
+spe = 80

@@ -1,0 +1,10 @@
+id = "spiritomb"
+types = ["ghost", "dark"]
+
+[base_stats]
+hp = 50
+atk = 92
+def = 108
+spatk = 92
+spdef = 108
+spe = 35

@@ -1,0 +1,10 @@
+id = "raichu"
+types = ["electric"]
+
+[base_stats]
+hp = 60
+atk = 90
+def = 55
+spatk = 90
+spdef = 80
+spe = 110

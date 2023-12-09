@@ -1,0 +1,10 @@
+id = "roserade"
+types = ["grass", "poison"]
+
+[base_stats]
+hp = 60
+atk = 70
+def = 65
+spatk = 125
+spdef = 105
+spe = 90

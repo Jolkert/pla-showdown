@@ -1,0 +1,10 @@
+id = "quilava"
+types = ["fire"]
+
+[base_stats]
+hp = 58
+atk = 64
+def = 58
+spatk = 80
+spdef = 65
+spe = 80

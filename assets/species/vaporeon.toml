@@ -1,0 +1,10 @@
+id = "vaporeon"
+types = ["water"]
+
+[base_stats]
+hp = 130
+atk = 65
+def = 60
+spatk = 110
+spdef = 95
+spe = 65

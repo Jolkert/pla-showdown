@@ -1,0 +1,10 @@
+id = "bastiodon"
+types = ["rock", "steel"]
+
+[base_stats]
+hp = 60
+atk = 52
+def = 168
+spatk = 47
+spdef = 138
+spe = 30

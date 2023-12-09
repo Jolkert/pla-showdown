@@ -1,0 +1,10 @@
+id = "voltorb-hisui"
+types = ["electric", "grass"]
+
+[base_stats]
+hp = 40
+atk = 30
+def = 50
+spatk = 55
+spdef = 55
+spe = 100

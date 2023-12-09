@@ -1,0 +1,10 @@
+id = "hippowdon"
+types = ["ground"]
+
+[base_stats]
+hp = 108
+atk = 112
+def = 118
+spatk = 68
+spdef = 72
+spe = 47

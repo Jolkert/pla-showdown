@@ -1,0 +1,10 @@
+id = "parasect"
+types = ["bug", "grass"]
+
+[base_stats]
+hp = 60
+atk = 95
+def = 80
+spatk = 60
+spdef = 80
+spe = 30

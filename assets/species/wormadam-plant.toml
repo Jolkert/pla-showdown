@@ -1,0 +1,10 @@
+id = "wormadam-plant"
+types = ["bug", "grass"]
+
+[base_stats]
+hp = 60
+atk = 59
+def = 85
+spatk = 79
+spdef = 105
+spe = 36

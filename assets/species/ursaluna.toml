@@ -1,0 +1,10 @@
+id = "ursaluna"
+types = ["ground", "normal"]
+
+[base_stats]
+hp = 130
+atk = 140
+def = 105
+spatk = 45
+spdef = 80
+spe = 50

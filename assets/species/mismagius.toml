@@ -1,0 +1,10 @@
+id = "mismagius"
+types = ["ghost"]
+
+[base_stats]
+hp = 60
+atk = 60
+def = 60
+spatk = 105
+spdef = 105
+spe = 105

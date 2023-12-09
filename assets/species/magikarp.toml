@@ -1,0 +1,10 @@
+id = "magikarp"
+types = ["water"]
+
+[base_stats]
+hp = 20
+atk = 10
+def = 55
+spatk = 15
+spdef = 20
+spe = 80

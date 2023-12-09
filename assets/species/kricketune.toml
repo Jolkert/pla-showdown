@@ -1,0 +1,10 @@
+id = "kricketune"
+types = ["bug"]
+
+[base_stats]
+hp = 77
+atk = 85
+def = 51
+spatk = 55
+spdef = 51
+spe = 65

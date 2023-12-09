@@ -1,0 +1,10 @@
+id = "enamorus-therian"
+types = ["fairy", "flying"]
+
+[base_stats]
+hp = 74
+atk = 115
+def = 110
+spatk = 135
+spdef = 100
+spe = 46

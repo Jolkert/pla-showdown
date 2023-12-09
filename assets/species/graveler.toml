@@ -1,0 +1,10 @@
+id = "graveler"
+types = ["rock", "ground"]
+
+[base_stats]
+hp = 55
+atk = 95
+def = 115
+spatk = 45
+spdef = 45
+spe = 35

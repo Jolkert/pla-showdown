@@ -1,0 +1,10 @@
+id = "tornadus-therian"
+types = ["flying"]
+
+[base_stats]
+hp = 79
+atk = 100
+def = 80
+spatk = 110
+spdef = 90
+spe = 121

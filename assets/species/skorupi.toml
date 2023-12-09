@@ -1,0 +1,10 @@
+id = "skorupi"
+types = ["poison", "bug"]
+
+[base_stats]
+hp = 40
+atk = 50
+def = 90
+spatk = 30
+spdef = 55
+spe = 65

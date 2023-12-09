@@ -1,0 +1,4 @@
+id = "normal"
+weaknesses = ["fighting"]
+resistances = []
+immunities = ["ghost"]

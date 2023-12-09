@@ -1,0 +1,10 @@
+id = "wormadam-trash"
+types = ["bug", "steel"]
+
+[base_stats]
+hp = 60
+atk = 69
+def = 95
+spatk = 69
+spdef = 95
+spe = 36

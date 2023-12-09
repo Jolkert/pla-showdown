@@ -1,0 +1,10 @@
+id = "porygon-z"
+types = ["normal"]
+
+[base_stats]
+hp = 85
+atk = 80
+def = 70
+spatk = 135
+spdef = 75
+spe = 90

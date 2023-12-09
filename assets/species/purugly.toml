@@ -1,0 +1,10 @@
+id = "purugly"
+types = ["normal"]
+
+[base_stats]
+hp = 71
+atk = 82
+def = 64
+spatk = 64
+spdef = 59
+spe = 112

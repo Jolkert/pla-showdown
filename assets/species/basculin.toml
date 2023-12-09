@@ -1,0 +1,10 @@
+id = "basculin"
+types = ["water"]
+
+[base_stats]
+hp = 70
+atk = 92
+def = 65
+spatk = 80
+spdef = 55
+spe = 98

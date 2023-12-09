@@ -1,0 +1,10 @@
+id = "eevee"
+types = ["normal"]
+
+[base_stats]
+hp = 55
+atk = 55
+def = 50
+spatk = 45
+spdef = 65
+spe = 55

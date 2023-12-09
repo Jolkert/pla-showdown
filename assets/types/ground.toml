@@ -1,0 +1,4 @@
+id = "ground"
+weaknesses = ["water", "grass", "ice"]
+resistances = ["poison", "rock"]
+immunities = ["electric"]

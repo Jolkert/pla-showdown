@@ -1,0 +1,10 @@
+id = "croagunk"
+types = ["poison", "fighting"]
+
+[base_stats]
+hp = 48
+atk = 61
+def = 40
+spatk = 61
+spdef = 40
+spe = 50

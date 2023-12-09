@@ -1,0 +1,10 @@
+id = "beautifly"
+types = ["bug", "flying"]
+
+[base_stats]
+hp = 60
+atk = 70
+def = 50
+spatk = 100
+spdef = 50
+spe = 65

@@ -1,0 +1,10 @@
+id = "bibarel"
+types = ["normal", "water"]
+
+[base_stats]
+hp = 79
+atk = 85
+def = 60
+spatk = 55
+spdef = 60
+spe = 71

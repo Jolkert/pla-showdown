@@ -1,0 +1,10 @@
+id = "chatot"
+types = ["normal", "flying"]
+
+[base_stats]
+hp = 76
+atk = 65
+def = 45
+spatk = 92
+spdef = 42
+spe = 91

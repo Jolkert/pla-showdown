@@ -1,0 +1,4 @@
+id = "psychic"
+weaknesses = ["bug", "ghost", "dark"]
+resistances = ["fighting", "psychic"]
+immunities = []

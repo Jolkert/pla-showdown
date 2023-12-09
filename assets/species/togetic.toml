@@ -1,0 +1,10 @@
+id = "togetic"
+types = ["fairy", "flying"]
+
+[base_stats]
+hp = 55
+atk = 40
+def = 85
+spatk = 80
+spdef = 105
+spe = 40

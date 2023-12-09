@@ -1,0 +1,10 @@
+id = "abra"
+types = ["psychic"]
+
+[base_stats]
+hp = 25
+atk = 20
+def = 15
+spatk = 105
+spdef = 55
+spe = 90

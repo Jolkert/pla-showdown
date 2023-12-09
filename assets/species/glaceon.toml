@@ -1,0 +1,10 @@
+id = "glaceon"
+types = ["ice"]
+
+[base_stats]
+hp = 65
+atk = 60
+def = 110
+spatk = 130
+spdef = 95
+spe = 65

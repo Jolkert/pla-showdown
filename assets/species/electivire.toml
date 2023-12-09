@@ -1,0 +1,10 @@
+id = "electivire"
+types = ["electric"]
+
+[base_stats]
+hp = 75
+atk = 123
+def = 67
+spatk = 95
+spdef = 85
+spe = 95

@@ -1,0 +1,10 @@
+id = "growlithe-hisui"
+types = ["fire", "rock"]
+
+[base_stats]
+hp = 60
+atk = 75
+def = 45
+spatk = 65
+spdef = 50
+spe = 55

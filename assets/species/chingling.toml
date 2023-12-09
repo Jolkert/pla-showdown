@@ -1,0 +1,10 @@
+id = "chingling"
+types = ["psychic"]
+
+[base_stats]
+hp = 45
+atk = 30
+def = 50
+spatk = 65
+spdef = 50
+spe = 45

@@ -1,0 +1,10 @@
+id = "electabuzz"
+types = ["electric"]
+
+[base_stats]
+hp = 65
+atk = 83
+def = 57
+spatk = 95
+spdef = 85
+spe = 105

@@ -1,0 +1,10 @@
+id = "zoroark-hisui"
+types = ["normal", "ghost"]
+
+[base_stats]
+hp = 55
+atk = 100
+def = 60
+spatk = 125
+spdef = 60
+spe = 110

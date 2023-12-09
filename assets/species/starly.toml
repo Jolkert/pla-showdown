@@ -1,0 +1,10 @@
+id = "starly"
+types = ["normal", "flying"]
+
+[base_stats]
+hp = 40
+atk = 55
+def = 30
+spatk = 30
+spdef = 30
+spe = 60

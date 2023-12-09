@@ -1,0 +1,10 @@
+id = "stunky"
+types = ["poison", "dark"]
+
+[base_stats]
+hp = 63
+atk = 63
+def = 47
+spatk = 41
+spdef = 41
+spe = 74

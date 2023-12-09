@@ -1,0 +1,10 @@
+id = "lumineon"
+types = ["water"]
+
+[base_stats]
+hp = 69
+atk = 69
+def = 76
+spatk = 69
+spdef = 86
+spe = 91

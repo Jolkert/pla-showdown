@@ -1,0 +1,10 @@
+id = "sudowoodo"
+types = ["rock"]
+
+[base_stats]
+hp = 70
+atk = 100
+def = 115
+spatk = 30
+spdef = 65
+spe = 30

@@ -1,0 +1,10 @@
+id = "bidoof"
+types = ["normal"]
+
+[base_stats]
+hp = 59
+atk = 45
+def = 40
+spatk = 35
+spdef = 40
+spe = 31

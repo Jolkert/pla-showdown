@@ -1,0 +1,4 @@
+id = "bug"
+weaknesses = ["flying", "rock", "fire"]
+resistances = ["fighting", "ground", "grass"]
+immunities = []

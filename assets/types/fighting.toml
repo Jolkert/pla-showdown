@@ -1,0 +1,4 @@
+id = "fighting"
+weaknesses = ["flying", "psychic", "fairy"]
+resistances = ["rock", "bug", "dark"]
+immunities = []

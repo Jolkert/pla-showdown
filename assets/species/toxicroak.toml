@@ -1,0 +1,10 @@
+id = "toxicroak"
+types = ["poison", "fighting"]
+
+[base_stats]
+hp = 83
+atk = 106
+def = 65
+spatk = 86
+spdef = 65
+spe = 85

@@ -1,0 +1,10 @@
+id = "staraptor"
+types = ["normal", "flying"]
+
+[base_stats]
+hp = 85
+atk = 120
+def = 70
+spatk = 50
+spdef = 60
+spe = 100

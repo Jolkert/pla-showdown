@@ -1,0 +1,10 @@
+id = "shieldon"
+types = ["rock", "steel"]
+
+[base_stats]
+hp = 30
+atk = 42
+def = 118
+spatk = 42
+spdef = 88
+spe = 30

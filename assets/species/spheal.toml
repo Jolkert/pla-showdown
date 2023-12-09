@@ -1,0 +1,10 @@
+id = "spheal"
+types = ["ice", "water"]
+
+[base_stats]
+hp = 70
+atk = 40
+def = 50
+spatk = 55
+spdef = 50
+spe = 25

@@ -1,0 +1,10 @@
+id = "cherubi"
+types = ["grass"]
+
+[base_stats]
+hp = 45
+atk = 35
+def = 45
+spatk = 62
+spdef = 53
+spe = 35

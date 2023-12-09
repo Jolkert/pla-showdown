@@ -1,0 +1,10 @@
+id = "landorus-incarnate"
+types = ["ground", "flying"]
+
+[base_stats]
+hp = 89
+atk = 125
+def = 90
+spatk = 115
+spdef = 80
+spe = 101

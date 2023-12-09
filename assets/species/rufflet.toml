@@ -1,0 +1,10 @@
+id = "rufflet"
+types = ["normal", "flying"]
+
+[base_stats]
+hp = 70
+atk = 83
+def = 50
+spatk = 37
+spdef = 50
+spe = 60

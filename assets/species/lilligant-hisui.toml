@@ -1,0 +1,10 @@
+id = "lilligant-hisui"
+types = ["grass", "fighting"]
+
+[base_stats]
+hp = 70
+atk = 105
+def = 75
+spatk = 50
+spdef = 75
+spe = 105

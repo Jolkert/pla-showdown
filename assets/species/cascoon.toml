@@ -1,0 +1,10 @@
+id = "cascoon"
+types = ["bug"]
+
+[base_stats]
+hp = 50
+atk = 35
+def = 55
+spatk = 25
+spdef = 25
+spe = 15

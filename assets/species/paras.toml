@@ -1,0 +1,10 @@
+id = "paras"
+types = ["bug", "grass"]
+
+[base_stats]
+hp = 35
+atk = 70
+def = 55
+spatk = 45
+spdef = 55
+spe = 25

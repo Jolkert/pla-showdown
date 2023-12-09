@@ -1,0 +1,10 @@
+id = "remoraid"
+types = ["water"]
+
+[base_stats]
+hp = 35
+atk = 65
+def = 35
+spatk = 65
+spdef = 35
+spe = 65

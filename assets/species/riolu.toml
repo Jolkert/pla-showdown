@@ -1,0 +1,10 @@
+id = "riolu"
+types = ["fighting"]
+
+[base_stats]
+hp = 40
+atk = 70
+def = 40
+spatk = 35
+spdef = 40
+spe = 60

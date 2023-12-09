@@ -1,0 +1,10 @@
+id = "piplup"
+types = ["water"]
+
+[base_stats]
+hp = 53
+atk = 51
+def = 53
+spatk = 61
+spdef = 56
+spe = 40

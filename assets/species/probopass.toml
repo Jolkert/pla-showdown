@@ -1,0 +1,10 @@
+id = "probopass"
+types = ["rock", "steel"]
+
+[base_stats]
+hp = 60
+atk = 55
+def = 145
+spatk = 75
+spdef = 150
+spe = 40

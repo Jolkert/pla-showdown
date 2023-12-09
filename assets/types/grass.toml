@@ -1,0 +1,4 @@
+id = "grass"
+weaknesses = ["flying", "poison", "bug", "fire", "ice"]
+resistances = ["ground", "water", "grass", "electric"]
+immunities = []

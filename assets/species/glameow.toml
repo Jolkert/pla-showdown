@@ -1,0 +1,10 @@
+id = "glameow"
+types = ["normal"]
+
+[base_stats]
+hp = 49
+atk = 55
+def = 42
+spatk = 42
+spdef = 37
+spe = 85

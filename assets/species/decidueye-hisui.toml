@@ -1,0 +1,10 @@
+id = "decidueye-hisui"
+types = ["grass", "fighting"]
+
+[base_stats]
+hp = 88
+atk = 112
+def = 80
+spatk = 95
+spdef = 95
+spe = 60

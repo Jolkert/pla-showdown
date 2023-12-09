@@ -1,0 +1,4 @@
+id = "ghost"
+weaknesses = ["ghost", "dark"]
+resistances = ["poison", "bug"]
+immunities = ["normal", "fighting"]

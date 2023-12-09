@@ -1,0 +1,10 @@
+id = "buneary"
+types = ["normal"]
+
+[base_stats]
+hp = 55
+atk = 66
+def = 44
+spatk = 44
+spdef = 56
+spe = 85

@@ -1,0 +1,10 @@
+id = "togekiss"
+types = ["fairy", "flying"]
+
+[base_stats]
+hp = 85
+atk = 50
+def = 95
+spatk = 120
+spdef = 115
+spe = 80

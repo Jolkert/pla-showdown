@@ -1,0 +1,4 @@
+id = "dragon"
+weaknesses = ["ice", "dragon", "fairy"]
+resistances = ["fire", "water", "grass", "electric"]
+immunities = []

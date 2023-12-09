@@ -1,0 +1,10 @@
+id = "sneasler"
+types = ["fighting", "poison"]
+
+[base_stats]
+hp = 80
+atk = 130
+def = 60
+spatk = 40
+spdef = 80
+spe = 120

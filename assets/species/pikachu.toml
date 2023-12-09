@@ -1,0 +1,10 @@
+id = "pikachu"
+types = ["electric"]
+
+[base_stats]
+hp = 35
+atk = 55
+def = 40
+spatk = 50
+spdef = 50
+spe = 90

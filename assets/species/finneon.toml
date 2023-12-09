@@ -1,0 +1,10 @@
+id = "finneon"
+types = ["water"]
+
+[base_stats]
+hp = 49
+atk = 49
+def = 56
+spatk = 49
+spdef = 61
+spe = 66

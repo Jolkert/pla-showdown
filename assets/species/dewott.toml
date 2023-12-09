@@ -1,0 +1,10 @@
+id = "dewott"
+types = ["water"]
+
+[base_stats]
+hp = 75
+atk = 75
+def = 60
+spatk = 83
+spdef = 60
+spe = 60

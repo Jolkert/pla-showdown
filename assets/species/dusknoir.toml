@@ -1,0 +1,10 @@
+id = "dusknoir"
+types = ["ghost"]
+
+[base_stats]
+hp = 45
+atk = 100
+def = 135
+spatk = 65
+spdef = 135
+spe = 45

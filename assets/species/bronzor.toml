@@ -1,0 +1,10 @@
+id = "bronzor"
+types = ["steel", "psychic"]
+
+[base_stats]
+hp = 57
+atk = 24
+def = 86
+spatk = 24
+spdef = 86
+spe = 23

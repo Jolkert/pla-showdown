@@ -1,0 +1,10 @@
+id = "carnivine"
+types = ["grass"]
+
+[base_stats]
+hp = 74
+atk = 100
+def = 72
+spatk = 90
+spdef = 72
+spe = 46

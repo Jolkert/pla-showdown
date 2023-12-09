@@ -1,0 +1,10 @@
+id = "wormadam-sandy"
+types = ["bug", "ground"]
+
+[base_stats]
+hp = 60
+atk = 79
+def = 105
+spatk = 59
+spdef = 85
+spe = 36

@@ -1,0 +1,10 @@
+id = "vespiquen"
+types = ["bug", "flying"]
+
+[base_stats]
+hp = 70
+atk = 80
+def = 102
+spatk = 80
+spdef = 102
+spe = 40

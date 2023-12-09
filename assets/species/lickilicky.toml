@@ -1,0 +1,10 @@
+id = "lickilicky"
+types = ["normal"]
+
+[base_stats]
+hp = 110
+atk = 85
+def = 95
+spatk = 80
+spdef = 95
+spe = 50

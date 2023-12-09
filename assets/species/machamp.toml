@@ -1,0 +1,10 @@
+id = "machamp"
+types = ["fighting"]
+
+[base_stats]
+hp = 90
+atk = 130
+def = 80
+spatk = 65
+spdef = 85
+spe = 55

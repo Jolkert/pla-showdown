@@ -1,0 +1,10 @@
+id = "oshawott"
+types = ["water"]
+
+[base_stats]
+hp = 55
+atk = 55
+def = 45
+spatk = 63
+spdef = 45
+spe = 45

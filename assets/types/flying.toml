@@ -1,0 +1,4 @@
+id = "flying"
+weaknesses = ["rock", "electric", "ice"]
+resistances = ["fighting", "bug", "grass"]
+immunities = ["ground"]

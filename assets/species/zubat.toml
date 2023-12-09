@@ -1,0 +1,10 @@
+id = "zubat"
+types = ["poison", "flying"]
+
+[base_stats]
+hp = 40
+atk = 45
+def = 35
+spatk = 30
+spdef = 40
+spe = 55

@@ -1,0 +1,10 @@
+id = "sneasel-hisui"
+types = ["fighting", "poison"]
+
+[base_stats]
+hp = 55
+atk = 95
+def = 55
+spatk = 35
+spdef = 75
+spe = 115

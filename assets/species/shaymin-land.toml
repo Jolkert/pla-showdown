@@ -1,0 +1,10 @@
+id = "shaymin-land"
+types = ["grass"]
+
+[base_stats]
+hp = 100
+atk = 100
+def = 100
+spatk = 100
+spdef = 100
+spe = 100

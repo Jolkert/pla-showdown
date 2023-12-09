@@ -1,0 +1,10 @@
+id = "jolteon"
+types = ["electric"]
+
+[base_stats]
+hp = 65
+atk = 65
+def = 60
+spatk = 110
+spdef = 95
+spe = 130

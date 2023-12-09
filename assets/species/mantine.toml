@@ -1,0 +1,10 @@
+id = "mantine"
+types = ["water", "flying"]
+
+[base_stats]
+hp = 85
+atk = 40
+def = 70
+spatk = 80
+spdef = 140
+spe = 70

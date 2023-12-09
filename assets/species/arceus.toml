@@ -1,0 +1,10 @@
+id = "arceus"
+types = ["normal"]
+
+[base_stats]
+hp = 120
+atk = 120
+def = 120
+spatk = 120
+spdef = 120
+spe = 120

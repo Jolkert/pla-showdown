@@ -1,0 +1,10 @@
+id = "heracross"
+types = ["bug", "fighting"]
+
+[base_stats]
+hp = 80
+atk = 125
+def = 75
+spatk = 40
+spdef = 95
+spe = 85

@@ -1,0 +1,4 @@
+id = "poison"
+weaknesses = ["ground", "psychic"]
+resistances = ["fighting", "poison", "bug", "grass", "fairy"]
+immunities = []

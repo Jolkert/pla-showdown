@@ -1,0 +1,10 @@
+id = "palkia"
+types = ["water", "dragon"]
+
+[base_stats]
+hp = 90
+atk = 120
+def = 100
+spatk = 150
+spdef = 120
+spe = 100

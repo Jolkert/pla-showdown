@@ -1,0 +1,10 @@
+id = "murkrow"
+types = ["dark", "flying"]
+
+[base_stats]
+hp = 60
+atk = 85
+def = 42
+spatk = 85
+spdef = 42
+spe = 91

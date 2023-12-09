@@ -1,0 +1,10 @@
+id = "regigigas"
+types = ["normal"]
+
+[base_stats]
+hp = 110
+atk = 160
+def = 110
+spatk = 80
+spdef = 110
+spe = 100

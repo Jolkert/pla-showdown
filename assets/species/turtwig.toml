@@ -1,0 +1,10 @@
+id = "turtwig"
+types = ["grass"]
+
+[base_stats]
+hp = 55
+atk = 68
+def = 64
+spatk = 45
+spdef = 55
+spe = 31

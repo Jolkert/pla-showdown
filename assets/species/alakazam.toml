@@ -1,0 +1,10 @@
+id = "alakazam"
+types = ["psychic"]
+
+[base_stats]
+hp = 55
+atk = 50
+def = 45
+spatk = 135
+spdef = 95
+spe = 120

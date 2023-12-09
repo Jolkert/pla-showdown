@@ -1,0 +1,10 @@
+id = "duskull"
+types = ["ghost"]
+
+[base_stats]
+hp = 20
+atk = 40
+def = 90
+spatk = 30
+spdef = 90
+spe = 25

@@ -1,0 +1,10 @@
+id = "grotle"
+types = ["grass"]
+
+[base_stats]
+hp = 75
+atk = 89
+def = 85
+spatk = 55
+spdef = 65
+spe = 36

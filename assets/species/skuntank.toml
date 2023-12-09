@@ -1,0 +1,10 @@
+id = "skuntank"
+types = ["poison", "dark"]
+
+[base_stats]
+hp = 103
+atk = 93
+def = 67
+spatk = 71
+spdef = 61
+spe = 84

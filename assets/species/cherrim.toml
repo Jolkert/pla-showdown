@@ -1,0 +1,10 @@
+id = "cherrim"
+types = ["grass"]
+
+[base_stats]
+hp = 70
+atk = 60
+def = 70
+spatk = 87
+spdef = 78
+spe = 85

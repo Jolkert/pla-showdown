@@ -1,0 +1,10 @@
+id = "umbreon"
+types = ["dark"]
+
+[base_stats]
+hp = 95
+atk = 65
+def = 110
+spatk = 60
+spdef = 130
+spe = 65

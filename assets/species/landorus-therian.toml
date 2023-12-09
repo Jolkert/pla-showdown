@@ -1,0 +1,10 @@
+id = "landorus-therian"
+types = ["ground", "flying"]
+
+[base_stats]
+hp = 89
+atk = 145
+def = 90
+spatk = 105
+spdef = 80
+spe = 91

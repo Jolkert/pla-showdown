@@ -1,0 +1,10 @@
+id = "infernape"
+types = ["fire", "fighting"]
+
+[base_stats]
+hp = 76
+atk = 104
+def = 71
+spatk = 104
+spdef = 71
+spe = 108

@@ -1,0 +1,10 @@
+id = "lickitung"
+types = ["normal"]
+
+[base_stats]
+hp = 90
+atk = 55
+def = 75
+spatk = 60
+spdef = 75
+spe = 30

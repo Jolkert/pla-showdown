@@ -1,0 +1,10 @@
+id = "clefable"
+types = ["fairy"]
+
+[base_stats]
+hp = 95
+atk = 70
+def = 73
+spatk = 95
+spdef = 90
+spe = 60

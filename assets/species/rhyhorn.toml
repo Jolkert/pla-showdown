@@ -1,0 +1,10 @@
+id = "rhyhorn"
+types = ["ground", "rock"]
+
+[base_stats]
+hp = 80
+atk = 85
+def = 95
+spatk = 30
+spdef = 30
+spe = 25

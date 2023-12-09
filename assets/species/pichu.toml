@@ -1,0 +1,10 @@
+id = "pichu"
+types = ["electric"]
+
+[base_stats]
+hp = 20
+atk = 40
+def = 15
+spatk = 35
+spdef = 35
+spe = 60

@@ -1,0 +1,10 @@
+id = "heatran"
+types = ["fire", "steel"]
+
+[base_stats]
+hp = 91
+atk = 90
+def = 106
+spatk = 130
+spdef = 106
+spe = 77

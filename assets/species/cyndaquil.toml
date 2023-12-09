@@ -1,0 +1,10 @@
+id = "cyndaquil"
+types = ["fire"]
+
+[base_stats]
+hp = 39
+atk = 52
+def = 43
+spatk = 60
+spdef = 50
+spe = 65

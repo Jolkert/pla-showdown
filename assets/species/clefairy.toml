@@ -1,0 +1,10 @@
+id = "clefairy"
+types = ["fairy"]
+
+[base_stats]
+hp = 70
+atk = 45
+def = 48
+spatk = 60
+spdef = 65
+spe = 35

@@ -1,0 +1,10 @@
+id = "teddiursa"
+types = ["normal"]
+
+[base_stats]
+hp = 60
+atk = 80
+def = 50
+spatk = 50
+spdef = 50
+spe = 40

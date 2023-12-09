@@ -1,0 +1,10 @@
+id = "goodra-hisui"
+types = ["steel", "dragon"]
+
+[base_stats]
+hp = 80
+atk = 100
+def = 100
+spatk = 110
+spdef = 150
+spe = 60

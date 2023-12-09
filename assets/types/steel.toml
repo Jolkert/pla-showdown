@@ -1,0 +1,15 @@
+id = "steel"
+weaknesses = ["fighting", "ground", "fire"]
+resistances = [
+    "normal",
+    "flying",
+    "rock",
+    "bug",
+    "steel",
+    "grass",
+    "psychic",
+    "ice",
+    "dragon",
+    "fairy",
+]
+immunities = ["poison"]

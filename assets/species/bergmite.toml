@@ -1,0 +1,10 @@
+id = "bergmite"
+types = ["ice"]
+
+[base_stats]
+hp = 55
+atk = 69
+def = 85
+spatk = 32
+spdef = 35
+spe = 28

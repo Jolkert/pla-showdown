@@ -1,0 +1,10 @@
+id = "staravia"
+types = ["normal", "flying"]
+
+[base_stats]
+hp = 55
+atk = 75
+def = 50
+spatk = 40
+spdef = 40
+spe = 80

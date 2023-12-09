@@ -1,0 +1,10 @@
+id = "dialga"
+types = ["steel", "dragon"]
+
+[base_stats]
+hp = 100
+atk = 120
+def = 120
+spatk = 150
+spdef = 100
+spe = 90

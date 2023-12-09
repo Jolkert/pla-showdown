@@ -1,0 +1,10 @@
+id = "chansey"
+types = ["normal"]
+
+[base_stats]
+hp = 250
+atk = 5
+def = 5
+spatk = 35
+spdef = 105
+spe = 50
