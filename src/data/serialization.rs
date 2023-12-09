@@ -104,6 +104,7 @@ mod moves
 				user_action_time: self.user_action_time,
 				target_action_time: self.target_action_time,
 				crit_stage: self.crit_stage,
+				effects: self.effects,
 			}
 		}
 	}

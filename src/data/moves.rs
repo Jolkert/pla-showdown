@@ -16,6 +16,7 @@ pub struct Move<'a>
 	pub user_action_time: StyleTriad<i32>,
 	pub target_action_time: StyleTriad<i32>,
 	pub crit_stage: StyleTriad<i32>,
+	pub effects: Box<[MoveEffect]>,
 }
 
 #[derive(Debug, Clone, Copy, serde::Serialize, serde::Deserialize)]

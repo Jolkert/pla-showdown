@@ -22,7 +22,7 @@ lazy_static! {
 
 fn main()
 {
-	println!("pokemon!")
+	println!("pokemon!");
 }
 
 fn register<T>(dir_path: &str) -> HashMap<Box<str>, T>
