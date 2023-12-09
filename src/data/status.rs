@@ -1,4 +1,4 @@
-use super::{MoveCategory, Side, Stat, Type};
+use super::{Category, Side, Stat, Type};
 
 #[derive(Debug)]
 pub struct StatusCondition<'a>
@@ -30,7 +30,7 @@ pub enum Effect
 	{
 		side: Side,
 		multiplier: f32,
-		category: MoveCategory,
+		category: Category,
 	},
 	CancelTurn
 	{

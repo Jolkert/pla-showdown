@@ -95,7 +95,7 @@ mod moves
 {
 	use std::collections::HashMap;
 
-	use crate::data::{Identifiable, Move, MoveCategory, StyleTriad, Type};
+	use crate::data::{Category, Identifiable, Move, StyleTriad, Type};
 
 	#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 	pub struct SerMove
@@ -103,7 +103,7 @@ mod moves
 		pub id: Box<str>,
 		#[serde(rename = "type")]
 		pub move_type: Box<str>,
-		pub category: MoveCategory,
+		pub category: Category,
 		pub pp: u32,
 		pub power: StyleTriad<i32>,
 		pub accuracy: StyleTriad<i32>,

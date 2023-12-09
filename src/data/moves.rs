@@ -7,7 +7,7 @@ pub struct Move<'a>
 {
 	pub id: Box<str>,
 	pub move_type: &'a Type,
-	pub category: MoveCategory,
+	pub category: Category,
 	pub pp: u32,
 	pub power: StyleTriad<i32>,
 	pub accuracy: StyleTriad<i32>,
@@ -18,13 +18,13 @@ pub struct Move<'a>
 
 #[derive(Debug, Clone, Copy, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "snake_case")]
-pub enum MoveCategory
+pub enum Category
 {
 	Physical,
 	Special,
 	Status,
 }
-impl MoveCategory
+impl Category
 {
 	pub fn is_damaging(&self) -> bool
 	{
@@ -35,7 +35,7 @@ impl MoveCategory
 mod style
 {
 	#[derive(Debug, Clone, Copy)]
-	pub enum MoveStyle
+	pub enum Style
 	{
 		Normal,
 		Agile,
@@ -51,18 +51,18 @@ mod style
 		pub agile: T,
 		pub strong: T,
 	}
-	impl<T> std::ops::Index<MoveStyle> for StyleTriad<T>
+	impl<T> std::ops::Index<Style> for StyleTriad<T>
 	where
 		T: Copy,
 	{
 		type Output = T;
-		fn index(&self, index: MoveStyle) -> &Self::Output
+		fn index(&self, index: Style) -> &Self::Output
 		{
 			match index
 			{
-				MoveStyle::Normal => &self.normal,
-				MoveStyle::Agile => &self.agile,
-				MoveStyle::Strong => &self.strong,
+				Style::Normal => &self.normal,
+				Style::Agile => &self.agile,
+				Style::Strong => &self.strong,
 			}
 		}
 	}
