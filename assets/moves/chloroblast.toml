@@ -1,0 +1,38 @@
+id = "chloroblast"
+type = "grass"
+category = "special"
+pp = 5
+
+[power]
+regular = 120
+agile = 100
+strong = 140
+
+[accuracy]
+regular = 95
+agile = 95
+strong = 100
+
+[user_action_time]
+regular = 5
+agile = 2
+strong = 8
+
+[target_action_time]
+regular = 0
+agile = 3
+strong = 0
+
+[crit_stage]
+regular = 0
+agile = 0
+strong = 0
+
+[[effects]]
+effect_type = "recoil"
+percent_of = "max_hp"
+
+[effects.percent]
+regular = 50
+agile = 33
+strong = 66

@@ -1,0 +1,50 @@
+id = "spacial_rend"
+type = "dragon"
+category = "special"
+pp = 5
+
+[power]
+regular = 90
+agile = 75
+strong = 110
+
+[accuracy]
+regular = 95
+agile = 95
+strong = 100
+
+[user_action_time]
+regular = 0
+agile = 0
+strong = 5
+
+[target_action_time]
+regular = 0
+agile = 3
+strong = 0
+
+[crit_stage]
+regular = 1
+agile = 1
+strong = 2
+
+[[effects]]
+effect_type = "modify_data"
+
+[effects.power]
+regular = 80
+agile = 65
+strong = 100
+
+[effects.accuracy]
+regular = 85
+agile = 85
+strong = 95
+
+[effects.crit_stage]
+regular = 2
+agile = 2
+strong = 3
+
+[effects.condition.user]
+species = "palkia-origin"

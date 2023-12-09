@@ -1,0 +1,59 @@
+id = "triple_arrows"
+type = "fighting"
+category = "physical"
+pp = 15
+
+[power]
+regular = 50
+agile = 40
+strong = 60
+
+[accuracy]
+regular = 100
+agile = 100
+strong = 100
+
+[user_action_time]
+regular = 0
+agile = 0
+strong = 5
+
+[target_action_time]
+regular = 3
+agile = 5
+strong = 3
+
+[crit_stage]
+regular = 0
+agile = 0
+strong = 0
+
+[[effects]]
+effect_type = "apply_status"
+to = "target"
+status_options = ["guard_drop"]
+
+[effects.duration]
+regular = 3
+agile = 2
+strong = 4
+
+[effects.chance]
+regular = 100
+agile = 100
+strong = 100
+
+[[effects]]
+effect_type = "apply_status"
+to = "user"
+status_options = ["crit_boost"]
+
+[effects.duration]
+regular = 3
+agile = 2
+strong = 4
+
+[effects.chance]
+regular = 100
+agile = 100
+strong = 100

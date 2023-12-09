@@ -1,0 +1,59 @@
+id = "bulk_up"
+type = "fighting"
+category = "status"
+pp = 10
+
+[power]
+regular = 0
+agile = 0
+strong = 0
+
+[accuracy]
+regular = 101
+agile = 101
+strong = 101
+
+[user_action_time]
+regular = -2
+agile = -3
+strong = 5
+
+[target_action_time]
+regular = 0
+agile = 0
+strong = 0
+
+[crit_stage]
+regular = 0
+agile = 0
+strong = 0
+
+[[effects]]
+effect_type = "apply_status"
+to = "user"
+status_options = ["power_boost"]
+
+[effects.duration]
+regular = 4
+agile = 3
+strong = 5
+
+[effects.chance]
+regular = 100
+agile = 100
+strong = 100
+
+[[effects]]
+effect_type = "apply_status"
+to = "user"
+status_options = ["guard_boost"]
+
+[effects.duration]
+regular = 4
+agile = 3
+strong = 5
+
+[effects.chance]
+regular = 100
+agile = 100
+strong = 100

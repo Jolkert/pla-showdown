@@ -1,0 +1,58 @@
+id = "wild_charge"
+type = "electric"
+category = "physical"
+pp = 10
+
+[power]
+regular = 85
+agile = 65
+strong = 105
+
+[accuracy]
+regular = 100
+agile = 100
+strong = 100
+
+[user_action_time]
+regular = 0
+agile = 0
+strong = 5
+
+[target_action_time]
+regular = 0
+agile = 3
+strong = 0
+
+[crit_stage]
+regular = 0
+agile = 0
+strong = 0
+
+[[effects]]
+effect_type = "apply_status"
+to = "target"
+status_options = ["paralysis"]
+
+[effects.duration]
+regular = 3
+agile = 2
+strong = 4
+
+[effects.chance]
+regular = 20
+agile = 20
+strong = 40
+
+[[effects]]
+effect_type = "recoil"
+percent_of = "damage_dealt"
+
+[effects.percent]
+regular = 25
+agile = 25
+strong = 50
+
+[[effects]]
+effect_type = "cure_status"
+of = "user"
+statuses = ["drowsy"]

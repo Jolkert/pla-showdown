@@ -1,0 +1,44 @@
+id = "stone_axe"
+type = "rock"
+category = "physical"
+pp = 15
+
+[power]
+regular = 65
+agile = 50
+strong = 80
+
+[accuracy]
+regular = 90
+agile = 90
+strong = 100
+
+[user_action_time]
+regular = 0
+agile = 0
+strong = 5
+
+[target_action_time]
+regular = 0
+agile = 3
+strong = 0
+
+[crit_stage]
+regular = 1
+agile = 1
+strong = 2
+
+[[effects]]
+effect_type = "apply_status"
+to = "target"
+status_options = ["splinters"]
+
+[effects.duration]
+regular = 3
+agile = 2
+strong = 4
+
+[effects.chance]
+regular = 100
+agile = 100
+strong = 100

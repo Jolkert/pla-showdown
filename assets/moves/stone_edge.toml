@@ -1,0 +1,30 @@
+id = "stone_edge"
+type = "rock"
+category = "physical"
+pp = 5
+effects = []
+
+[power]
+regular = 100
+agile = 80
+strong = 120
+
+[accuracy]
+regular = 80
+agile = 80
+strong = 90
+
+[user_action_time]
+regular = 0
+agile = 0
+strong = 5
+
+[target_action_time]
+regular = 0
+agile = 3
+strong = 0
+
+[crit_stage]
+regular = 1
+agile = 1
+strong = 2

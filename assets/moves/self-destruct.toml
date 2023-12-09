@@ -1,0 +1,38 @@
+id = "self-destruct"
+type = "normal"
+category = "physical"
+pp = 5
+
+[power]
+regular = 150
+agile = 120
+strong = 200
+
+[accuracy]
+regular = 100
+agile = 100
+strong = 100
+
+[user_action_time]
+regular = 0
+agile = 0
+strong = 5
+
+[target_action_time]
+regular = 0
+agile = 3
+strong = 0
+
+[crit_stage]
+regular = 0
+agile = 0
+strong = 0
+
+[[effects]]
+effect_type = "recoil"
+percent_of = "max_hp"
+
+[effects.percent]
+regular = 80
+agile = 70
+strong = 90

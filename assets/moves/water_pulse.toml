@@ -1,0 +1,30 @@
+id = "water_pulse"
+type = "water"
+category = "special"
+pp = 20
+effects = []
+
+[power]
+regular = 60
+agile = 45
+strong = 75
+
+[accuracy]
+regular = 101
+agile = 101
+strong = 101
+
+[user_action_time]
+regular = 0
+agile = 0
+strong = 5
+
+[target_action_time]
+regular = 0
+agile = 3
+strong = 0
+
+[crit_stage]
+regular = 0
+agile = 0
+strong = 0

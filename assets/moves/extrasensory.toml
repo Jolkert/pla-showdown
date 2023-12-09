@@ -1,0 +1,30 @@
+id = "extrasensory"
+type = "psychic"
+category = "special"
+pp = 15
+effects = []
+
+[power]
+regular = 70
+agile = 55
+strong = 85
+
+[accuracy]
+regular = 100
+agile = 100
+strong = 100
+
+[user_action_time]
+regular = 0
+agile = 0
+strong = 5
+
+[target_action_time]
+regular = 3
+agile = 5
+strong = 3
+
+[crit_stage]
+regular = 0
+agile = 0
+strong = 0

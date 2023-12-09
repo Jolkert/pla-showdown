@@ -1,0 +1,44 @@
+id = "poison_powder"
+type = "poison"
+category = "status"
+pp = 20
+
+[power]
+regular = 0
+agile = 0
+strong = 0
+
+[accuracy]
+regular = 80
+agile = 80
+strong = 100
+
+[user_action_time]
+regular = 0
+agile = 0
+strong = 5
+
+[target_action_time]
+regular = 0
+agile = 3
+strong = 0
+
+[crit_stage]
+regular = 0
+agile = 0
+strong = 0
+
+[[effects]]
+effect_type = "apply_status"
+to = "target"
+status_options = ["poison"]
+
+[effects.duration]
+regular = 5
+agile = 3
+strong = 7
+
+[effects.chance]
+regular = 100
+agile = 100
+strong = 100

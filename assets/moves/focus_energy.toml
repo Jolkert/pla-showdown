@@ -1,0 +1,44 @@
+id = "focus_energy"
+type = "normal"
+category = "status"
+pp = 20
+
+[power]
+regular = 0
+agile = 0
+strong = 0
+
+[accuracy]
+regular = 101
+agile = 101
+strong = 101
+
+[user_action_time]
+regular = -3
+agile = -4
+strong = 5
+
+[target_action_time]
+regular = 0
+agile = 0
+strong = 0
+
+[crit_stage]
+regular = 0
+agile = 0
+strong = 0
+
+[[effects]]
+effect_type = "apply_status"
+to = "user"
+status_options = ["crit_boost"]
+
+[effects.duration]
+regular = 5
+agile = 4
+strong = 7
+
+[effects.chance]
+regular = 100
+agile = 100
+strong = 100

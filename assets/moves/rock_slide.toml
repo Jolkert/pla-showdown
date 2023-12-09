@@ -1,0 +1,30 @@
+id = "rock_slide"
+type = "rock"
+category = "physical"
+pp = 10
+effects = []
+
+[power]
+regular = 75
+agile = 60
+strong = 90
+
+[accuracy]
+regular = 90
+agile = 90
+strong = 100
+
+[user_action_time]
+regular = 0
+agile = 0
+strong = 5
+
+[target_action_time]
+regular = 3
+agile = 5
+strong = 3
+
+[crit_stage]
+regular = 0
+agile = 0
+strong = 0

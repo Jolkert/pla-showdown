@@ -3,9 +3,8 @@ pub use species::*;
 
 mod species
 {
-	use std::collections::HashMap;
-
 	use crate::data::{Identifiable, Species, StatBlock, Type, TypePair};
+	use std::collections::HashMap;
 
 	#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 	pub struct SerSpecies
@@ -28,19 +27,6 @@ mod species
 				),
 			}
 		}
-
-		pub fn from_json_species(json_species: JsonSpecies, name: &str) -> Self
-		{
-			let mut json_types = json_species.types.iter();
-			let type1 = json_types.next().unwrap().clone();
-			let type2 = json_types.next().cloned();
-
-			Self {
-				id: name.to_owned().into(),
-				base_stats: json_species.base_stats,
-				types: (type1.into(), type2.map(|it| it.into())),
-			}
-		}
 	}
 	impl Identifiable for SerSpecies
 	{
@@ -48,14 +34,6 @@ mod species
 		{
 			self.id.clone()
 		}
-	}
-
-	#[derive(Debug, serde::Serialize, serde::Deserialize)]
-	pub struct JsonSpecies
-	{
-		#[serde(alias = "baseStats")]
-		pub base_stats: StatBlock,
-		pub types: Vec<String>,
 	}
 
 	mod deserialize_species_types
@@ -93,11 +71,11 @@ mod species
 
 mod moves
 {
+	use crate::data::{Category, Identifiable, Move, MoveEffect, StyleTriad, Type};
 	use std::collections::HashMap;
 
-	use crate::data::{Category, Identifiable, Move, StyleTriad, Type};
-
 	#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+	#[serde(rename_all = "snake_case")]
 	pub struct SerMove
 	{
 		pub id: Box<str>,
@@ -110,6 +88,7 @@ mod moves
 		pub user_action_time: StyleTriad<i32>,
 		pub target_action_time: StyleTriad<i32>,
 		pub crit_stage: StyleTriad<i32>,
+		pub effects: Box<[MoveEffect]>,
 	}
 	impl SerMove
 	{

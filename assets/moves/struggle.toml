@@ -1,0 +1,38 @@
+id = "struggle"
+type = "normal"
+category = "physical"
+pp = 1
+
+[power]
+regular = 50
+agile = -1
+strong = -1
+
+[accuracy]
+regular = 101
+agile = 101
+strong = 101
+
+[user_action_time]
+regular = 0
+agile = 0
+strong = 0
+
+[target_action_time]
+regular = 0
+agile = 0
+strong = 0
+
+[crit_stage]
+regular = 0
+agile = 0
+strong = 0
+
+[[effects]]
+effect_type = "recoil"
+percent_of = "max_hp"
+
+[effects.percent]
+regular = 25
+agile = 25
+strong = 25

@@ -2,11 +2,10 @@
 
 mod data;
 
+use crate::data::serialization::SerMove;
 use data::{serialization::SerSpecies, Move, Species, Type};
 use lazy_static::lazy_static;
 use std::collections::HashMap;
-
-use crate::data::serialization::{JsonSpecies, SerMove};
 
 type RegMap<T> = HashMap<Box<str>, T>;
 lazy_static! {
@@ -23,31 +22,7 @@ lazy_static! {
 
 fn main()
 {
-	println!("Pokemon!");
-	println!("{:?}", TYPE_MAP["normal"]);
-	println!("{:?}", SPECIES_MAP["teddiursa"]);
-}
-
-fn json_conversion()
-{
-	let dir = std::fs::read_dir("assets/json/species/").unwrap();
-	for file in dir.map(|it| it.unwrap())
-	{
-		let filename: String = file
-			.file_name()
-			.into_string()
-			.unwrap()
-			.chars()
-			.take_while(|it| *it != '.')
-			.collect();
-
-		println!("{filename}");
-		let json_str = std::fs::read_to_string(file.path()).unwrap();
-		let species: JsonSpecies = serde_json::from_str(&json_str).unwrap();
-		let species = SerSpecies::from_json_species(species, &filename);
-		let toml_str = toml::to_string(&species).unwrap();
-		std::fs::write(&(format!("assets/species/{filename}.toml")), toml_str).unwrap();
-	}
+	println!("pokemon!")
 }
 
 fn register<T>(dir_path: &str) -> HashMap<Box<str>, T>

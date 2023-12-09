@@ -1,0 +1,51 @@
+id = "bitter_malice"
+type = "ghost"
+category = "special"
+pp = 15
+
+[power]
+regular = 60
+agile = 45
+strong = 75
+
+[accuracy]
+regular = 100
+agile = 100
+strong = 100
+
+[user_action_time]
+regular = 0
+agile = 0
+strong = 5
+
+[target_action_time]
+regular = 0
+agile = 3
+strong = 0
+
+[crit_stage]
+regular = 0
+agile = 0
+strong = 0
+
+[[effects]]
+effect_type = "apply_status"
+to = "target"
+status_options = ["frostbite"]
+
+[effects.duration]
+regular = 3
+agile = 2
+strong = 4
+
+[effects.chance]
+regular = 30
+agile = 30
+strong = 50
+
+[[effects]]
+effect_type = "multiply_power"
+multiplier = 2
+
+[effects.condition.target]
+status = ["poison", "burn", "frostbite", "paralysis", "drowsy"]

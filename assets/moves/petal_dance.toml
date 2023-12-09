@@ -1,0 +1,44 @@
+id = "petal_dance"
+type = "grass"
+category = "special"
+pp = 10
+
+[power]
+regular = 90
+agile = 60
+strong = 120
+
+[accuracy]
+regular = 85
+agile = 85
+strong = 95
+
+[user_action_time]
+regular = 0
+agile = 0
+strong = 5
+
+[target_action_time]
+regular = 0
+agile = 3
+strong = 0
+
+[crit_stage]
+regular = 0
+agile = 0
+strong = 0
+
+[[effects]]
+effect_type = "apply_status"
+to = "user"
+status_options = ["fixated"]
+
+[effects.duration]
+regular = 100
+agile = 100
+strong = 100
+
+[effects.chance]
+regular = 100
+agile = 100
+strong = 100

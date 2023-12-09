@@ -1,0 +1,59 @@
+id = "silver_wind"
+type = "bug"
+category = "special"
+pp = 15
+
+[power]
+regular = 60
+agile = 45
+strong = 75
+
+[accuracy]
+regular = 100
+agile = 100
+strong = 100
+
+[user_action_time]
+regular = 0
+agile = 0
+strong = 5
+
+[target_action_time]
+regular = 0
+agile = 3
+strong = 0
+
+[crit_stage]
+regular = 0
+agile = 0
+strong = 0
+
+[[effects]]
+effect_type = "apply_status"
+to = "user"
+status_options = ["power_boost"]
+
+[effects.duration]
+regular = 3
+agile = 2
+strong = 4
+
+[effects.chance]
+regular = 20
+agile = 20
+strong = 40
+
+[[effects]]
+effect_type = "apply_status"
+to = "user"
+status_options = ["guard_boost"]
+
+[effects.duration]
+regular = 3
+agile = 2
+strong = 4
+
+[effects.chance]
+regular = 20
+agile = 20
+strong = 40

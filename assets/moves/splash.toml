@@ -1,0 +1,30 @@
+id = "splash"
+type = "normal"
+category = "status"
+pp = 40
+effects = []
+
+[power]
+regular = 0
+agile = 0
+strong = 0
+
+[accuracy]
+regular = 101
+agile = 101
+strong = 101
+
+[user_action_time]
+regular = 0
+agile = 0
+strong = 0
+
+[target_action_time]
+regular = 0
+agile = 0
+strong = 0
+
+[crit_stage]
+regular = 0
+agile = 0
+strong = 0

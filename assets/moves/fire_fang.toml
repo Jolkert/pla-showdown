@@ -1,0 +1,44 @@
+id = "fire_fang"
+type = "fire"
+category = "physical"
+pp = 15
+
+[power]
+regular = 65
+agile = 50
+strong = 80
+
+[accuracy]
+regular = 95
+agile = 95
+strong = 100
+
+[user_action_time]
+regular = 0
+agile = 0
+strong = 5
+
+[target_action_time]
+regular = 3
+agile = 5
+strong = 3
+
+[crit_stage]
+regular = 0
+agile = 0
+strong = 0
+
+[[effects]]
+effect_type = "apply_status"
+to = "target"
+status_options = ["burn"]
+
+[effects.duration]
+regular = 3
+agile = 2
+strong = 4
+
+[effects.chance]
+regular = 20
+agile = 20
+strong = 40

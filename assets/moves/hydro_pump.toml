@@ -1,0 +1,30 @@
+id = "hydro_pump"
+type = "water"
+category = "special"
+pp = 5
+effects = []
+
+[power]
+regular = 100
+agile = 80
+strong = 120
+
+[accuracy]
+regular = 85
+agile = 85
+strong = 95
+
+[user_action_time]
+regular = 0
+agile = 0
+strong = 5
+
+[target_action_time]
+regular = 0
+agile = 3
+strong = 0
+
+[crit_stage]
+regular = 0
+agile = 0
+strong = 0

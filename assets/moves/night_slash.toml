@@ -1,0 +1,30 @@
+id = "night_slash"
+type = "dark"
+category = "physical"
+pp = 15
+effects = []
+
+[power]
+regular = 70
+agile = 55
+strong = 85
+
+[accuracy]
+regular = 100
+agile = 100
+strong = 100
+
+[user_action_time]
+regular = 0
+agile = 0
+strong = 5
+
+[target_action_time]
+regular = 0
+agile = 3
+strong = 0
+
+[crit_stage]
+regular = 1
+agile = 1
+strong = 2
