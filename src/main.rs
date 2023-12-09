@@ -46,7 +46,7 @@ fn json_conversion()
 		let species: JsonSpecies = serde_json::from_str(&json_str).unwrap();
 		let species = SerSpecies::from_json_species(species, &filename);
 		let toml_str = toml::to_string(&species).unwrap();
-		std::fs::write(&(format!("assets/species/{}.toml", filename)), toml_str).unwrap();
+		std::fs::write(&(format!("assets/species/{filename}.toml")), toml_str).unwrap();
 	}
 }
 
@@ -55,7 +55,7 @@ where
 	T: serde::de::DeserializeOwned + data::Identifiable,
 {
 	std::fs::read_dir(dir_path)
-		.unwrap_or_else(|_| panic!("directory '{}' not found!", dir_path))
+		.unwrap_or_else(|_| panic!("directory '{dir_path}' not found!"))
 		.filter_map(|result| {
 			result.ok().and_then(|file| {
 				std::fs::read_to_string(file.path())
