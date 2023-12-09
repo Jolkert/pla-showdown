@@ -28,7 +28,7 @@ impl Category
 {
 	pub fn is_damaging(&self) -> bool
 	{
-		!matches!(self, Self::Status)
+		matches!(self, Self::Physical | Self::Special)
 	}
 }
 
