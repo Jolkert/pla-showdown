@@ -1,0 +1,13 @@
+id = "burn"
+volatility = "non_volatile"
+immune_types = ["fire"]
+
+[[effects]]
+effect_type = "turn_end_damage_fraction"
+fraction_denominator = 12
+
+[[effects]]
+effect_type = "damage_multiplier"
+side = "user"
+multiplier = 0.5
+move_category = "physical"

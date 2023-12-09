@@ -1,0 +1,13 @@
+id = "drowsy"
+volatility = "non_volatile"
+immune_types = []
+
+[[effects]]
+effect_type = "damage_multiplier"
+side = "target"
+multiplier = 1.33
+move_category = "all"
+
+[[effects]]
+effect_type = "cancel_turn"
+chance = "33"

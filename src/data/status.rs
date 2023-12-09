@@ -17,11 +17,11 @@ pub enum Volatility
 	NonVolatile,
 }
 
-#[derive(Debug, serde::Serialize, serde::Deserialize)]
-#[serde(rename_all = "snake_case")]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "snake_case", tag = "effect_type")]
 pub enum Effect
 {
-	StatModifier
+	ModifyStat
 	{
 		stat: Stat,
 		multiplier: f32,
@@ -30,13 +30,16 @@ pub enum Effect
 	{
 		side: Side,
 		multiplier: f32,
-		category: Category,
+		move_category: Category,
 	},
 	CancelTurn
 	{
 		chance: i32,
 	},
-	TurnEndDamageFraction(i32),
+	TurnEndDamageFraction
+	{
+		fraction_denominator: i32,
+	},
 	TurnEndDamageMove
 	{
 		base_power: i32,

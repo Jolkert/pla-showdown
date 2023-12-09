@@ -2,15 +2,15 @@
 
 mod data;
 
-use crate::data::serialization::SerMove;
-use data::{serialization::SerSpecies, Move, Species, Type};
+use crate::data::serialization::{SerMove, SerStatus};
+use data::{serialization::SerSpecies, Move, Species, StatusCondition, Type};
 use lazy_static::lazy_static;
 use std::collections::HashMap;
 
 type RegMap<T> = HashMap<Box<str>, T>;
 lazy_static! {
 	static ref TYPE_MAP: RegMap<Type> = register("assets/types/");
-	static ref MOVE_MAP: RegMap<Move<'static>> = register::<SerMove>("assets/moves")
+	static ref MOVE_MAP: RegMap<Move<'static>> = register::<SerMove>("assets/moves/")
 		.iter()
 		.map(|it| (it.0.to_owned(), it.1.clone().into_move(&TYPE_MAP)))
 		.collect();
@@ -18,6 +18,11 @@ lazy_static! {
 		.iter()
 		.map(|it| (it.0.to_owned(), it.1.clone().into_species(&TYPE_MAP)))
 		.collect();
+	static ref STATUS_MAP: RegMap<StatusCondition<'static>> =
+		register::<SerStatus>("assets/statuses/")
+			.iter()
+			.map(|it| (it.0.to_owned(), it.1.clone().into_status(&TYPE_MAP)))
+			.collect();
 }
 
 fn main()

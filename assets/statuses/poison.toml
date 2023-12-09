@@ -1,0 +1,7 @@
+id = "poison"
+volatility = "non_volatile"
+immune_types = ["poison", "steel"]
+
+[[effects]]
+effect_type = "turn_end_damage_fraction"
+fraction_denominator = 6

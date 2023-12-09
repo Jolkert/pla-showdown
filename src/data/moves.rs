@@ -26,6 +26,7 @@ pub enum Category
 	Physical,
 	Special,
 	Status,
+	All,
 }
 impl Category
 {
