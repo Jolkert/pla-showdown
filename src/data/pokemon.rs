@@ -31,7 +31,7 @@ pub struct Pokemon<'a>
 }
 impl<'a> Pokemon<'a>
 {
-	fn new(species: &'a Species<'a>) -> Self
+	pub fn new(species: &'a Species<'a>) -> Self
 	{
 		Self {
 			species,
@@ -40,18 +40,18 @@ impl<'a> Pokemon<'a>
 			level: 100,
 			nature: Nature::default(),
 			effort_levels: StatBlock {
-				hp: 0,
-				atk: 0,
-				def: 0,
-				spatk: 0,
-				spdef: 0,
-				spe: 0,
+				hp: 10,
+				atk: 10,
+				def: 10,
+				spatk: 10,
+				spdef: 10,
+				spe: 10,
 			},
 			moveset: HashSet::new(),
 		}
 	}
 
-	fn name(&self) -> &str
+	pub fn name(&self) -> &str
 	{
 		if let Some(nickname) = &self.nickname
 		{
@@ -63,48 +63,50 @@ impl<'a> Pokemon<'a>
 		}
 	}
 
-	fn stats() -> StatBlock
+	pub fn stats() -> StatBlock
 	{
 		todo!()
 	}
 
-	fn nickname(mut self, nickname: Option<String>) -> Self
+	pub fn nickname(mut self, nickname: Option<String>) -> Self
 	{
 		self.nickname = nickname;
 		self
 	}
-	fn set_shiny(mut self, is_shiny: bool) -> Self
+	pub fn set_shiny(mut self, is_shiny: bool) -> Self
 	{
 		self.is_shiny = is_shiny;
 		self
 	}
-	fn level(mut self, level: u8) -> Self
+	pub fn level(mut self, level: u8) -> Self
 	{
 		self.level = level;
 		self
 	}
-	fn nature(mut self, nature: Nature) -> Self
+	pub fn nature(mut self, nature: Nature) -> Self
 	{
 		self.nature = nature;
 		self
 	}
-	fn effort_levels(mut self, effort_levels: StatBlock) -> Self
+	pub fn effort_levels(mut self, effort_levels: StatBlock) -> Self
 	{
 		self.effort_levels = effort_levels;
 		self
 	}
-	fn add_move(mut self, mv: &'a Move<'a>) -> Self
+	pub fn add_move(mut self, mv: &'a Move<'a>) -> Self
 	{
 		self.moveset.insert(mv);
 		self
 	}
-	fn add_moves<I>(mut self, moves: I) -> Self
+	pub fn add_moves<I>(mut self, moves: I) -> Self
 	where
 		I: IntoIterator<Item = &'a Move<'a>>,
 	{
-		moves.into_iter().for_each(|m| {
-			self.moveset.insert(m);
-		});
+		for mv in moves.into_iter()
+		{
+			self.moveset.insert(mv);
+		}
+
 		self
 	}
 }
