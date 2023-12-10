@@ -4,7 +4,7 @@ pub use style::*;
 
 use super::Side;
 
-#[derive(Debug)]
+#[derive(Debug, Hash, PartialEq, Eq)]
 pub struct Move<'a>
 {
 	pub id: Box<str>,
@@ -19,7 +19,7 @@ pub struct Move<'a>
 	pub effects: Box<[MoveEffect]>,
 }
 
-#[derive(Debug, Clone, Copy, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Copy, Hash, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum Category
 {
@@ -30,7 +30,7 @@ pub enum Category
 }
 impl Category
 {
-	pub fn is_damaging(&self) -> bool
+	pub fn is_damaging(self) -> bool
 	{
 		matches!(self, Self::Physical | Self::Special)
 	}
@@ -46,7 +46,7 @@ mod style
 		Strong,
 	}
 
-	#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+	#[derive(Debug, Hash, PartialEq, Eq, Clone, serde::Serialize, serde::Deserialize)]
 	pub struct StyleTriad<T>
 	where
 		T: Copy,
@@ -103,7 +103,7 @@ mod style
 	}
 }
 
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Hash, PartialEq, Eq, Clone, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "snake_case", tag = "effect_type")]
 pub enum MoveEffect
 {
@@ -175,7 +175,7 @@ fn always() -> StyleTriad<i32>
 	StyleTriad::all(100)
 }
 
-#[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Hash, PartialEq, Eq, Clone, Default, serde::Serialize, serde::Deserialize)]
 pub struct MoveEffectCondition
 {
 	#[serde(skip_serializing_if = "Option::is_none")]
@@ -191,7 +191,7 @@ impl MoveEffectCondition
 	}
 }
 
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Hash, PartialEq, Eq, Clone, serde::Serialize, serde::Deserialize)]
 pub struct PokemonConditionData
 {
 	#[serde(rename = "species", skip_serializing_if = "Option::is_none")]
@@ -200,7 +200,7 @@ pub struct PokemonConditionData
 	pub status_ids: Option<Box<[Box<str>]>>,
 }
 
-#[derive(Debug, Clone, Copy, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Hash, PartialEq, Eq, Clone, Copy, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum DamageOrMaxHp
 {

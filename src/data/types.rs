@@ -1,6 +1,6 @@
 use super::Identifiable;
 
-#[derive(Debug, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Hash, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub struct Type
 {
 	pub id: Box<str>,
