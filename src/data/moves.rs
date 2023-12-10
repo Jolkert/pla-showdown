@@ -70,6 +70,15 @@ mod style
 			}
 		}
 	}
+	impl<T> From<T> for StyleTriad<T>
+	where
+		T: Copy,
+	{
+		fn from(value: T) -> Self
+		{
+			Self::all(value)
+		}
+	}
 	impl<T> StyleTriad<T>
 	where
 		T: Copy,
