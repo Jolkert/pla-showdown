@@ -30,16 +30,10 @@ strong = 0
 
 [[effects]]
 effect_type = "apply_status"
-to = "self"
+to = "user"
 status_options = ["stance_swap"]
 
 [effects.duration]
 regular = 5
 agile = 4
 strong = 7
-
-[efects.chance]
-regular = 100
-agile = 100
-strong = 100
-
