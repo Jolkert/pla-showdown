@@ -1,5 +1,5 @@
 id = "stance_swap"
-volatility = "volitile"
+volatility = "volatile"
 
 [[effects]]
 effect_type = "swap_stats"

@@ -8,4 +8,4 @@ multiplier = 1.33
 
 [[effects]]
 effect_type = "cancel_turn"
-chance = "33"
+chance = 33

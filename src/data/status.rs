@@ -29,7 +29,7 @@ pub enum Effect
 	{
 		side: Side,
 		multiplier: f32,
-		#[serde(default = "category_all")]
+		#[serde(default = "category_all", skip_serializing_if = "category_is_all")]
 		move_category: Category,
 	},
 	CancelTurn
@@ -59,4 +59,8 @@ pub enum Effect
 fn category_all() -> Category
 {
 	Category::All
+}
+fn category_is_all(cat: &Category) -> bool
+{
+	matches!(cat, Category::All)
 }
