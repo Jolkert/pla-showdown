@@ -29,5 +29,17 @@ agile = 0
 strong = 0
 
 [[effects]]
-effect_type = "swap_offense_and_defense"
-of = "user"
+effect_type = "apply_status"
+to = "self"
+status_options = ["stance_swap"]
+
+[effects.duration]
+regular = 5
+agile = 4
+strong = 7
+
+[efects.chance]
+regular = 100
+agile = 100
+strong = 100
+

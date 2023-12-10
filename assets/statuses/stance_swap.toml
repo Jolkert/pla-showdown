@@ -1,0 +1,10 @@
+id = "stance_swap"
+volatility = "volitile"
+
+[[effects]]
+effect_type = "swap_stats"
+stats = ["atk", "def"]
+
+[[effects]]
+effect_type = "swap_stats"
+stats = ["spatk", "spdef"]

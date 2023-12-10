@@ -1,0 +1,12 @@
+id = "slow_start"
+volatility = "volatile"
+
+[[effects]]
+effect_type = "modify_stat"
+stat = "atk"
+multiplier = 0.5
+
+[[effects]]
+effect_type = "modify_stat"
+stat = "spe"
+multiplier = 0.5

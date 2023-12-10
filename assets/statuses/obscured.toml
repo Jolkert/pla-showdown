@@ -1,0 +1,6 @@
+id = "obscured"
+volatility = "volatile"
+
+[[effects]]
+effect_type = "evasion_modifier"
+multiplier = 1.33

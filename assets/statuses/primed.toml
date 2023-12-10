@@ -1,0 +1,7 @@
+id = "primed"
+volatility = "volatile"
+
+[[effects]]
+effect_tyoe = "damage_multiplier"
+side = "user"
+multiplier = 1.5

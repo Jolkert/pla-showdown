@@ -7,7 +7,7 @@ pub struct SerStatus
 {
 	pub id: Box<str>,
 	pub volatility: Volatility,
-	#[serde(rename = "immune_types")]
+	#[serde(rename = "immune_types", default = "super::empty_slice")]
 	pub immune_type_ids: Box<[Box<str>]>,
 	pub effects: Box<[Effect]>,
 }

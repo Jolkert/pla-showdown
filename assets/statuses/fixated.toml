@@ -1,0 +1,12 @@
+id = "fixated"
+volatility = "volatile"
+
+[[effects]]
+effect_type = "damage_multiplier"
+side = "user"
+multiplier = 1.5
+
+[[effects]]
+effect_type = "damage_multiplier"
+side = "target"
+multiplier = 1.33

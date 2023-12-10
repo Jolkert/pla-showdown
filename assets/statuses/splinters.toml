@@ -1,0 +1,6 @@
+id = "splinters"
+volatility = "volatile"
+
+[[effects]]
+effect_type = "turn_end_damage_move"
+base_power = 25
