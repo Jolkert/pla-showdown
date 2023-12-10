@@ -37,8 +37,3 @@ status_options = ["guard_boost"]
 regular = 5
 agile = 4
 strong = 7
-
-[effects.chance]
-regular = 100
-agile = 100
-strong = 100

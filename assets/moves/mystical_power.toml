@@ -28,6 +28,7 @@ regular = 0
 agile = 0
 strong = 0
 
+# TODO: this move is weird guys
 [[effects]]
 effect_type = "apply_status"
 to = "user"
@@ -37,8 +38,3 @@ status_options = ["power_boost", "guard_boost"]
 regular = 3
 agile = 2
 strong = 4
-
-[effects.chance]
-regular = 100
-agile = 100
-strong = 100

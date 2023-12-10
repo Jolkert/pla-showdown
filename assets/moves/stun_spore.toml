@@ -38,7 +38,3 @@ regular = 5
 agile = 3
 strong = 7
 
-[effects.chance]
-regular = 100
-agile = 100
-strong = 100

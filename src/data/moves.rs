@@ -118,6 +118,7 @@ pub enum MoveEffect
 		#[serde(rename = "status_options")]
 		status_option_ids: Box<[Box<str>]>,
 		duration: StyleTriad<i32>,
+		#[serde(default = "always")]
 		chance: StyleTriad<i32>,
 		#[serde(default, skip_serializing_if = "MoveEffectCondition::both_are_none")]
 		condition: MoveEffectCondition,
@@ -158,6 +159,11 @@ pub enum MoveEffect
 		#[serde(default, skip_serializing_if = "MoveEffectCondition::both_are_none")]
 		condition: MoveEffectCondition,
 	},
+}
+
+fn always() -> StyleTriad<i32>
+{
+	StyleTriad::all(100)
 }
 
 #[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize)]

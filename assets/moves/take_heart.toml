@@ -38,11 +38,6 @@ regular = 4
 agile = 3
 strong = 5
 
-[effects.chance]
-regular = 100
-agile = 100
-strong = 100
-
 [[effects]]
 effect_type = "apply_status"
 to = "user"
@@ -52,11 +47,6 @@ status_options = ["guard_boost"]
 regular = 4
 agile = 3
 strong = 5
-
-[effects.chance]
-regular = 100
-agile = 100
-strong = 100
 
 [[effects]]
 effect_type = "cure_status"
