@@ -1,9 +1,10 @@
 #![allow(dead_code)]
 
 mod data;
+mod parsing;
 
 use crate::data::serialization::{SerMove, SerStatus};
-use data::{serialization::SerSpecies, Move, Species, StatusCondition, Type};
+use data::{serialization::SerSpecies, Move, Nature, Species, StatusCondition, Type};
 use lazy_static::lazy_static;
 use std::collections::HashMap;
 
@@ -23,6 +24,8 @@ lazy_static! {
 			.iter()
 			.map(|it| (it.0.to_owned(), it.1.clone().into_status(&TYPE_MAP)))
 			.collect();
+	static ref NATURE_MAP: RegMap<Nature> =
+		toml::from_str(&std::fs::read_to_string("assets/natures.toml").unwrap()).unwrap();
 }
 
 fn main()

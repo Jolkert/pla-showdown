@@ -1,0 +1,29 @@
+hardy = { increased = "atk", decreased = "atk" }
+lonely = { increased = "atk", decreased = "def" }
+adamant = { increased = "atk", decreased = "spatk" }
+naughty = { increased = "atk", decreased = "spdef" }
+brave = { increased = "atk", decreased = "spe" }
+
+bold = { increased = "def", decreased = "atk" }
+docile = { increased = "def", decreased = "def" }
+impish = { increased = "def", decreased = "spatk" }
+lax = { increased = "def", decreased = "spdef" }
+relaxed = { increased = "def", decreased = "spe" }
+
+modest = { increased = "spatk", decreased = "atk" }
+mild = { increased = "spatk", decreased = "def" }
+bashful = { increased = "spatk", decreased = "spatk" }
+rash = { increased = "spatk", decreased = "spdef" }
+quiet = { increased = "spatk", decreased = "spe" }
+
+calm = { increased = "spdef", decreased = "atk" }
+gentle = { increased = "spdef", decreased = "def" }
+careful = { increased = "spdef", decreased = "spatk" }
+quirky = { increased = "spdef", decreased = "spdef" }
+sassy = { increased = "spdef", decreased = "spe" }
+
+timid = { increased = "spe", decreased = "atk" }
+hasty = { increased = "spe", decreased = "def" }
+jolly = { increased = "spe", decreased = "spatk" }
+naive = { increased = "spe", decreased = "spdef" }
+serious = { increased = "spe", decreased = "spe" }

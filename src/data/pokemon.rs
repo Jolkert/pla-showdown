@@ -111,7 +111,7 @@ impl<'a> Pokemon<'a>
 	}
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, serde::Serialize, serde::Deserialize)]
 pub struct Nature
 {
 	pub increased: Stat,

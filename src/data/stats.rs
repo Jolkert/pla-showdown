@@ -1,4 +1,6 @@
-#[derive(Debug, Clone, Copy, serde::Serialize, serde::Deserialize)]
+use std::str::FromStr;
+
+#[derive(Debug, Hash, PartialEq, Eq, Clone, Copy, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum Stat
 {
@@ -9,6 +11,28 @@ pub enum Stat
 	SpDef,
 	Spe,
 }
+impl FromStr for Stat
+{
+	type Err = ParseStatError;
+
+	fn from_str(s: &str) -> Result<Self, Self::Err>
+	{
+		match s.to_lowercase().as_str()
+		{
+			"hp" => Ok(Self::Hp),
+			"atk" | "attack" => Ok(Self::Atk),
+			"def" | "defense" | "defence" => Ok(Self::Def),
+			"spa" | "spatk" | "special attack" | "sp attack" => Ok(Self::SpAtk),
+			"spd" | "spdef" | "special defense" | "sp defense" | "special defence"
+			| "sp defence" => Ok(Self::SpDef),
+			"spe" | "speed" => Ok(Self::Spe),
+			_ => Err(ParseStatError),
+		}
+	}
+}
+
+#[derive(Debug)]
+pub struct ParseStatError;
 
 #[derive(Debug, serde::Serialize, serde::Deserialize, Clone)]
 pub struct StatBlock
