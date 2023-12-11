@@ -1,4 +1,6 @@
-use super::Identifiable;
+use crate::data;
+
+use data::Identifiable;
 
 #[derive(Debug, Hash, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub struct Type

@@ -1,4 +1,6 @@
-use crate::data::{Category, Identifiable, Move, MoveEffect, StyleTriad, Type};
+use crate::data;
+
+use data::{Category, Identifiable, Move, MoveEffect, StyleTriad, Type};
 use std::collections::HashMap;
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]

@@ -1,4 +1,6 @@
-use super::{Category, Side, Stat, Type};
+use crate::data;
+
+use data::{Category, Side, Stat, Type};
 
 #[derive(Debug)]
 pub struct StatusCondition<'a>

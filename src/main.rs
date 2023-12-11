@@ -3,8 +3,10 @@
 mod data;
 mod parsing;
 
-use crate::data::serialization::{SerMove, SerStatus};
-use data::{serialization::SerSpecies, Move, Nature, Species, StatusCondition, Type};
+use data::{
+	serialization::{SerMove, SerSpecies, SerStatus},
+	Move, Nature, Species, StatusCondition, Type,
+};
 use lazy_static::lazy_static;
 use std::collections::HashMap;
 

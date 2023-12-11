@@ -1,8 +1,7 @@
-use crate::data::Type;
-
+use crate::data;
 pub use style::*;
 
-use super::Side;
+use data::{Side, Type};
 
 #[derive(Debug, Hash, PartialEq, Eq)]
 pub struct Move<'a>
