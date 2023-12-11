@@ -35,7 +35,7 @@ pub fn deserialize_pokemon<'a>(
 	let (species_name, nickname) = if let Some(species) = captures.name("species")
 	{
 		(
-			pokemon_id_from(&species.as_str()).into(),
+			pokemon_id_from(species.as_str()).into(),
 			Some(String::from(name_or_species)),
 		)
 	}
@@ -66,10 +66,9 @@ pub fn deserialize_pokemon<'a>(
 		else if let Some(rest) = substring_before_end(&line, " nature")
 		{
 			pokemon = pokemon.nature(
-				nature_map
+				*nature_map
 					.get(rest)
-					.ok_or_else(|| Error(format!("could not find nature \'{rest}\'")))?
-					.clone(),
+					.ok_or_else(|| Error(format!("could not find nature \'{rest}\'")))?,
 			)
 		}
 		else if let Some(rest) = substring_after_start(&line, "els: ")
@@ -84,7 +83,7 @@ pub fn deserialize_pokemon<'a>(
 						&rest
 							.to_lowercase()
 							.trim()
-							.replace(" ", "_")
+							.replace(' ', "_")
 							.into_boxed_str(),
 					)
 					.ok_or_else(|| Error(format!("could not find move \'{rest}\'")))?,

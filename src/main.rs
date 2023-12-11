@@ -33,7 +33,7 @@ fn main()
 	println!("pokemon!");
 }
 
-fn register<T>(dir_path: &str) -> HashMap<Box<str>, T>
+fn register<T>(dir_path: &str) -> RegMap<T>
 where
 	T: serde::de::DeserializeOwned + data::Identifiable,
 {
