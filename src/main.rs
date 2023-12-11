@@ -31,15 +31,6 @@ lazy_static! {
 fn main()
 {
 	println!("pokemon!");
-	let pokemon = parsing::deserialize_pokemon(
-		&std::fs::read_to_string("test.txt").unwrap(),
-		&SPECIES_MAP,
-		&MOVE_MAP,
-		&NATURE_MAP,
-	)
-	.unwrap();
-
-	println!("{:?}", pokemon.stats());
 }
 
 fn register<T>(dir_path: &str) -> RegMap<T>

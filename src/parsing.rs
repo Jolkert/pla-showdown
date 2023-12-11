@@ -5,8 +5,6 @@ use std::collections::HashMap;
 
 type RegMap<T> = HashMap<Box<str>, T>;
 lazy_static! {
-	static ref NICKNAME_SPECIES_REGEX: Regex =
-		Regex::new(r"(?<name_or_species>\S+)(\s*\((?<species>\S+)\))?").unwrap();
 	static ref EFFORT_REGEX: Regex =
 		Regex::new(r"(?<val>\d+)\s*(?<stat>(hp|atk|def|spa|spd|spe))").unwrap();
 }
@@ -23,26 +21,12 @@ pub fn deserialize_pokemon<'a>(
 
 	let mut lines = data.lines();
 	// species & nickname
-	let captures = NICKNAME_SPECIES_REGEX
-		.captures(
-			lines
-				.next()
-				.ok_or_else(|| Error(String::from("missing first line!")))?,
-		)
-		.ok_or_else(|| Error(String::from("could not find species in first line!")))?;
-
-	let name_or_species: Box<str> = captures["name_or_species"].into();
-	let (species_name, nickname) = if let Some(species) = captures.name("species")
-	{
-		(
-			pokemon_id_from(species.as_str()).into(),
-			Some(String::from(name_or_species)),
-		)
-	}
-	else
-	{
-		(name_or_species, None)
-	};
+	let (species_name, nickname) = find_nickname_and_species(
+		lines
+			.next()
+			.ok_or_else(|| Error(String::from("missing first line!")))?,
+	)?;
+	let species_name: Box<str> = pokemon_id_from(species_name).into();
 
 	let species = species_map
 		.get(&species_name)
@@ -97,6 +81,60 @@ pub fn deserialize_pokemon<'a>(
 #[derive(Debug)]
 pub struct PokemonParseError(String);
 
+fn find_nickname_and_species(string: &str) -> Result<(&str, Option<String>), PokemonParseError>
+{
+	let last_open = find_last('(', string);
+	let last_close = find_last(')', string);
+
+	if last_open > last_close
+	{
+		Err(PokemonParseError(format!(
+			"could not parse nickname and species from {string}"
+		)))
+	}
+	else if let (Some(open), Some(close)) = (last_open, last_close)
+	{
+		let species = string[(open + 1)..close].trim();
+		let name = string[..open].trim();
+
+		Ok((species, Some(String::from(name))))
+	}
+	else
+	{
+		Ok((string.trim(), None))
+	}
+}
+
+fn pokemon_id_from(string: &str) -> String
+{
+	string
+		.trim()
+		.to_lowercase()
+		.chars()
+		.map(|it| {
+			if it.is_ascii() && (it.is_alphanumeric() || it == '-')
+			{
+				it
+			}
+			else
+			{
+				'_'
+			}
+		})
+		.collect::<String>()
+		.trim_matches('_')
+		.replace("__", "_")
+}
+
+fn find_last(ch: char, string: &str) -> Option<usize>
+{
+	string
+		.char_indices()
+		.filter(|it| it.1 == ch)
+		.last()
+		.map(|it| it.0)
+}
+
 fn substring_after_start<'a>(string: &'a str, pattern: &str) -> Option<&'a str>
 {
 	let index = string.find(pattern)?;
@@ -145,23 +183,4 @@ fn parse_effort_levels(string: &str) -> Result<StatBlock, PokemonParseError>
 		spdef: stat_map.get(&Stat::SpDef).map(i32::clone).unwrap_or(10),
 		spe: stat_map.get(&Stat::Spe).map(i32::clone).unwrap_or(10),
 	})
-}
-
-fn pokemon_id_from(string: &str) -> String
-{
-	string
-		.to_lowercase()
-		.chars()
-		.map(|it| {
-			if it.is_ascii() && it.is_alphanumeric()
-			{
-				it
-			}
-			else
-			{
-				'_'
-			}
-		})
-		.collect::<String>()
-		.replace("__", "_")
 }
