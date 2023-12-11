@@ -1,5 +1,6 @@
-use super::{Move, Stat};
-use crate::data::{StatBlock, TypePair};
+use crate::data;
+
+use data::{Move, Nature, Stat, StatBlock, TypePair};
 use std::collections::HashSet;
 
 #[derive(Debug)]
@@ -63,9 +64,33 @@ impl<'a> Pokemon<'a>
 		}
 	}
 
-	pub fn stats() -> StatBlock
+	pub fn stats(&self) -> StatBlock
 	{
-		todo!()
+		StatBlock {
+			hp: self.calculate_stat(Stat::Hp),
+			atk: self.calculate_stat(Stat::Atk),
+			def: self.calculate_stat(Stat::Def),
+			spatk: self.calculate_stat(Stat::SpAtk),
+			spdef: self.calculate_stat(Stat::SpDef),
+			spe: self.calculate_stat(Stat::Spe),
+		}
+	}
+
+	fn calculate_stat(&self, stat: Stat) -> i32
+	{
+		let base = self.species.base_stats[stat];
+		if stat == Stat::Hp
+		{
+			((self.level as f32 / 100.0 + 1.0) * base as f32 + self.level as f32).floor() as i32
+				+ data::effort_bonus(self.effort_levels[stat], self.level, base)
+					.expect("effort level was not in range [0, 10]")
+		}
+		else
+		{
+			(((self.level as f32 / 50.0 + 1.0) * base as f32 / 1.5) * self.nature.multiplier(stat))
+				.floor() as i32 + data::effort_bonus(self.effort_levels[stat], self.level, base)
+				.expect("effort level was not in range [0, 10]")
+		}
 	}
 
 	pub fn nickname(mut self, nickname: Option<String>) -> Self
@@ -108,22 +133,5 @@ impl<'a> Pokemon<'a>
 		}
 
 		self
-	}
-}
-
-#[derive(Debug, Clone, Copy, serde::Serialize, serde::Deserialize)]
-pub struct Nature
-{
-	pub increased: Stat,
-	pub decreased: Stat,
-}
-impl Default for Nature
-{
-	fn default() -> Self
-	{
-		Self {
-			increased: Stat::Spe,
-			decreased: Stat::Spe,
-		}
 	}
 }

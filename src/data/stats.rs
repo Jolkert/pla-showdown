@@ -31,6 +31,46 @@ impl FromStr for Stat
 	}
 }
 
+#[derive(Debug, Clone, Copy, serde::Serialize, serde::Deserialize)]
+pub struct Nature
+{
+	pub increased: Stat,
+	pub decreased: Stat,
+}
+impl Default for Nature
+{
+	fn default() -> Self
+	{
+		Self {
+			increased: Stat::Spe,
+			decreased: Stat::Spe,
+		}
+	}
+}
+impl Nature
+{
+	pub fn multiplier(&self, stat: Stat) -> f32
+	{
+		// is there a more idomatic way to do this? maybe! -morgan 2023-12-11
+		if self.increased == self.decreased
+		{
+			1.0
+		}
+		else if stat == self.increased
+		{
+			1.1
+		}
+		else if stat == self.decreased
+		{
+			0.9
+		}
+		else
+		{
+			1.0
+		}
+	}
+}
+
 #[derive(Debug)]
 pub struct ParseStatError;
 
@@ -58,5 +98,35 @@ impl std::ops::Index<Stat> for StatBlock
 			Stat::SpDef => &self.spdef,
 			Stat::Spe => &self.spe,
 		}
+	}
+}
+
+pub fn effort_bonus(effort_level: i32, pokemon_level: u8, base_stat: i32) -> Option<i32>
+{
+	Some(
+		(((base_stat as f32).sqrt() * effort_multiplier(effort_level)? as f32
+			+ pokemon_level as f32)
+			/ 2.5)
+			.round() as i32,
+	)
+}
+
+fn effort_multiplier(effort_level: i32) -> Option<i32>
+{
+	// 0, 2, 3, 4, 7, 8, 9, 14, 15, 16, 25
+	match effort_level
+	{
+		0 => Some(0),
+		1 => Some(2),
+		2 => Some(3),
+		3 => Some(4),
+		4 => Some(7),
+		5 => Some(8),
+		6 => Some(9),
+		7 => Some(14),
+		8 => Some(15),
+		9 => Some(16),
+		10 => Some(25),
+		_ => None,
 	}
 }
