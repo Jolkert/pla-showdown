@@ -1,7 +1,7 @@
 use crate::data;
 
-use data::{Move, Nature, Stat, StatBlock, TypePair};
-use std::collections::HashSet;
+use data::{Effect, Move, Nature, Stat, StatBlock, StatusCondition, Type, TypePair};
+use std::{collections::HashSet, slice::Iter};
 
 #[derive(Debug)]
 pub struct Species<'a>
@@ -119,5 +119,100 @@ impl<'a> Pokemon<'a>
 		}
 
 		self
+	}
+}
+
+pub struct BattlePokemon<'a>
+{
+	pub pokemon: &'a Pokemon<'a>,
+	pub damage: i32,
+	pub action_time: i32,
+	pub non_volatile_status: Option<AppliedStatus<'a>>,
+	pub volatile_statuses: Vec<AppliedStatus<'a>>,
+}
+impl<'a> BattlePokemon<'a>
+{
+	pub fn status_effects(&self) -> impl Iterator<Item = &Effect>
+	{
+		let non_volatile = if let Some(condition) = &self.non_volatile_status
+		{
+			condition.effects()
+		}
+		else
+		{
+			[].iter()
+		};
+
+		let volatile = self
+			.volatile_statuses
+			.iter()
+			.flat_map(|condition| condition.effects());
+
+		non_volatile.chain(volatile)
+	}
+
+	pub fn effective_stats(&self) -> StatBlock
+	{
+		self.pokemon.stats().map_all(
+			|st| self.multiplier_to_stat(st),
+			|init, mult| (init as f32 * mult) as i32,
+		)
+	}
+
+	pub fn multiplier_to_stat(&self, st: Stat) -> f32
+	{
+		self.status_effects()
+			.filter_map(|eff| {
+				if let Effect::ModifyStat { stat,multiplier,} = eff && *stat == st
+				{
+					Some(multiplier)
+				}
+				else
+				{
+					None
+				}
+			})
+			.product()
+	}
+
+	pub fn is_type(&self, typ: &Type) -> bool
+	{
+		self.pokemon.species.types.contains(typ)
+	}
+
+	pub fn base_action_time(&self) -> i32
+	{
+		match self.effective_stats().spe
+		{
+			..=15 => 14,
+			16..=31 => 13,
+			32..=55 => 12,
+			56..=88 => 11,
+			89..=129 => 10,
+			130..=181 => 9,
+			182..=242 => 8,
+			243..=316 => 7,
+			317..=401 => 6,
+			402.. => 5,
+		}
+	}
+}
+
+pub struct AppliedStatus<'a>
+{
+	pub condition: &'a StatusCondition<'a>,
+	pub duration: i32,
+	pub move_source: &'a Move<'a>,
+}
+impl<'a> AppliedStatus<'a>
+{
+	pub fn tick_down(&mut self)
+	{
+		self.duration -= 1;
+	}
+
+	pub fn effects(&self) -> Iter<Effect>
+	{
+		self.condition.effects.iter()
 	}
 }

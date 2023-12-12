@@ -125,6 +125,22 @@ impl StatBlock
 			spe: generator(Stat::Spe),
 		}
 	}
+
+	pub fn map_all<T, F: Fn(i32, T) -> i32, G: Fn(Stat) -> T>(
+		self,
+		generator: G,
+		transform: F,
+	) -> Self
+	{
+		Self {
+			hp: transform(self.hp, generator(Stat::Hp)),
+			atk: transform(self.atk, generator(Stat::Atk)),
+			def: transform(self.def, generator(Stat::Def)),
+			spatk: transform(self.spatk, generator(Stat::SpAtk)),
+			spdef: transform(self.spdef, generator(Stat::SpDef)),
+			spe: transform(self.spe, generator(Stat::Spe)),
+		}
+	}
 }
 
 pub fn effort_bonus(effort_level: i32, pokemon_level: u8, base_stat: i32) -> Option<i32>

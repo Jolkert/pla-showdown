@@ -1,9 +1,10 @@
 #![allow(dead_code)]
+#![feature(let_chains)]
 
 mod data;
 mod parsing;
 
-use data::{
+use crate::data::{
 	serialization::{SerMove, SerSpecies, SerStatus},
 	Move, Nature, Species, StatusCondition, Type,
 };
