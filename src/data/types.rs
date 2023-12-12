@@ -106,11 +106,11 @@ impl From<i32> for WeaknessLevel
 	{
 		match value
 		{
-			2.. => Self::DoubleWeak,
-			1 => Self::Weak,
-			0 => Self::Neutral,
-			-1 => Self::Resist,
 			..=-2 => Self::DoubleResist,
+			-1 => Self::Resist,
+			0 => Self::Neutral,
+			1 => Self::Weak,
+			2.. => Self::DoubleWeak,
 		}
 	}
 }
@@ -122,12 +122,12 @@ impl TryFrom<WeaknessLevel> for i32
 	{
 		match value
 		{
-			WeaknessLevel::DoubleWeak => Ok(2),
-			WeaknessLevel::Weak => Ok(1),
-			WeaknessLevel::Neutral => Ok(0),
-			WeaknessLevel::Resist => Ok(-1),
-			WeaknessLevel::DoubleResist => Ok(-1),
 			WeaknessLevel::Immunity => Err(()),
+			WeaknessLevel::DoubleResist => Ok(-1),
+			WeaknessLevel::Resist => Ok(-1),
+			WeaknessLevel::Neutral => Ok(0),
+			WeaknessLevel::Weak => Ok(1),
+			WeaknessLevel::DoubleWeak => Ok(2),
 		}
 	}
 }
