@@ -100,6 +100,32 @@ impl std::ops::Index<Stat> for StatBlock
 		}
 	}
 }
+impl StatBlock
+{
+	pub fn all(val: i32) -> Self
+	{
+		Self {
+			hp: val,
+			atk: val,
+			def: val,
+			spatk: val,
+			spdef: val,
+			spe: val,
+		}
+	}
+
+	pub fn for_each_stat<F: Fn(Stat) -> i32>(generator: F) -> Self
+	{
+		Self {
+			hp: generator(Stat::Hp),
+			atk: generator(Stat::Atk),
+			def: generator(Stat::Def),
+			spatk: generator(Stat::SpAtk),
+			spdef: generator(Stat::SpDef),
+			spe: generator(Stat::Spe),
+		}
+	}
+}
 
 pub fn effort_bonus(effort_level: i32, pokemon_level: u8, base_stat: i32) -> Option<i32>
 {

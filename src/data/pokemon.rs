@@ -40,14 +40,7 @@ impl<'a> Pokemon<'a>
 			is_shiny: false,
 			level: 100,
 			nature: Nature::default(),
-			effort_levels: StatBlock {
-				hp: 10,
-				atk: 10,
-				def: 10,
-				spatk: 10,
-				spdef: 10,
-				spe: 10,
-			},
+			effort_levels: StatBlock::all(10),
 			moveset: HashSet::new(),
 		}
 	}
@@ -66,14 +59,7 @@ impl<'a> Pokemon<'a>
 
 	pub fn stats(&self) -> StatBlock
 	{
-		StatBlock {
-			hp: self.calculate_stat(Stat::Hp),
-			atk: self.calculate_stat(Stat::Atk),
-			def: self.calculate_stat(Stat::Def),
-			spatk: self.calculate_stat(Stat::SpAtk),
-			spdef: self.calculate_stat(Stat::SpDef),
-			spe: self.calculate_stat(Stat::Spe),
-		}
+		StatBlock::for_each_stat(|stat| self.calculate_stat(stat))
 	}
 
 	fn calculate_stat(&self, stat: Stat) -> i32

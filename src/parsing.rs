@@ -18,11 +18,9 @@ pub fn deserialize_pokemon<'a>(
 	nature_map: &RegMap<Nature>,
 ) -> Result<Pokemon<'a>, PokemonParseError>
 {
-	// TODO: this is fucking awful please do something about this i beg you -morgan 2023-12-11
 	use PokemonParseError as Error;
-
 	let mut lines = data.lines();
-	// species & nickname
+
 	let (species_name, nickname) = find_nickname_and_species(
 		lines
 			.next()
@@ -32,10 +30,10 @@ pub fn deserialize_pokemon<'a>(
 
 	let species = species_map
 		.get(&species_name)
-		.ok_or_else(|| Error(format!("could not find species \'{species_name}\'")))?;
+		.ok_or_else(|| Error(format!("could not find species '{species_name}'")))?;
 	let mut pokemon = Pokemon::new(species).nickname(nickname);
 
-	// the rest of the pokemon
+	// TODO: this is fucking awful please do something about this i beg you -morgan 2023-12-11
 	for line in lines.map(|it| it.to_lowercase())
 	{
 		if let Some(rest) = substring_after_start(&line, "level: ")
@@ -54,7 +52,7 @@ pub fn deserialize_pokemon<'a>(
 			pokemon = pokemon.nature(
 				*nature_map
 					.get(rest)
-					.ok_or_else(|| Error(format!("could not find nature \'{rest}\'")))?,
+					.ok_or_else(|| Error(format!("could not find nature '{rest}'")))?,
 			)
 		}
 		else if let Some(rest) = substring_after_start(&line, "els: ")
@@ -72,7 +70,7 @@ pub fn deserialize_pokemon<'a>(
 							.replace(' ', "_")
 							.into_boxed_str(),
 					)
-					.ok_or_else(|| Error(format!("could not find move \'{rest}\'")))?,
+					.ok_or_else(|| Error(format!("could not find move '{rest}'")))?,
 			);
 		}
 	}
@@ -170,19 +168,14 @@ fn parse_effort_levels(string: &str) -> Result<StatBlock, PokemonParseError>
 	for block in blocks
 	{
 		let captures = EFFORT_REGEX.captures(block).ok_or_else(|| {
-			PokemonParseError(format!("could not interpret effor level from \'{block}\'"))
+			PokemonParseError(format!("could not interpret effor level from '{block}'"))
 		})?;
 		let value: i32 = captures["val"].parse().unwrap();
 		let stat: Stat = captures["stat"].parse().unwrap();
 		stat_map.insert(stat, value);
 	}
 
-	Ok(StatBlock {
-		hp: stat_map.get(&Stat::Hp).map(i32::clone).unwrap_or(10),
-		atk: stat_map.get(&Stat::Atk).map(i32::clone).unwrap_or(10),
-		def: stat_map.get(&Stat::Def).map(i32::clone).unwrap_or(10),
-		spatk: stat_map.get(&Stat::SpAtk).map(i32::clone).unwrap_or(10),
-		spdef: stat_map.get(&Stat::SpDef).map(i32::clone).unwrap_or(10),
-		spe: stat_map.get(&Stat::Spe).map(i32::clone).unwrap_or(10),
-	})
+	Ok(StatBlock::for_each_stat(|stat| {
+		stat_map.get(&stat).map(i32::clone).unwrap_or(10)
+	}))
 }
