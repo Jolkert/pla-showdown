@@ -1,7 +1,7 @@
 use crate::data;
 
-use data::{Effect, Move, Nature, Stat, StatBlock, StatusCondition, Type, TypePair};
-use std::{collections::HashSet, slice::Iter};
+use data::{Effect, Move, Nature, Stat, StatBlock, StatusCondition, Type, TypePair, Volatility};
+use std::collections::HashSet;
 
 #[derive(Debug)]
 pub struct Species<'a>
@@ -120,35 +120,49 @@ impl<'a> Pokemon<'a>
 
 		self
 	}
+
+	pub fn base_action_time(&self) -> i32
+	{
+		data::base_action_time(self.stats().spe)
+	}
 }
 
 pub struct BattlePokemon<'a>
 {
 	pub pokemon: &'a Pokemon<'a>,
-	pub damage: i32,
-	pub action_time: i32,
-	pub non_volatile_status: Option<AppliedStatus<'a>>,
-	pub volatile_statuses: Vec<AppliedStatus<'a>>,
+	damage: i32,
+	action_time: i32,
+	non_volatile_status: Option<AppliedStatus<'a>>,
+	volatile_statuses: Vec<AppliedStatus<'a>>,
 }
 impl<'a> BattlePokemon<'a>
 {
+	pub fn new(pokemon: &'a Pokemon) -> Self
+	{
+		Self {
+			pokemon,
+			damage: 0,
+			action_time: pokemon.base_action_time(),
+			non_volatile_status: None,
+			volatile_statuses: vec![],
+		}
+	}
+
+	pub fn current_hp(&self) -> i32
+	{
+		self.effective_stats().hp - self.damage
+	}
+
+	pub fn status_conditions(&self) -> impl Iterator<Item = &AppliedStatus>
+	{
+		std::iter::once(&self.non_volatile_status)
+			.filter_map(Option::as_ref)
+			.chain(self.volatile_statuses.iter())
+	}
+
 	pub fn status_effects(&self) -> impl Iterator<Item = &Effect>
 	{
-		let non_volatile = if let Some(condition) = &self.non_volatile_status
-		{
-			condition.effects()
-		}
-		else
-		{
-			[].iter()
-		};
-
-		let volatile = self
-			.volatile_statuses
-			.iter()
-			.flat_map(|condition| condition.effects());
-
-		non_volatile.chain(volatile)
+		self.status_conditions().flat_map(AppliedStatus::effects)
 	}
 
 	pub fn effective_stats(&self) -> StatBlock
@@ -157,6 +171,44 @@ impl<'a> BattlePokemon<'a>
 			|st| self.multiplier_to_stat(st),
 			|init, mult| (init as f32 * mult) as i32,
 		)
+	}
+
+	pub fn apply_status(
+		&mut self,
+		condition: &'a StatusCondition,
+		duration: i32,
+		source_move: &'a Move,
+	)
+	{
+		if !condition.immune_types.iter().any(|it| self.is_type(it))
+		{
+			let applied_status = AppliedStatus {
+				condition,
+				duration,
+				source_move,
+			};
+			match condition.volatility
+			{
+				Volatility::NonVolatile => self.non_volatile_status = Some(applied_status),
+				Volatility::Volatile => self.volatile_statuses.push(applied_status),
+			}
+		}
+	}
+
+	pub fn tick_statuses(&mut self)
+	{
+		if let Some(status) = &mut self.non_volatile_status
+		{
+			status.tick_down();
+			if status.duration == 0
+			{
+				self.non_volatile_status = None;
+			}
+		}
+		self.volatile_statuses
+			.iter_mut()
+			.for_each(AppliedStatus::tick_down);
+		self.volatile_statuses.retain(|it| it.duration > 0)
 	}
 
 	pub fn multiplier_to_stat(&self, st: Stat) -> f32
@@ -182,19 +234,7 @@ impl<'a> BattlePokemon<'a>
 
 	pub fn base_action_time(&self) -> i32
 	{
-		match self.effective_stats().spe
-		{
-			..=15 => 14,
-			16..=31 => 13,
-			32..=55 => 12,
-			56..=88 => 11,
-			89..=129 => 10,
-			130..=181 => 9,
-			182..=242 => 8,
-			243..=316 => 7,
-			317..=401 => 6,
-			402.. => 5,
-		}
+		data::base_action_time(self.effective_stats().spe)
 	}
 }
 
@@ -202,7 +242,7 @@ pub struct AppliedStatus<'a>
 {
 	pub condition: &'a StatusCondition<'a>,
 	pub duration: i32,
-	pub move_source: &'a Move<'a>,
+	pub source_move: &'a Move<'a>,
 }
 impl<'a> AppliedStatus<'a>
 {
@@ -211,7 +251,7 @@ impl<'a> AppliedStatus<'a>
 		self.duration -= 1;
 	}
 
-	pub fn effects(&self) -> Iter<Effect>
+	pub fn effects(&self) -> impl Iterator<Item = &Effect>
 	{
 		self.condition.effects.iter()
 	}

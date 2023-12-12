@@ -11,7 +11,7 @@ pub struct StatusCondition<'a>
 	pub effects: Box<[Effect]>,
 }
 
-#[derive(Debug, Clone, Copy, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum Volatility
 {

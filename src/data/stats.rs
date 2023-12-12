@@ -1,5 +1,22 @@
 use std::str::FromStr;
 
+pub fn base_action_time(speed: i32) -> i32
+{
+	match speed
+	{
+		..=15 => 14,
+		16..=31 => 13,
+		32..=55 => 12,
+		56..=88 => 11,
+		89..=129 => 10,
+		130..=181 => 9,
+		182..=242 => 8,
+		243..=316 => 7,
+		317..=401 => 6,
+		402.. => 5,
+	}
+}
+
 #[derive(Debug, Hash, PartialEq, Eq, Clone, Copy, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum Stat
