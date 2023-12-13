@@ -34,7 +34,7 @@ pub fn deserialize_pokemon<'a>(
 	let mut pokemon = Pokemon::new(species).nickname(nickname);
 
 	// TODO: this is fucking awful please do something about this i beg you -morgan 2023-12-11
-	for line in lines.map(|it| it.to_lowercase())
+	for line in lines.map(str::to_lowercase)
 	{
 		if let Some(rest) = substring_after_start(&line, "level: ")
 		{
@@ -45,7 +45,7 @@ pub fn deserialize_pokemon<'a>(
 		}
 		else if let Some(rest) = substring_after_start(&line, "shiny: ")
 		{
-			pokemon = pokemon.set_shiny(rest == "yes")
+			pokemon = pokemon.set_shiny(rest == "yes");
 		}
 		else if let Some(rest) = substring_before_end(&line, " nature")
 		{
@@ -53,7 +53,7 @@ pub fn deserialize_pokemon<'a>(
 				*nature_map
 					.get(rest)
 					.ok_or_else(|| Error(format!("could not find nature '{rest}'")))?,
-			)
+			);
 		}
 		else if let Some(rest) = substring_after_start(&line, "els: ")
 		{
@@ -176,6 +176,6 @@ fn parse_effort_levels(string: &str) -> Result<StatBlock, PokemonParseError>
 	}
 
 	Ok(StatBlock::for_each_stat(|stat| {
-		stat_map.get(&stat).map(i32::clone).unwrap_or(10)
+		stat_map.get(&stat).map_or(10, i32::clone)
 	}))
 }

@@ -1,0 +1,7 @@
+id = "power_boost"
+volatility = "volatile"
+
+[[effects]]
+effect_type = "damage_multiplier"
+side = "user"
+multiplier = 1.5

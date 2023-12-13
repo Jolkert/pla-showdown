@@ -66,7 +66,7 @@ impl Default for Nature
 }
 impl Nature
 {
-	pub fn multiplier(&self, stat: Stat) -> f32
+	pub fn multiplier(self, stat: Stat) -> f64
 	{
 		// is there a more idomatic way to do this? maybe! -morgan 2023-12-11
 		if self.increased == self.decreased
@@ -163,8 +163,8 @@ impl StatBlock
 pub fn effort_bonus(effort_level: i32, pokemon_level: u8, base_stat: i32) -> Option<i32>
 {
 	Some(
-		(((base_stat as f32).sqrt() * effort_multiplier(effort_level)? as f32
-			+ pokemon_level as f32)
+		((f64::from(base_stat).sqrt() * f64::from(effort_multiplier(effort_level)?)
+			+ f64::from(pokemon_level))
 			/ 2.5)
 			.round() as i32,
 	)

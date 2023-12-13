@@ -1,0 +1,7 @@
+id = "guard_drop"
+volatility = "volatile"
+
+[[effects]]
+effect_type = "damage_multiplier"
+side = "target"
+multiplier = 1.5

@@ -52,7 +52,7 @@ impl<'a> TypePair<'a>
 		self.0.id == typ.id || self.1.is_some_and(|t| t.id == typ.id)
 	}
 
-	pub fn damage_multiplier_from(&self, typ: &Type) -> f32
+	pub fn damage_multiplier_from(&self, typ: &Type) -> f64
 	{
 		match self.0.weakness_to(typ) + self.1.map(|t| t.weakness_to(typ)).unwrap_or_default()
 		{
@@ -123,7 +123,7 @@ impl TryFrom<WeaknessLevel> for i32
 		match value
 		{
 			WeaknessLevel::Immunity => Err(()),
-			WeaknessLevel::DoubleResist => Ok(-1),
+			WeaknessLevel::DoubleResist => Ok(-2),
 			WeaknessLevel::Resist => Ok(-1),
 			WeaknessLevel::Neutral => Ok(0),
 			WeaknessLevel::Weak => Ok(1),

@@ -1,0 +1,6 @@
+id = "crit_boost"
+volatility = "volatile"
+
+[[effects]]
+effect_type = "modify_crit_chance"
+stages = 2

@@ -25,12 +25,12 @@ pub enum Effect
 {
 	ModifyStat
 	{
-		stat: Stat, multiplier: f32
+		stat: Stat, multiplier: f64
 	},
 	DamageMultiplier
 	{
 		side: Side,
-		multiplier: f32,
+		multiplier: f64,
 		#[serde(default = "category_all", skip_serializing_if = "category_is_all")]
 		move_category: Category,
 	},
@@ -48,7 +48,11 @@ pub enum Effect
 	},
 	EvasionModifier
 	{
-		multiplier: f32
+		multiplier: f64
+	},
+	ModifyCritChance
+	{
+		stages: i32
 	},
 	SwapStats
 	{
@@ -62,7 +66,10 @@ fn category_all() -> Category
 {
 	Category::All
 }
+
+// serde demands a reference clippy shush -morgan 2023-12-12
+#[allow(clippy::trivially_copy_pass_by_ref)]
 fn category_is_all(cat: &Category) -> bool
 {
-	matches!(cat, Category::All)
+	*cat == Category::All
 }
