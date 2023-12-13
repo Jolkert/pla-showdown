@@ -93,7 +93,7 @@ mod style
 
 		pub fn all(val: T) -> Self
 		{
-			StyleTriad {
+			Self {
 				regular: val,
 				agile: val,
 				strong: val,

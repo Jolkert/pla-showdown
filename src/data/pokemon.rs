@@ -1,8 +1,8 @@
 use crate::data;
 
 use data::{
-	Category, Effect, Move, Nature, Stat, StatBlock, StatusCondition, Style, StyleTriad, Type,
-	TypePair, Volatility,
+	AppliedStatus, Category, Effect, Move, Nature, Stat, StatBlock, StatusCondition, Style,
+	StyleTriad, Type, TypePair, Volatility,
 };
 use rand::Rng;
 use std::collections::{HashMap, HashSet};
@@ -363,24 +363,5 @@ impl<'a> BattlePokemon<'a>
 			.product();
 
 		(f64::from(base_damage) * effects_multiplier * type_multiplier * stab_multiplier) as i32
-	}
-}
-
-pub struct AppliedStatus<'a>
-{
-	pub condition: &'a StatusCondition<'a>,
-	pub duration: i32,
-	pub source_move: &'a Move<'a>,
-}
-impl<'a> AppliedStatus<'a>
-{
-	pub fn tick_down(&mut self)
-	{
-		self.duration -= 1;
-	}
-
-	pub fn effects(&self) -> impl Iterator<Item = &Effect>
-	{
-		self.condition.effects.iter()
 	}
 }

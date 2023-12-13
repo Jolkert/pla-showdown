@@ -1,6 +1,6 @@
 use crate::data;
 
-use data::{Category, Side, Stat, Type};
+use data::{Category, Move, Side, Stat, Type};
 
 #[derive(Debug)]
 pub struct StatusCondition<'a>
@@ -9,6 +9,25 @@ pub struct StatusCondition<'a>
 	pub volatility: Volatility,
 	pub immune_types: Box<[&'a Type]>,
 	pub effects: Box<[Effect]>,
+}
+
+pub struct AppliedStatus<'a>
+{
+	pub condition: &'a StatusCondition<'a>,
+	pub duration: i32,
+	pub source_move: &'a Move<'a>,
+}
+impl<'a> AppliedStatus<'a>
+{
+	pub fn tick_down(&mut self)
+	{
+		self.duration -= 1;
+	}
+
+	pub fn effects(&self) -> impl Iterator<Item = &Effect>
+	{
+		self.condition.effects.iter()
+	}
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
