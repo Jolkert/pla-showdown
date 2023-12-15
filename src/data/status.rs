@@ -78,6 +78,34 @@ pub enum Effect
 		stats: (Stat, Stat)
 	},
 }
+impl Effect
+{
+	pub fn damge_multiplier(&self, category: Category, side: Side) -> f64
+	{
+		if let Self::DamageMultiplier { side: sd, multiplier, move_category } = self
+			&& *sd == side
+			&& (*move_category == Category::All || *move_category == category)
+		{
+			*multiplier
+		}
+		else
+		{
+			1.0
+		}
+	}
+
+	pub fn crit_bonus(&self) -> i32
+	{
+		if let Self::ModifyCritChance { stages } = self
+		{
+			*stages
+		}
+		else
+		{
+			0
+		}
+	}
+}
 
 // serde default should let you supply a unit enum variant and the fact that it doesnt makes me angry
 // -morgan 2023-12-09

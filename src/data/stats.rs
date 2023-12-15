@@ -162,10 +162,13 @@ impl StatBlock
 
 pub fn effort_bonus(effort_level: i32, pokemon_level: u8, base_stat: i32) -> Option<i32>
 {
+	// im less convinced with the readability of this one than the stat calc one in ::pokemon
+	// consider changing it back -morgan 2023-12-14
 	Some(
-		((f64::from(base_stat).sqrt() * f64::from(effort_multiplier(effort_level)?)
-			+ f64::from(pokemon_level))
-			/ 2.5)
+		(f64::from(base_stat).sqrt().mul_add(
+			f64::from(effort_multiplier(effort_level)?),
+			f64::from(pokemon_level),
+		) / 2.5)
 			.round() as i32,
 	)
 }

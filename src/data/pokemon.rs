@@ -51,14 +51,7 @@ impl<'a> Pokemon<'a>
 
 	pub fn name(&self) -> &str
 	{
-		if let Some(nickname) = &self.nickname
-		{
-			nickname
-		}
-		else
-		{
-			&self.species.id
-		}
+		self.nickname.as_deref().map_or(&self.species.id, |it| it)
 	}
 
 	pub fn stats(&self) -> StatBlock
@@ -71,15 +64,22 @@ impl<'a> Pokemon<'a>
 		let base = self.species.base_stats[stat];
 		if stat == Stat::Hp
 		{
-			((f64::from(self.level) / 100.0 + 1.0) * f64::from(base) + f64::from(self.level))
-				.floor() as i32 + data::effort_bonus(self.effort_levels[stat], self.level, base)
+			// is this more readable? i think maybe ¯\_(ツ)_/¯
+			// the lack of a giant block of parentheses is at least nice -morgan 2023-12-14
+			f64::floor(
+				f64::from(self.level)
+					.mul_add(0.01, 1.0)
+					.mul_add(f64::from(base), f64::from(self.level))
+					.floor(),
+			) as i32 + data::effort_bonus(self.effort_levels[stat], self.level, base)
 				.expect("effort level was not in range [0, 10]")
 		}
 		else
 		{
-			(((f64::from(self.level) / 50.0 + 1.0) * f64::from(base) / 1.5)
-				* self.nature.multiplier(stat))
-			.floor() as i32 + data::effort_bonus(self.effort_levels[stat], self.level, base)
+			f64::floor(
+				(f64::from(self.level).mul_add(0.02, 1.0) * f64::from(base) / 1.5).floor()
+					* self.nature.multiplier(stat),
+			) as i32 + data::effort_bonus(self.effort_levels[stat], self.level, base)
 				.expect("effort level was not in range [0, 10]")
 		}
 	}
@@ -257,22 +257,20 @@ impl<'a> BattlePokemon<'a>
 		style: Style,
 	) -> i32
 	{
-		let crit_stages = mv.crit_stage[style]
+		let base_damage = Self::calculate_damage_no_roll(
+			attacker,
+			target,
+			&mv.power,
+			mv.category,
+			mv.move_type,
+			style,
+		);
+
+		let crit_chance = match mv.crit_stage[style]
 			+ attacker
 				.status_effects()
-				.map(|it| {
-					if let Effect::ModifyCritChance { stages } = it
-					{
-						*stages
-					}
-					else
-					{
-						1
-					}
-				})
-				.sum::<i32>();
-
-		let crit_chance = match crit_stages
+				.map(Effect::crit_bonus)
+				.sum::<i32>()
 		{
 			..=0 => 24,
 			1 => 8,
@@ -289,17 +287,8 @@ impl<'a> BattlePokemon<'a>
 			1.0
 		};
 
-		(f64::from(
-			Self::calculate_damage_no_roll(
-				attacker,
-				target,
-				&mv.power,
-				mv.category,
-				mv.move_type,
-				style,
-			) * rand::thread_rng().gen_range(85..100)
-				/ 100,
-		) * crit_multiplier) as i32
+		(f64::from(base_damage * rand::thread_rng().gen_range(85..100) / 100) * crit_multiplier)
+			.floor() as i32
 	}
 
 	pub fn calculate_damage_no_roll(
@@ -335,7 +324,7 @@ impl<'a> BattlePokemon<'a>
 			/ 5;
 
 		let type_multiplier = target.types().damage_multiplier_from(move_type);
-		let stab_multiplier: f64 = if attacker.is_type(move_type)
+		let stab_multiplier = if attacker.is_type(move_type)
 		{
 			1.25
 		}
@@ -344,23 +333,12 @@ impl<'a> BattlePokemon<'a>
 			1.0
 		};
 
-		let effects_multiplier: f64 = attacker
+		let effects_multiplier = attacker
 			.status_effects()
 			.map(|it| (Side::User, it))
 			.chain(target.status_effects().map(|it| (Side::Target, it)))
-			.map(|eff| {
-				if let Effect::DamageMultiplier { side, multiplier, move_category } = eff.1
-					&& *side == eff.0
-					&& (*move_category == Category::All || *move_category == category)
-				{
-					*multiplier
-				}
-				else
-				{
-					1.0
-				}
-			})
-			.product();
+			.map(|it| it.1.damge_multiplier(category, it.0))
+			.product::<f64>();
 
 		(f64::from(base_damage) * effects_multiplier * type_multiplier * stab_multiplier) as i32
 	}
