@@ -89,7 +89,7 @@ fn find_nickname_and_species(string: &str) -> Result<(&str, Option<String>), Pok
 	if last_open > last_close
 	{
 		Err(PokemonParseError(format!(
-			"could not parse nickname and species from {string}"
+			"could not parse nickname and species from '{string}'"
 		)))
 	}
 	else if let (Some(open), Some(close)) = (last_open, last_close)
@@ -168,14 +168,14 @@ fn parse_effort_levels(string: &str) -> Result<StatBlock, PokemonParseError>
 	for block in blocks
 	{
 		let captures = EFFORT_REGEX.captures(block).ok_or_else(|| {
-			PokemonParseError(format!("could not interpret effor level from '{block}'"))
+			PokemonParseError(format!("could not interpret effort level from '{block}'"))
 		})?;
 		let value: i32 = captures["val"].parse().unwrap();
 		let stat: Stat = captures["stat"].parse().unwrap();
 		stat_map.insert(stat, value);
 	}
 
-	Ok(StatBlock::for_each_stat(|stat| {
+	Ok(StatBlock::generate(|stat| {
 		stat_map.get(&stat).map_or(10, i32::clone)
 	}))
 }

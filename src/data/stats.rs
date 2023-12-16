@@ -131,7 +131,23 @@ impl StatBlock
 		}
 	}
 
-	pub fn for_each_stat<F: Fn(Stat) -> i32>(generator: F) -> Self
+	pub fn map<F>(self, transform: F) -> Self
+	where
+		F: Fn(i32) -> i32,
+	{
+		Self {
+			hp: transform(self.hp),
+			atk: transform(self.atk),
+			def: transform(self.def),
+			spatk: transform(self.spatk),
+			spdef: transform(self.spdef),
+			spe: transform(self.spe),
+		}
+	}
+
+	pub fn generate<F>(generator: F) -> Self
+	where
+		F: Fn(Stat) -> i32,
 	{
 		Self {
 			hp: generator(Stat::Hp),
@@ -143,11 +159,11 @@ impl StatBlock
 		}
 	}
 
-	pub fn map_all<T, F: Fn(i32, T) -> i32, G: Fn(Stat) -> T>(
-		self,
-		generator: G,
-		transform: F,
-	) -> Self
+	// there has to be a better name for this but i cant come up with it -morgan 2023-12-15
+	pub fn generate_map<T, F, G>(self, generator: G, transform: F) -> Self
+	where
+		F: Fn(i32, T) -> i32,
+		G: Fn(Stat) -> T,
 	{
 		Self {
 			hp: transform(self.hp, generator(Stat::Hp)),

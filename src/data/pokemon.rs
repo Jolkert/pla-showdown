@@ -56,7 +56,7 @@ impl<'a> Pokemon<'a>
 
 	pub fn stats(&self) -> StatBlock
 	{
-		StatBlock::for_each_stat(|stat| self.calculate_stat(stat))
+		StatBlock::generate(|stat| self.calculate_stat(stat))
 	}
 
 	fn calculate_stat(&self, stat: Stat) -> i32
@@ -172,9 +172,9 @@ impl<'a> BattlePokemon<'a>
 
 	pub fn effective_stats(&self) -> StatBlock
 	{
-		self.pokemon.stats().map_all(
+		self.pokemon.stats().generate_map(
 			|st| self.multiplier_to_stat(st),
-			|init, mult| (f64::from(init) * mult) as i32,
+			|current, mult| (f64::from(current) * mult).trunc() as i32,
 		)
 	}
 
