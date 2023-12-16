@@ -1,11 +1,10 @@
 use crate::data;
 
-use data::{Move, Nature, Pokemon, Species, Stat, StatBlock};
+use data::{Move, Nature, Pokemon, RegMap, Species, Stat, StatBlock};
 use lazy_static::lazy_static;
 use regex::Regex;
 use std::collections::HashMap;
 
-type RegMap<T> = HashMap<Box<str>, T>;
 lazy_static! {
 	static ref EFFORT_REGEX: Regex =
 		Regex::new(r"(?<val>\d+)\s*(?<stat>(hp|atk|def|spa|spd|spe))").unwrap();

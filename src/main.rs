@@ -10,12 +10,10 @@ mod parsing;
 
 use crate::data::{
 	serialization::{SerMove, SerSpecies, SerStatus},
-	Move, Nature, Species, StatusCondition, Type,
+	Move, Nature, RegMap, Species, StatusCondition, Type,
 };
 use lazy_static::lazy_static;
-use std::collections::HashMap;
 
-type RegMap<T> = HashMap<Box<str>, T>;
 lazy_static! {
 	static ref TYPE_MAP: RegMap<Type> = register("assets/types/");
 	static ref MOVE_MAP: RegMap<Move<'static>> = register::<SerMove>("assets/moves/")
