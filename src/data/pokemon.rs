@@ -84,7 +84,7 @@ impl<'a> Pokemon<'a>
 		}
 	}
 
-	pub fn nickname(mut self, nickname: Option<String>) -> Self
+	pub fn set_nickname(mut self, nickname: Option<String>) -> Self
 	{
 		self.nickname = nickname;
 		self
@@ -94,17 +94,17 @@ impl<'a> Pokemon<'a>
 		self.is_shiny = is_shiny;
 		self
 	}
-	pub fn level(mut self, level: u8) -> Self
+	pub fn set_level(mut self, level: u8) -> Self
 	{
 		self.level = level;
 		self
 	}
-	pub fn nature(mut self, nature: Nature) -> Self
+	pub fn set_nature(mut self, nature: Nature) -> Self
 	{
 		self.nature = nature;
 		self
 	}
-	pub fn effort_levels(mut self, effort_levels: StatBlock) -> Self
+	pub fn set_effort_levels(mut self, effort_levels: StatBlock) -> Self
 	{
 		self.effort_levels = effort_levels;
 		self
