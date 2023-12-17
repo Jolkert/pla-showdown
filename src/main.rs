@@ -1,9 +1,5 @@
-#![allow(
-	dead_code,
-	clippy::cast_possible_truncation,
-	clippy::module_name_repetitions
-)]
-#![feature(let_chains)]
+#![feature(let_chains, result_option_inspect)]
+#![allow(dead_code)]
 
 mod data;
 mod parsing;
@@ -35,7 +31,11 @@ lazy_static! {
 
 fn main()
 {
-	println!("pokemon!");
+	println!("Types: {}", TYPE_MAP.len());
+	println!("Species: {}", SPECIES_MAP.len());
+	println!("Moves: {}", MOVE_MAP.len());
+	println!("Statuses: {}", STATUS_MAP.len());
+	println!("Natures: {}", NATURE_MAP.len());
 }
 
 fn register<T>(dir_path: &str) -> RegMap<T>
@@ -46,9 +46,14 @@ where
 		.unwrap_or_else(|_| panic!("directory '{dir_path}' not found!"))
 		.filter_map(|result| {
 			result.ok().and_then(|file| {
-				std::fs::read_to_string(file.path())
-					.ok()
-					.and_then(|data| toml::from_str::<T>(&data).ok().map(|t| (t.id(), t)))
+				std::fs::read_to_string(file.path()).ok().and_then(|data| {
+					toml::from_str::<T>(&data)
+						.inspect_err(|err| {
+							eprintln!("Failed to deserialize file {:#?}: {err}", file.file_name());
+						})
+						.ok()
+						.map(|t| (t.id(), t))
+				})
 			})
 		})
 		.collect()

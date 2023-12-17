@@ -137,27 +137,13 @@ fn find_last(ch: char, string: &str) -> Option<usize>
 fn substring_after_start<'a>(string: &'a str, pattern: &str) -> Option<&'a str>
 {
 	let index = string.find(pattern)?;
-	if index == 0
-	{
-		Some(&string[(index + pattern.len())..])
-	}
-	else
-	{
-		None
-	}
+	(index == 0).then(|| &string[(index + pattern.len())..])
 }
 
 fn substring_before_end<'a>(string: &'a str, pattern: &str) -> Option<&'a str>
 {
 	let index = string.find(pattern)?;
-	if index + pattern.len() == string.len()
-	{
-		Some(&string[..index])
-	}
-	else
-	{
-		None
-	}
+	(index + pattern.len() == string.len()).then(|| &string[..index])
 }
 
 fn parse_effort_levels(string: &str) -> Result<StatBlock, PokemonParseError>

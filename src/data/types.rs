@@ -22,7 +22,7 @@ impl Identifiable for Type
 }
 impl Type
 {
-	pub fn weakness_to(&self, typ: &Type) -> WeaknessLevel
+	pub fn weakness_to(&self, typ: &Self) -> WeaknessLevel
 	{
 		if self.immunity_ids.contains(&typ.id)
 		{
