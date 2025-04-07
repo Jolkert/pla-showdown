@@ -1,12 +1,12 @@
-#![feature(let_chains, result_option_inspect)]
+#![feature(let_chains)]
 #![allow(dead_code)]
 
 mod data;
 mod parsing;
 
 use crate::data::{
-	serialization::{SerMove, SerSpecies, SerStatus},
 	Move, Nature, RegMap, Species, StatusCondition, Type,
+	serialization::{SerMove, SerSpecies, SerStatus},
 };
 use lazy_static::lazy_static;
 

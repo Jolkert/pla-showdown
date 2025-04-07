@@ -224,7 +224,8 @@ impl<'a> BattlePokemon<'a>
 	{
 		self.status_effects()
 			.filter_map(|eff| {
-				if let Effect::ModifyStat { stat,multiplier,} = eff && *stat == st
+				if let Effect::ModifyStat { stat, multiplier } = eff
+					&& *stat == st
 				{
 					Some(multiplier)
 				}
@@ -278,7 +279,7 @@ impl<'a> BattlePokemon<'a>
 			3.. => 1,
 		};
 
-		let crit_multiplier: f64 = if rand::thread_rng().gen_range(0..crit_chance) == 0
+		let crit_multiplier: f64 = if rand::rng().random_range(0..crit_chance) == 0
 		{
 			1.5
 		}
@@ -287,8 +288,8 @@ impl<'a> BattlePokemon<'a>
 			1.0
 		};
 
-		(f64::from(base_damage * rand::thread_rng().gen_range(85..100) / 100) * crit_multiplier)
-			.floor() as i32
+		(f64::from(base_damage * rand::rng().random_range(85..100) / 100) * crit_multiplier).floor()
+			as i32
 	}
 
 	pub fn calculate_damage_no_roll(

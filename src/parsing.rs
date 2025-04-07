@@ -1,14 +1,10 @@
 use crate::data;
 
 use data::{Move, Nature, Pokemon, RegMap, Species, Stat, StatBlock};
-use lazy_static::lazy_static;
-use regex::Regex;
+use lazy_regex::{Lazy, Regex, regex};
 use std::collections::HashMap;
 
-lazy_static! {
-	static ref EFFORT_REGEX: Regex =
-		Regex::new(r"(?<val>\d+)\s*(?<stat>(hp|atk|def|spa|spd|spe))").unwrap();
-}
+static EFFORT_REGEX: &Lazy<Regex> = regex!(r"(?<val>\d+)\s*(?<stat>(hp|atk|def|spa|spd|spe))");
 
 pub fn deserialize_pokemon<'a>(
 	data: &str,
@@ -130,7 +126,7 @@ fn find_last(ch: char, string: &str) -> Option<usize>
 	string
 		.char_indices()
 		.filter(|it| it.1 == ch)
-		.last()
+		.next_back()
 		.map(|it| it.0)
 }
 
