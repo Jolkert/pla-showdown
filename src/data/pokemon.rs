@@ -49,6 +49,13 @@ impl<'a> Pokemon<'a>
 		}
 	}
 
+	pub fn with_nickname(species: &'a Species<'a>, nickname: Option<String>) -> Self
+	{
+		let mut pkmn = Self::new(species);
+		pkmn.nickname = nickname;
+		pkmn
+	}
+
 	pub fn name(&self) -> &str
 	{
 		self.nickname.as_deref().map_or(&self.species.id, |it| it)
@@ -84,37 +91,31 @@ impl<'a> Pokemon<'a>
 		}
 	}
 
-	pub fn set_nickname(mut self, nickname: Option<String>) -> Self
+	pub fn set_nickname(&mut self, nickname: Option<String>)
 	{
 		self.nickname = nickname;
-		self
 	}
-	pub fn set_shiny(mut self, is_shiny: bool) -> Self
+	pub fn set_shiny(&mut self, is_shiny: bool)
 	{
 		self.is_shiny = is_shiny;
-		self
 	}
-	pub fn set_level(mut self, level: u8) -> Self
+	pub fn set_level(&mut self, level: u8)
 	{
 		self.level = level;
-		self
 	}
-	pub fn set_nature(mut self, nature: Nature) -> Self
+	pub fn set_nature(&mut self, nature: Nature)
 	{
 		self.nature = nature;
-		self
 	}
-	pub fn set_effort_levels(mut self, effort_levels: StatBlock) -> Self
+	pub fn set_effort_levels(&mut self, effort_levels: StatBlock)
 	{
 		self.effort_levels = effort_levels;
-		self
 	}
-	pub fn add_move(mut self, mv: &'a Move<'a>) -> Self
+	pub fn add_move(&mut self, mv: &'a Move<'a>)
 	{
 		self.moveset.insert(mv);
-		self
 	}
-	pub fn add_moves<I>(mut self, moves: I) -> Self
+	pub fn add_moves<I>(&mut self, moves: I)
 	where
 		I: IntoIterator<Item = &'a Move<'a>>,
 	{
@@ -122,8 +123,6 @@ impl<'a> Pokemon<'a>
 		{
 			self.moveset.insert(mv);
 		}
-
-		self
 	}
 
 	pub fn base_action_time(&self) -> i32
