@@ -1,4 +1,4 @@
-use crate::data;
+use crate::{BoxSlice, BoxStr, data};
 
 use data::{Category, Identifiable, Move, MoveEffect, StyleTriad, Type};
 use std::collections::HashMap;
@@ -7,9 +7,9 @@ use std::collections::HashMap;
 #[serde(rename_all = "snake_case")]
 pub struct SerMove
 {
-	pub id: Box<str>,
+	pub id: BoxStr,
 	#[serde(rename = "type")]
-	pub move_type: Box<str>,
+	pub move_type: BoxStr,
 	pub category: Category,
 	pub pp: u32,
 	pub power: StyleTriad<i32>,
@@ -17,11 +17,11 @@ pub struct SerMove
 	pub user_action_time: StyleTriad<i32>,
 	pub target_action_time: StyleTriad<i32>,
 	pub crit_stage: StyleTriad<i32>,
-	pub effects: Box<[MoveEffect]>,
+	pub effects: BoxSlice<MoveEffect>,
 }
 impl SerMove
 {
-	pub fn into_move(self, type_map: &HashMap<Box<str>, Type>) -> Move
+	pub fn into_move(self, type_map: &HashMap<BoxStr, Type>) -> Move
 	{
 		Move {
 			id: self.id,
@@ -39,7 +39,7 @@ impl SerMove
 }
 impl Identifiable for SerMove
 {
-	fn id(&self) -> Box<str>
+	fn id(&self) -> BoxStr
 	{
 		self.id.clone()
 	}

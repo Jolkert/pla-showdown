@@ -1,21 +1,21 @@
-use crate::data;
+use crate::{BoxSlice, BoxStr, data};
 
 use data::Identifiable;
 
 #[derive(Debug, Hash, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub struct Type
 {
-	pub id: Box<str>,
+	pub id: BoxStr,
 	#[serde(rename = "weaknesses")]
-	pub weakness_ids: Box<[Box<str>]>,
+	pub weakness_ids: BoxSlice<BoxStr>,
 	#[serde(rename = "resistances")]
-	pub resistance_ids: Box<[Box<str>]>,
+	pub resistance_ids: BoxSlice<BoxStr>,
 	#[serde(rename = "immunities")]
-	pub immunity_ids: Box<[Box<str>]>,
+	pub immunity_ids: BoxSlice<BoxStr>,
 }
 impl Identifiable for Type
 {
-	fn id(&self) -> Box<str>
+	fn id(&self) -> BoxStr
 	{
 		self.id.clone()
 	}

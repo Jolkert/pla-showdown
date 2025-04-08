@@ -9,9 +9,11 @@ mod_pub_use_all! {
 
 use std::collections::HashMap;
 
+use crate::BoxStr;
+
 pub trait Identifiable
 {
-	fn id(&self) -> Box<str>;
+	fn id(&self) -> BoxStr;
 }
 
-pub type RegMap<T> = HashMap<Box<str>, T>;
+pub type RegMap<T> = HashMap<BoxStr, T>;

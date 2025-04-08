@@ -1,17 +1,20 @@
-use crate::data::{Identifiable, Species, StatBlock, Type, TypePair};
+use crate::{
+	BoxStr,
+	data::{Identifiable, Species, StatBlock, Type, TypePair},
+};
 use std::collections::HashMap;
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct SerSpecies
 {
-	pub id: Box<str>,
+	pub id: BoxStr,
 	pub base_stats: StatBlock,
 	#[serde(with = "deserialize_species_types")]
-	pub types: (Box<str>, Option<Box<str>>),
+	pub types: (BoxStr, Option<BoxStr>),
 }
 impl SerSpecies
 {
-	pub fn into_species(self, type_map: &HashMap<Box<str>, Type>) -> Species
+	pub fn into_species(self, type_map: &HashMap<BoxStr, Type>) -> Species
 	{
 		Species {
 			id: self.id,
@@ -25,7 +28,7 @@ impl SerSpecies
 }
 impl Identifiable for SerSpecies
 {
-	fn id(&self) -> Box<str>
+	fn id(&self) -> BoxStr
 	{
 		self.id.clone()
 	}
@@ -33,10 +36,12 @@ impl Identifiable for SerSpecies
 
 mod deserialize_species_types
 {
-	use serde::{ser::SerializeSeq, Deserialize, Deserializer, Serializer};
+	use serde::{Deserialize, Deserializer, Serializer, ser::SerializeSeq};
 
-	type SerdeType = Box<[Box<str>]>;
-	type RustType = (Box<str>, Option<Box<str>>);
+	use crate::{BoxSlice, BoxStr};
+
+	type SerdeType = BoxSlice<BoxStr>;
+	type RustType = (BoxStr, Option<BoxStr>);
 
 	pub fn serialize<S>(value: &RustType, serializer: S) -> Result<S::Ok, S::Error>
 	where

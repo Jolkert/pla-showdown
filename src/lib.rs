@@ -17,3 +17,6 @@ macro_rules! mod_pub_use_all {
 
 pub mod data;
 pub mod parsing;
+
+pub type BoxSlice<T> = Box<[T]>;
+pub type BoxStr = Box<str>;

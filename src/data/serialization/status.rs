@@ -1,23 +1,26 @@
 use std::collections::HashMap;
 
-use crate::data::{Effect, Identifiable, StatusCondition, Type, Volatility};
+use crate::{
+	BoxSlice, BoxStr,
+	data::{Effect, Identifiable, StatusCondition, Type, Volatility},
+};
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct SerStatus
 {
-	pub id: Box<str>,
+	pub id: BoxStr,
 	pub volatility: Volatility,
 	#[serde(
 		rename = "immune_types",
 		default = "super::empty_slice",
 		skip_serializing_if = "<[_]>::is_empty"
 	)]
-	pub immune_type_ids: Box<[Box<str>]>,
-	pub effects: Box<[Effect]>,
+	pub immune_type_ids: BoxSlice<BoxStr>,
+	pub effects: BoxSlice<Effect>,
 }
 impl SerStatus
 {
-	pub fn into_status(self, type_map: &HashMap<Box<str>, Type>) -> StatusCondition
+	pub fn into_status(self, type_map: &HashMap<BoxStr, Type>) -> StatusCondition
 	{
 		StatusCondition {
 			id: self.id,
@@ -33,7 +36,7 @@ impl SerStatus
 }
 impl Identifiable for SerStatus
 {
-	fn id(&self) -> Box<str>
+	fn id(&self) -> BoxStr
 	{
 		self.id.clone()
 	}

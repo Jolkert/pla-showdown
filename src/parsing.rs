@@ -1,4 +1,4 @@
-use crate::data;
+use crate::{BoxStr, data};
 
 use data::{Move, Nature, Pokemon, RegMap, Species, Stat, StatBlock};
 use lazy_regex::{Lazy, Regex, regex};
@@ -21,7 +21,7 @@ pub fn deserialize_pokemon<'a>(
 			.next()
 			.ok_or_else(|| Error(String::from("missing first line!")))?,
 	)?;
-	let species_name: Box<str> = pokemon_id_from(species_name).into();
+	let species_name: BoxStr = pokemon_id_from(species_name).into();
 
 	let species = species_map
 		.get(&species_name)

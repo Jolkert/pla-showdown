@@ -1,14 +1,14 @@
-use crate::data;
+use crate::{BoxSlice, BoxStr, data};
 
 use data::{Category, Move, Side, Stat, Type};
 
 #[derive(Debug)]
 pub struct StatusCondition<'a>
 {
-	pub id: Box<str>,
+	pub id: BoxStr,
 	pub volatility: Volatility,
-	pub immune_types: Box<[&'a Type]>,
-	pub effects: Box<[Effect]>,
+	pub immune_types: BoxSlice<&'a Type>,
+	pub effects: BoxSlice<Effect>,
 }
 
 pub struct AppliedStatus<'a>
@@ -82,8 +82,11 @@ impl Effect
 {
 	pub fn damge_multiplier(&self, category: Category, side: Side) -> f64
 	{
-		if let Self::DamageMultiplier { side: sd, multiplier, move_category } = self
-			&& *sd == side
+		if let Self::DamageMultiplier {
+			side: sd,
+			multiplier,
+			move_category,
+		} = self && *sd == side
 			&& (*move_category == Category::All || *move_category == category)
 		{
 			*multiplier

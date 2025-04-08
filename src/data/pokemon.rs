@@ -1,4 +1,4 @@
-use crate::data;
+use crate::{BoxStr, data};
 
 use data::{
 	AppliedStatus, Category, Effect, Move, Nature, Stat, StatBlock, StatusCondition, Style,
@@ -10,7 +10,7 @@ use std::collections::{HashMap, HashSet};
 #[derive(Debug)]
 pub struct Species<'a>
 {
-	pub id: Box<str>,
+	pub id: BoxStr,
 	pub base_stats: StatBlock,
 	pub types: TypePair<'a>,
 }
@@ -137,7 +137,7 @@ pub struct BattlePokemon<'a>
 	damage: i32,
 	action_time: i32,
 	non_volatile_status: Option<AppliedStatus<'a>>,
-	volatile_statuses: HashMap<Box<str>, AppliedStatus<'a>>,
+	volatile_statuses: HashMap<BoxStr, AppliedStatus<'a>>,
 }
 impl<'a> BattlePokemon<'a>
 {

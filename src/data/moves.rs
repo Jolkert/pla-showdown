@@ -1,4 +1,4 @@
-use crate::data;
+use crate::{BoxSlice, BoxStr, data};
 pub use style::*;
 
 use data::{Side, Type};
@@ -6,7 +6,7 @@ use data::{Side, Type};
 #[derive(Debug, Hash, PartialEq, Eq)]
 pub struct Move<'a>
 {
-	pub id: Box<str>,
+	pub id: BoxStr,
 	pub move_type: &'a Type,
 	pub category: Category,
 	pub pp: u32,
@@ -15,7 +15,7 @@ pub struct Move<'a>
 	pub user_action_time: StyleTriad<i32>,
 	pub target_action_time: StyleTriad<i32>,
 	pub crit_stage: StyleTriad<i32>,
-	pub effects: Box<[MoveEffect]>,
+	pub effects: BoxSlice<MoveEffect>,
 }
 
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
@@ -124,7 +124,7 @@ pub enum MoveEffect
 	{
 		to: Side,
 		#[serde(rename = "status_options")]
-		status_option_ids: Box<[Box<str>]>,
+		status_option_ids: BoxSlice<BoxStr>,
 		duration: StyleTriad<i32>,
 		#[serde(default = "always")]
 		chance: StyleTriad<i32>,
@@ -135,7 +135,7 @@ pub enum MoveEffect
 	{
 		of: Side,
 		#[serde(rename = "statuses")]
-		status_ids: Box<[Box<str>]>,
+		status_ids: BoxSlice<BoxStr>,
 		#[serde(default, skip_serializing_if = "MoveEffectCondition::both_are_none")]
 		condition: MoveEffectCondition,
 	},
@@ -194,9 +194,9 @@ impl MoveEffectCondition
 pub struct PokemonConditionData
 {
 	#[serde(rename = "species", skip_serializing_if = "Option::is_none")]
-	pub species_id: Option<Box<str>>,
+	pub species_id: Option<BoxStr>,
 	#[serde(rename = "status", skip_serializing_if = "Option::is_none")]
-	pub status_ids: Option<Box<[Box<str>]>>,
+	pub status_ids: Option<BoxSlice<BoxStr>>,
 }
 
 #[derive(Debug, Hash, PartialEq, Eq, Clone, Copy, serde::Serialize, serde::Deserialize)]
