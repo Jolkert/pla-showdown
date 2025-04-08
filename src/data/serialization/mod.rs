@@ -1,10 +1,8 @@
-mod moves;
-mod species;
-mod status;
-
-pub use moves::*;
-pub use species::*;
-pub use status::*;
+mod_pub_use_all! {
+	moves,
+	species,
+	status,
+}
 
 fn empty_slice<T>() -> Box<[T]>
 {

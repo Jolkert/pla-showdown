@@ -1,17 +1,13 @@
-mod moves;
-mod pokemon;
 pub mod serialization;
-mod stats;
-mod status;
-mod types;
+mod_pub_use_all! {
+	moves,
+	pokemon,
+	stats,
+	status,
+	types,
+}
 
 use std::collections::HashMap;
-
-pub use moves::*;
-pub use pokemon::*;
-pub use stats::*;
-pub use status::*;
-pub use types::*;
 
 pub trait Identifiable
 {
