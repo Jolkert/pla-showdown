@@ -1,14 +1,8 @@
-#![feature(let_chains)]
-#![allow(dead_code)]
-
-mod data;
-mod parsing;
-
-use crate::data::{
-	Move, Nature, RegMap, Species, StatusCondition, Type,
+use lazy_static::lazy_static;
+use pla_showdown::data::{
+	Identifiable, Move, Nature, RegMap, Species, StatusCondition, Type,
 	serialization::{SerMove, SerSpecies, SerStatus},
 };
-use lazy_static::lazy_static;
 
 lazy_static! {
 	static ref TYPE_MAP: RegMap<Type> = register("assets/types/");
@@ -40,7 +34,7 @@ fn main()
 
 fn register<T>(dir_path: &str) -> RegMap<T>
 where
-	T: serde::de::DeserializeOwned + data::Identifiable,
+	T: serde::de::DeserializeOwned + Identifiable,
 {
 	std::fs::read_dir(dir_path)
 		.unwrap_or_else(|_| panic!("directory '{dir_path}' not found!"))
