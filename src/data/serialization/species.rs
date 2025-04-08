@@ -40,10 +40,10 @@ mod deserialize_species_types
 
 	use crate::{BoxSlice, BoxStr};
 
-	type SerdeType = BoxSlice<BoxStr>;
-	type RustType = (BoxStr, Option<BoxStr>);
+	type IntermediateType = BoxSlice<BoxStr>;
+	type TargetType = (BoxStr, Option<BoxStr>);
 
-	pub fn serialize<S>(value: &RustType, serializer: S) -> Result<S::Ok, S::Error>
+	pub fn serialize<S>(value: &TargetType, serializer: S) -> Result<S::Ok, S::Error>
 	where
 		S: Serializer,
 	{
@@ -57,11 +57,11 @@ mod deserialize_species_types
 		seq.end()
 	}
 
-	pub fn deserialize<'de, D>(deserializer: D) -> Result<RustType, D::Error>
+	pub fn deserialize<'de, D>(deserializer: D) -> Result<TargetType, D::Error>
 	where
 		D: Deserializer<'de>,
 	{
-		let vec = SerdeType::deserialize(deserializer)?;
+		let vec = IntermediateType::deserialize(deserializer)?;
 		// TODO: if the first type is missing, this function will panic instead of returning Err(D::Error)
 		// this is fine for now, but should probably be fixed -morgan 2023-12-08
 		Ok((vec[0].clone(), vec.get(1).cloned()))
