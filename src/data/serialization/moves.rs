@@ -12,11 +12,11 @@ pub struct SerMove
 	pub move_type: BoxStr,
 	pub category: Category,
 	pub pp: u32,
-	pub power: StyleTriad<i32>,
-	pub accuracy: StyleTriad<i32>,
-	pub user_action_time: StyleTriad<i32>,
-	pub target_action_time: StyleTriad<i32>,
-	pub crit_stage: StyleTriad<i32>,
+	pub power: StyleTriad,
+	pub accuracy: StyleTriad,
+	pub user_action_time: StyleTriad,
+	pub target_action_time: StyleTriad,
+	pub crit_stage: StyleTriad,
 	pub effects: BoxSlice<MoveEffect>,
 }
 impl SerMove

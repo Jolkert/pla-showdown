@@ -10,11 +10,11 @@ pub struct Move<'a>
 	pub move_type: &'a Type,
 	pub category: Category,
 	pub pp: u32,
-	pub power: StyleTriad<i32>,
-	pub accuracy: StyleTriad<i32>,
-	pub user_action_time: StyleTriad<i32>,
-	pub target_action_time: StyleTriad<i32>,
-	pub crit_stage: StyleTriad<i32>,
+	pub power: StyleTriad,
+	pub accuracy: StyleTriad,
+	pub user_action_time: StyleTriad,
+	pub target_action_time: StyleTriad,
+	pub crit_stage: StyleTriad,
 	pub effects: BoxSlice<MoveEffect>,
 }
 
@@ -46,19 +46,15 @@ mod style
 	}
 
 	#[derive(Debug, Hash, PartialEq, Eq, Clone, serde::Serialize, serde::Deserialize)]
-	pub struct StyleTriad<T>
-	where
-		T: Copy,
+	pub struct StyleTriad
 	{
-		pub regular: T,
-		pub agile: T,
-		pub strong: T,
+		pub regular: i32,
+		pub agile: i32,
+		pub strong: i32,
 	}
-	impl<T> std::ops::Index<Style> for StyleTriad<T>
-	where
-		T: Copy,
+	impl std::ops::Index<Style> for StyleTriad
 	{
-		type Output = T;
+		type Output = i32;
 		fn index(&self, index: Style) -> &Self::Output
 		{
 			match index
@@ -69,20 +65,16 @@ mod style
 			}
 		}
 	}
-	impl<T> From<T> for StyleTriad<T>
-	where
-		T: Copy,
+	impl From<i32> for StyleTriad
 	{
-		fn from(value: T) -> Self
+		fn from(value: i32) -> Self
 		{
 			Self::all(value)
 		}
 	}
-	impl<T> StyleTriad<T>
-	where
-		T: Copy,
+	impl StyleTriad
 	{
-		pub fn new(regular: T, agile: T, strong: T) -> Self
+		pub fn new(regular: i32, agile: i32, strong: i32) -> Self
 		{
 			Self {
 				regular,
@@ -91,7 +83,7 @@ mod style
 			}
 		}
 
-		pub fn all(val: T) -> Self
+		pub fn all(val: i32) -> Self
 		{
 			Self {
 				regular: val,
@@ -109,14 +101,14 @@ pub enum MoveEffect
 	Heal
 	{
 		percent_of: DamageOrMaxHp,
-		percent: StyleTriad<i32>,
+		percent: StyleTriad,
 		#[serde(default, skip_serializing_if = "MoveEffectCondition::both_are_none")]
 		condition: MoveEffectCondition,
 	},
 	Recoil
 	{
 		percent_of: DamageOrMaxHp,
-		percent: StyleTriad<i32>,
+		percent: StyleTriad,
 		#[serde(default, skip_serializing_if = "MoveEffectCondition::both_are_none")]
 		condition: MoveEffectCondition,
 	},
@@ -125,9 +117,9 @@ pub enum MoveEffect
 		to: Side,
 		#[serde(rename = "status_options")]
 		status_option_ids: BoxSlice<BoxStr>,
-		duration: StyleTriad<i32>,
+		duration: StyleTriad,
 		#[serde(default = "always")]
-		chance: StyleTriad<i32>,
+		chance: StyleTriad,
 		#[serde(default, skip_serializing_if = "MoveEffectCondition::both_are_none")]
 		condition: MoveEffectCondition,
 	},
@@ -149,15 +141,15 @@ pub enum MoveEffect
 	{
 		// TODO: god this hurts my eyes we gotta fix this somehow -morgan 2023-12-08
 		#[serde(skip_serializing_if = "Option::is_none")]
-		power: Option<StyleTriad<i32>>,
+		power: Option<StyleTriad>,
 		#[serde(skip_serializing_if = "Option::is_none")]
-		accuracy: Option<StyleTriad<i32>>,
+		accuracy: Option<StyleTriad>,
 		#[serde(skip_serializing_if = "Option::is_none")]
-		user_action_time: Option<StyleTriad<i32>>,
+		user_action_time: Option<StyleTriad>,
 		#[serde(skip_serializing_if = "Option::is_none")]
-		target_action_time: Option<StyleTriad<i32>>,
+		target_action_time: Option<StyleTriad>,
 		#[serde(skip_serializing_if = "Option::is_none")]
-		crit_stage: Option<StyleTriad<i32>>,
+		crit_stage: Option<StyleTriad>,
 		#[serde(default, skip_serializing_if = "MoveEffectCondition::both_are_none")]
 		condition: MoveEffectCondition,
 	},
@@ -169,7 +161,7 @@ pub enum MoveEffect
 	},
 }
 
-fn always() -> StyleTriad<i32>
+fn always() -> StyleTriad
 {
 	StyleTriad::all(100)
 }

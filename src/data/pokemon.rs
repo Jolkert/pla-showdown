@@ -294,7 +294,7 @@ impl<'a> BattlePokemon<'a>
 	pub fn calculate_damage_no_roll(
 		attacker: &BattlePokemon,
 		target: &BattlePokemon,
-		base_power: &StyleTriad<i32>,
+		base_power: &StyleTriad,
 		category: Category,
 		move_type: &Type,
 		style: Style,
