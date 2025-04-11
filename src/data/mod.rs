@@ -3,7 +3,7 @@ mod_pub_use_all! {
 	moves,
 	pokemon,
 	stats,
-status,
+	status,
 	types,
 }
 
