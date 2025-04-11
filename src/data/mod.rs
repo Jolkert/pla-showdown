@@ -11,11 +11,18 @@ use std::collections::HashMap;
 
 use crate::BoxStr;
 
+/// A trait for any data which can be given a unique (string) id
+/// for use in conjunction with  `Identifiable<T>`. For this reason, any implementers
+/// of this trait must be certain that no two values to be compared against one another
+/// ever have the same ID, as all comparisons between `Identifiable`s are based
+/// solely on the `&str` returned by the `Identify::id` method
 pub trait Identify
 {
 	fn id(&self) -> &str;
 }
 
+/// A newtype wrapper for any `Identify` type. Allows for equality, ordering, and hashing of
+/// the inner type based solely on the value of its string id.
 #[derive(Debug)]
 struct Identifiable<T: Identify>(T);
 impl<T: Identify> std::ops::Deref for Identifiable<T>
