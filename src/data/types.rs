@@ -1,6 +1,6 @@
 use crate::{BoxSlice, BoxStr, data};
 
-use data::Identifiable;
+use data::Identify;
 
 #[derive(Debug, Hash, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub struct Type
@@ -13,7 +13,7 @@ pub struct Type
 	#[serde(rename = "immunities")]
 	pub immunity_ids: BoxSlice<BoxStr>,
 }
-impl Identifiable for Type
+impl Identify for Type
 {
 	fn id(&self) -> BoxStr
 	{

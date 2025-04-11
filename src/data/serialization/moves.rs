@@ -1,6 +1,6 @@
 use crate::{BoxSlice, BoxStr, data};
 
-use data::{Category, Identifiable, Move, MoveEffect, StyleTriad, Type};
+use data::{Category, Identify, Move, MoveEffect, StyleTriad, Type};
 use std::collections::HashMap;
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
@@ -37,7 +37,7 @@ impl SerMove
 		}
 	}
 }
-impl Identifiable for SerMove
+impl Identify for SerMove
 {
 	fn id(&self) -> BoxStr
 	{

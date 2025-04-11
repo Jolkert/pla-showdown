@@ -1,6 +1,6 @@
 use crate::{
 	BoxStr,
-	data::{Identifiable, Species, StatBlock, Type, TypePair},
+	data::{Identify, Species, StatBlock, Type, TypePair},
 };
 use std::collections::HashMap;
 
@@ -26,7 +26,7 @@ impl SerSpecies
 		}
 	}
 }
-impl Identifiable for SerSpecies
+impl Identify for SerSpecies
 {
 	fn id(&self) -> BoxStr
 	{

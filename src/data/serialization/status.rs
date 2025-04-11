@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use crate::{
 	BoxSlice, BoxStr,
-	data::{Effect, Identifiable, StatusCondition, Type, Volatility},
+	data::{Effect, Identify, StatusCondition, Type, Volatility},
 };
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
@@ -34,7 +34,7 @@ impl SerStatus
 		}
 	}
 }
-impl Identifiable for SerStatus
+impl Identify for SerStatus
 {
 	fn id(&self) -> BoxStr
 	{
