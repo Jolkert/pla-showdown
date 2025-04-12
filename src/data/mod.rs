@@ -88,5 +88,3 @@ impl<T: Identify> From<T> for Identifiable<T>
 		Identifiable(value)
 	}
 }
-
-pub type RegMap<T> = HashMap<BoxStr, T>;

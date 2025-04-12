@@ -3,7 +3,7 @@ use crate::{
 	data::{self, Identifiable},
 };
 
-use data::{Move, Nature, Pokemon, RegMap, Species, Stat, StatBlock};
+use data::{Move, Nature, Pokemon, Species, Stat, StatBlock};
 use lazy_regex::{Lazy, Regex, regex};
 use std::collections::{HashMap, HashSet};
 
