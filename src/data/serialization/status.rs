@@ -5,6 +5,8 @@ use crate::{
 	data::{Effect, IdSet, StatusCondition, Type, Volatility},
 };
 
+use super::IntoDeserialized;
+
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct SerStatus
 {
@@ -18,9 +20,12 @@ pub struct SerStatus
 	pub immune_type_ids: BoxSlice<BoxStr>,
 	pub effects: BoxSlice<Effect>,
 }
-impl SerStatus
+impl<'a> IntoDeserialized<'a> for SerStatus
 {
-	pub fn into_status(self, type_map: &IdSet<Type>) -> StatusCondition
+	type Deserialized = StatusCondition<'a>;
+	type RefData = IdSet<Type>;
+
+	fn into_deserialized(self, data: &'a Self::RefData) -> Self::Deserialized
 	{
 		StatusCondition {
 			id: self.id,
@@ -29,7 +34,7 @@ impl SerStatus
 			immune_types: self
 				.immune_type_ids
 				.into_iter()
-				.map(|id| type_map.get(&*id).unwrap().ref_inner())
+				.map(|id| data.get(&*id).unwrap().ref_inner())
 				.collect(),
 		}
 	}

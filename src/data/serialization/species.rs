@@ -4,6 +4,8 @@ use crate::{
 };
 use std::collections::HashMap;
 
+use super::IntoDeserialized;
+
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct SerSpecies
 {
@@ -12,18 +14,21 @@ pub struct SerSpecies
 	#[serde(with = "deserialize_species_types")]
 	pub types: (BoxStr, Option<BoxStr>),
 }
-impl SerSpecies
+impl<'a> IntoDeserialized<'a> for SerSpecies
 {
-	pub fn into_species(self, type_map: &IdSet<Type>) -> Species
+	type Deserialized = Species<'a>;
+	type RefData = IdSet<Type>;
+
+	fn into_deserialized(self, data: &'a Self::RefData) -> Self::Deserialized
 	{
 		Species {
 			id: self.id,
 			base_stats: self.base_stats,
 			types: TypePair(
-				type_map.get(&*self.types.0).unwrap(),
+				data.get(&*self.types.0).unwrap(),
 				self.types
 					.1
-					.and_then(|id| type_map.get(&*id).map(Identifiable::ref_inner)),
+					.and_then(|id| data.get(&*id).map(Identifiable::ref_inner)),
 			),
 		}
 	}

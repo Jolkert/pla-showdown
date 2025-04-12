@@ -5,6 +5,8 @@ use crate::{
 	data::{Identifiable, Type},
 };
 
+use super::IntoDeserialized;
+
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct SerType
 {
@@ -18,26 +20,29 @@ pub struct SerType
 	pub immunity_ids: BoxSlice<BoxStr>,
 }
 
-impl SerType
+impl<'a> IntoDeserialized<'a> for SerType
 {
-	pub fn into_type(self, type_ids: &HashSet<Rc<str>>) -> Type
+	type Deserialized = Type;
+	type RefData = HashSet<Rc<str>>;
+
+	fn into_deserialized(self, data: &Self::RefData) -> Self::Deserialized
 	{
 		Type {
 			id: self.id,
 			weakness_ids: self
 				.weakness_ids
 				.into_iter()
-				.filter_map(|weakness| type_ids.get(&*weakness).map(Rc::downgrade))
+				.filter_map(|weakness| data.get(&*weakness).map(Rc::downgrade))
 				.collect(),
 			resistance_ids: self
 				.resistance_ids
 				.into_iter()
-				.filter_map(|resistance| type_ids.get(&*resistance).map(Rc::downgrade))
+				.filter_map(|resistance| data.get(&*resistance).map(Rc::downgrade))
 				.collect(),
 			immunity_ids: self
 				.immunity_ids
 				.into_iter()
-				.filter_map(|immunity| type_ids.get(&*immunity).map(Rc::downgrade))
+				.filter_map(|immunity| data.get(&*immunity).map(Rc::downgrade))
 				.collect(),
 		}
 	}

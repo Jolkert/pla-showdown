@@ -13,3 +13,13 @@ fn empty_slice<T>() -> BoxSlice<T>
 {
 	Box::new([])
 }
+
+// TODO: this name also kinda sucks tbh
+// -morgan 2025-04-12
+pub trait IntoDeserialized<'a>
+{
+	type Deserialized;
+	type RefData;
+
+	fn into_deserialized(self, data: &'a Self::RefData) -> Self::Deserialized;
+}

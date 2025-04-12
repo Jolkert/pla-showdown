@@ -4,40 +4,25 @@ use std::{
 };
 
 use pla_showdown::data::{
-	IdSet, Nature,
-	serialization::{SerMove, SerSpecies, SerStatus, SerType},
+	IdSet, Identify, Nature,
+	serialization::{IntoDeserialized, SerMove, SerSpecies, SerStatus, SerType},
 };
 
 fn main()
 {
-	// TODO: make the `into_*` conversion mapping generic
-	// - morgan 2025-04-12
-
 	let types = {
 		let deser_types = deserialize_dir::<SerType>("./assets/types").collect::<Vec<_>>();
-
 		let ids = deser_types
 			.iter()
 			.map(|ty| ty.id.clone())
 			.collect::<HashSet<_>>();
 
-		deser_types
-			.into_iter()
-			.map(|ser| ser.into_type(&ids).into())
-			.collect::<IdSet<_>>()
+		id_set_from(deser_types, &ids)
 	};
 
-	let species = deserialize_dir::<SerSpecies>("./assets/species")
-		.map(|ser| ser.into_species(&types).into())
-		.collect::<IdSet<_>>();
-
-	let moves = deserialize_dir::<SerMove>("./assets/moves")
-		.map(|ser| ser.into_move(&types).into())
-		.collect::<IdSet<_>>();
-
-	let statuses = deserialize_dir::<SerStatus>("./assets/statuses")
-		.map(|ser| ser.into_status(&types).into())
-		.collect::<IdSet<_>>();
+	let species = id_set_from(deserialize_dir::<SerSpecies>("./assets/species"), &types);
+	let moves = id_set_from(deserialize_dir::<SerMove>("./assets/moves"), &types);
+	let statuses = id_set_from(deserialize_dir::<SerStatus>("./assets/statuses"), &types);
 
 	let natures = toml::from_str::<HashMap<Box<str>, Nature>>(
 		&std::fs::read_to_string("./assets/natures.toml").unwrap(),
@@ -78,4 +63,14 @@ fn deserialize_dir<T: serde::de::DeserializeOwned>(
 					})
 			})
 		})
+}
+
+fn id_set_from<'a, I, D, R>(iter: impl IntoIterator<Item = I>, data: &'a R) -> IdSet<D>
+where
+	I: IntoDeserialized<'a, Deserialized = D, RefData = R>,
+	D: Identify,
+{
+	iter.into_iter()
+		.map(|item| item.into_deserialized(data).into())
+		.collect()
 }
