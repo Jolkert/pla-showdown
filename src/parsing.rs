@@ -1,16 +1,19 @@
-use crate::{BoxStr, data};
+use crate::{
+	BoxStr,
+	data::{self, Identifiable},
+};
 
 use data::{Move, Nature, Pokemon, RegMap, Species, Stat, StatBlock};
 use lazy_regex::{Lazy, Regex, regex};
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 static EFFORT_REGEX: &Lazy<Regex> = regex!(r"(?<val>\d+)\s*(?<stat>(hp|atk|def|spa|spd|spe))");
 
 pub fn deserialize_pokemon<'a>(
 	data: &str,
-	species_map: &'a RegMap<Species<'a>>,
-	move_map: &'a RegMap<Move<'a>>,
-	nature_map: &RegMap<Nature>,
+	species_map: &'a HashSet<Identifiable<Species<'a>>>,
+	move_map: &'a HashSet<Identifiable<Move<'a>>>,
+	nature_map: &HashMap<BoxStr, Nature>,
 ) -> Result<Pokemon<'a>, PokemonParseError>
 {
 	use PokemonParseError as Error;
@@ -24,7 +27,7 @@ pub fn deserialize_pokemon<'a>(
 	let species_name: BoxStr = pokemon_id_from(species_name).into();
 
 	let species = species_map
-		.get(&species_name)
+		.get(&*species_name)
 		.ok_or_else(|| Error(format!("could not find species '{species_name}'")))?;
 	let mut pokemon = Pokemon::with_nickname(species, nickname);
 
@@ -59,7 +62,7 @@ pub fn deserialize_pokemon<'a>(
 			pokemon.add_move(
 				move_map
 					.get(
-						&rest
+						&*rest
 							.to_lowercase()
 							.trim()
 							.replace(' ', "_")

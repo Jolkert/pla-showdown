@@ -7,12 +7,21 @@ use data::{
 use rand::Rng;
 use std::collections::{HashMap, HashSet};
 
+use super::{Identifiable, Identify};
+
 #[derive(Debug)]
 pub struct Species<'a>
 {
 	pub id: BoxStr,
 	pub base_stats: StatBlock,
 	pub types: TypePair<'a>,
+}
+impl<'a> Identify for Species<'a>
+{
+	fn id(&self) -> &str
+	{
+		&self.id
+	}
 }
 
 #[derive(Debug, Hash, PartialEq, Eq, Clone, Copy, serde::Serialize, serde::Deserialize)]
@@ -32,7 +41,7 @@ pub struct Pokemon<'a>
 	pub level: u8,
 	pub nature: Nature,
 	pub effort_levels: StatBlock,
-	pub moveset: HashSet<&'a Move<'a>>,
+	pub moveset: HashSet<&'a Identifiable<Move<'a>>>,
 }
 impl<'a> Pokemon<'a>
 {
@@ -111,13 +120,13 @@ impl<'a> Pokemon<'a>
 	{
 		self.effort_levels = effort_levels;
 	}
-	pub fn add_move(&mut self, mv: &'a Move<'a>)
+	pub fn add_move(&mut self, mv: &'a Identifiable<Move<'a>>)
 	{
 		self.moveset.insert(mv);
 	}
 	pub fn add_moves<I>(&mut self, moves: I)
 	where
-		I: IntoIterator<Item = &'a Move<'a>>,
+		I: IntoIterator<Item = &'a Identifiable<Move<'a>>>,
 	{
 		for mv in moves
 		{

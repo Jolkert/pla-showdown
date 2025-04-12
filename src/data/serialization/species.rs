@@ -1,6 +1,6 @@
 use crate::{
 	BoxStr,
-	data::{Identify, Species, StatBlock, Type, TypePair},
+	data::{Species, StatBlock, Type, TypePair},
 };
 use std::collections::HashMap;
 
@@ -24,13 +24,6 @@ impl SerSpecies
 				self.types.1.and_then(|it| type_map.get(&it)),
 			),
 		}
-	}
-}
-impl Identify for SerSpecies
-{
-	fn id(&self) -> BoxStr
-	{
-		self.id.clone()
 	}
 }
 

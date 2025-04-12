@@ -2,6 +2,8 @@ use crate::{BoxSlice, BoxStr, data};
 
 use data::{Category, Move, Side, Stat, Type};
 
+use super::Identify;
+
 #[derive(Debug)]
 pub struct StatusCondition<'a>
 {
@@ -9,6 +11,13 @@ pub struct StatusCondition<'a>
 	pub volatility: Volatility,
 	pub immune_types: BoxSlice<&'a Type>,
 	pub effects: BoxSlice<Effect>,
+}
+impl<'a> Identify for StatusCondition<'a>
+{
+	fn id(&self) -> &str
+	{
+		&self.id
+	}
 }
 
 pub struct AppliedStatus<'a>

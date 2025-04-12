@@ -24,7 +24,7 @@ pub trait Identify
 /// A newtype wrapper for any `Identify` type. Allows for equality, ordering, and hashing of
 /// the inner type based solely on the value of its string id.
 #[derive(Debug)]
-struct Identifiable<T: Identify>(T);
+pub struct Identifiable<T: Identify>(T);
 impl<T: Identify> std::ops::Deref for Identifiable<T>
 {
 	type Target = T;
@@ -62,7 +62,7 @@ impl<T: Identify> PartialOrd for Identifiable<T>
 {
 	fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering>
 	{
-		self.id().partial_cmp(other.id())
+		Some(self.cmp(other))
 	}
 }
 impl<T: Identify> Ord for Identifiable<T>
@@ -78,6 +78,14 @@ impl<T: Identify> std::hash::Hash for Identifiable<T>
 	fn hash<H: std::hash::Hasher>(&self, state: &mut H)
 	{
 		self.id().hash(state)
+	}
+}
+
+impl<T: Identify> From<T> for Identifiable<T>
+{
+	fn from(value: T) -> Self
+	{
+		Identifiable(value)
 	}
 }
 

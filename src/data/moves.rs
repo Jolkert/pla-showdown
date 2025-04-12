@@ -3,7 +3,9 @@ pub use style::*;
 
 use data::{Side, Type};
 
-#[derive(Debug, Hash, PartialEq, Eq)]
+use super::Identify;
+
+#[derive(Debug)]
 pub struct Move<'a>
 {
 	pub id: BoxStr,
@@ -16,6 +18,13 @@ pub struct Move<'a>
 	pub target_action_time: StyleTriad,
 	pub crit_stage: StyleTriad,
 	pub effects: BoxSlice<MoveEffect>,
+}
+impl<'a> Identify for Move<'a>
+{
+	fn id(&self) -> &str
+	{
+		&self.id
+	}
 }
 
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq, serde::Serialize, serde::Deserialize)]

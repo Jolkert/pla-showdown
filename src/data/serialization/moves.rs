@@ -1,6 +1,6 @@
 use crate::{BoxSlice, BoxStr, data};
 
-use data::{Category, Identify, Move, MoveEffect, StyleTriad, Type};
+use data::{Category, Move, MoveEffect, StyleTriad, Type};
 use std::collections::HashMap;
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
@@ -35,12 +35,5 @@ impl SerMove
 			crit_stage: self.crit_stage,
 			effects: self.effects,
 		}
-	}
-}
-impl Identify for SerMove
-{
-	fn id(&self) -> BoxStr
-	{
-		self.id.clone()
 	}
 }

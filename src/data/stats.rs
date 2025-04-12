@@ -48,7 +48,7 @@ impl FromStr for Stat
 	}
 }
 
-#[derive(Debug, Clone, Copy, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Hash, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub struct Nature
 {
 	pub increased: Stat,

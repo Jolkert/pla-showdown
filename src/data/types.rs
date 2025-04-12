@@ -1,38 +1,49 @@
+use std::rc::{Rc, Weak};
+
 use crate::{BoxSlice, BoxStr, data};
 
 use data::Identify;
 
-#[derive(Debug, Hash, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug)]
 pub struct Type
 {
-	pub id: BoxStr,
-	#[serde(rename = "weaknesses")]
-	pub weakness_ids: BoxSlice<BoxStr>,
-	#[serde(rename = "resistances")]
-	pub resistance_ids: BoxSlice<BoxStr>,
-	#[serde(rename = "immunities")]
-	pub immunity_ids: BoxSlice<BoxStr>,
+	pub id: Rc<str>,
+	pub weakness_ids: BoxSlice<Weak<str>>,
+	pub resistance_ids: BoxSlice<Weak<str>>,
+	pub immunity_ids: BoxSlice<Weak<str>>,
 }
 impl Identify for Type
 {
-	fn id(&self) -> BoxStr
+	fn id(&self) -> &str
 	{
-		self.id.clone()
+		&self.id
 	}
 }
 impl Type
 {
 	pub fn weakness_to(&self, typ: &Self) -> WeaknessLevel
 	{
-		if self.immunity_ids.contains(&typ.id)
+		if self.immunity_ids.iter().any(|immunity| {
+			immunity
+				.upgrade()
+				.is_some_and(|immunity| &*immunity == typ.id())
+		})
 		{
 			WeaknessLevel::Immunity
 		}
-		else if self.weakness_ids.contains(&typ.id)
+		else if self.weakness_ids.iter().any(|weakness| {
+			weakness
+				.upgrade()
+				.is_some_and(|weakness| &*weakness == typ.id())
+		})
 		{
 			WeaknessLevel::Weak
 		}
-		else if self.resistance_ids.contains(&typ.id)
+		else if self.resistance_ids.iter().any(|resistance| {
+			resistance
+				.upgrade()
+				.is_some_and(|resistance| &*resistance == typ.id())
+		})
 		{
 			WeaknessLevel::Resist
 		}
