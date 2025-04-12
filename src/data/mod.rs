@@ -7,7 +7,7 @@ mod_pub_use_all! {
 	types,
 }
 
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 use crate::BoxStr;
 
@@ -25,6 +25,14 @@ pub trait Identify
 /// the inner type based solely on the value of its string id.
 #[derive(Debug)]
 pub struct Identifiable<T: Identify>(T);
+impl<T: Identify> Identifiable<T>
+{
+	pub fn ref_inner(&self) -> &T
+	{
+		&self.0
+	}
+}
+
 impl<T: Identify> std::ops::Deref for Identifiable<T>
 {
 	type Target = T;
@@ -88,3 +96,5 @@ impl<T: Identify> From<T> for Identifiable<T>
 		Identifiable(value)
 	}
 }
+
+pub type IdSet<T> = HashSet<Identifiable<T>>;

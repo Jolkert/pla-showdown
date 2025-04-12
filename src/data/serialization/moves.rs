@@ -1,4 +1,7 @@
-use crate::{BoxSlice, BoxStr, data};
+use crate::{
+	BoxSlice, BoxStr,
+	data::{self, IdSet},
+};
 
 use data::{Category, Move, MoveEffect, StyleTriad, Type};
 use std::collections::HashMap;
@@ -21,11 +24,11 @@ pub struct SerMove
 }
 impl SerMove
 {
-	pub fn into_move(self, type_map: &HashMap<BoxStr, Type>) -> Move
+	pub fn into_move(self, type_map: &IdSet<Type>) -> Move
 	{
 		Move {
 			id: self.id,
-			move_type: type_map.get(&self.move_type).unwrap(),
+			move_type: type_map.get(&*self.move_type).unwrap(),
 			category: self.category,
 			pp: self.pp,
 			power: self.power,

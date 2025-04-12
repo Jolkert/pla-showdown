@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use crate::{
 	BoxSlice, BoxStr,
-	data::{Effect, StatusCondition, Type, Volatility},
+	data::{Effect, IdSet, StatusCondition, Type, Volatility},
 };
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
@@ -20,7 +20,7 @@ pub struct SerStatus
 }
 impl SerStatus
 {
-	pub fn into_status(self, type_map: &HashMap<BoxStr, Type>) -> StatusCondition
+	pub fn into_status(self, type_map: &IdSet<Type>) -> StatusCondition
 	{
 		StatusCondition {
 			id: self.id,
@@ -28,8 +28,8 @@ impl SerStatus
 			effects: self.effects,
 			immune_types: self
 				.immune_type_ids
-				.iter()
-				.map(|it| type_map.get(it).unwrap())
+				.into_iter()
+				.map(|id| type_map.get(&*id).unwrap().ref_inner())
 				.collect(),
 		}
 	}

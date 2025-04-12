@@ -20,7 +20,7 @@ pub struct SerType
 
 impl SerType
 {
-	pub fn into_type(self, type_ids: &HashSet<Rc<str>>) -> Identifiable<Type>
+	pub fn into_type(self, type_ids: &HashSet<Rc<str>>) -> Type
 	{
 		Type {
 			id: self.id,
@@ -40,6 +40,5 @@ impl SerType
 				.filter_map(|immunity| type_ids.get(&*immunity).map(Rc::downgrade))
 				.collect(),
 		}
-		.into()
 	}
 }

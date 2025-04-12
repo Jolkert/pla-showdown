@@ -1,6 +1,6 @@
 use crate::{
 	BoxStr,
-	data::{Species, StatBlock, Type, TypePair},
+	data::{IdSet, Identifiable, Species, StatBlock, Type, TypePair},
 };
 use std::collections::HashMap;
 
@@ -14,14 +14,16 @@ pub struct SerSpecies
 }
 impl SerSpecies
 {
-	pub fn into_species(self, type_map: &HashMap<BoxStr, Type>) -> Species
+	pub fn into_species(self, type_map: &IdSet<Type>) -> Species
 	{
 		Species {
 			id: self.id,
 			base_stats: self.base_stats,
 			types: TypePair(
-				type_map.get(&self.types.0).unwrap(),
-				self.types.1.and_then(|it| type_map.get(&it)),
+				type_map.get(&*self.types.0).unwrap(),
+				self.types
+					.1
+					.and_then(|id| type_map.get(&*id).map(Identifiable::ref_inner)),
 			),
 		}
 	}
