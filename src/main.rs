@@ -9,6 +9,9 @@ use std::{
 
 fn main()
 {
+	let _ = dotenv::dotenv();
+	env_logger::init();
+
 	let types = {
 		let deser_types = deserialize_dir::<SerType>("./assets/types").collect::<Vec<_>>();
 		let ids = deser_types
@@ -28,11 +31,11 @@ fn main()
 	)
 	.unwrap();
 
-	println!("Types: {}", types.len());
-	println!("Species: {}", species.len());
-	println!("Moves: {}", moves.len());
-	println!("Statuses: {}", statuses.len());
-	println!("Natures: {}", natures.len());
+	log::info!("Types: {}", types.len());
+	log::info!("Species: {}", species.len());
+	log::info!("Moves: {}", moves.len());
+	log::info!("Statuses: {}", statuses.len());
+	log::info!("Natures: {}", natures.len());
 }
 
 fn deserialize_dir<T: serde::de::DeserializeOwned>(
@@ -53,7 +56,7 @@ fn deserialize_dir<T: serde::de::DeserializeOwned>(
 					.and_then(|toml_str| {
 						toml::from_str::<T>(&toml_str)
 							.inspect_err(|err| {
-								eprintln!(
+								log::error!(
 									"Failed to deserialize file {:#?}\n{err}",
 									file.file_name()
 								)
