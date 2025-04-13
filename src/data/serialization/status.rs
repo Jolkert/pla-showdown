@@ -1,11 +1,8 @@
-use std::collections::HashMap;
-
+use super::IntoDeserialized;
 use crate::{
 	BoxSlice, BoxStr,
 	data::{Effect, IdSet, StatusCondition, Type, Volatility},
 };
-
-use super::IntoDeserialized;
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct SerStatus

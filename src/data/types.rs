@@ -1,8 +1,6 @@
 use std::rc::{Rc, Weak};
 
-use crate::{BoxSlice, BoxStr, data};
-
-use data::Identify;
+use crate::{BoxSlice, data::Identify};
 
 #[derive(Debug)]
 pub struct Type

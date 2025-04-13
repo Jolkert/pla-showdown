@@ -1,13 +1,10 @@
-use crate::{BoxStr, data};
-
-use data::{
-	AppliedStatus, Category, Effect, Move, Nature, Stat, StatBlock, StatusCondition, Style,
-	StyleTriad, Type, TypePair, Volatility,
+use super::{
+	AppliedStatus, Category, Effect, Identifiable, Identify, Move, Nature, Stat, StatBlock,
+	StatusCondition, Style, StyleTriad, Type, TypePair, Volatility,
 };
+use crate::{BoxStr, data};
 use rand::Rng;
 use std::collections::{HashMap, HashSet};
-
-use super::{Identifiable, Identify};
 
 #[derive(Debug)]
 pub struct Species<'a>

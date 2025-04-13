@@ -1,10 +1,8 @@
+use super::IntoDeserialized;
 use crate::{
 	BoxStr,
 	data::{IdSet, Identifiable, Species, StatBlock, Type, TypePair},
 };
-use std::collections::HashMap;
-
-use super::IntoDeserialized;
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct SerSpecies

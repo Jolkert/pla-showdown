@@ -1,12 +1,8 @@
+use super::IntoDeserialized;
 use crate::{
 	BoxSlice, BoxStr,
-	data::{self, IdSet},
+	data::{Category, IdSet, Move, MoveEffect, StyleTriad, Type},
 };
-
-use data::{Category, Move, MoveEffect, StyleTriad, Type};
-use std::collections::HashMap;
-
-use super::IntoDeserialized;
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "snake_case")]

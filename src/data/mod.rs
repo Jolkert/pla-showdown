@@ -7,10 +7,6 @@ mod_pub_use_all! {
 	types,
 }
 
-use std::collections::{HashMap, HashSet};
-
-use crate::BoxStr;
-
 /// A trait for any data which can be given a unique (string) id
 /// for use in conjunction with  `Identifiable<T>`. For this reason, any implementers
 /// of this trait must be certain that no two values to be compared against one another
@@ -97,4 +93,4 @@ impl<T: Identify> From<T> for Identifiable<T>
 	}
 }
 
-pub type IdSet<T> = HashSet<Identifiable<T>>;
+pub type IdSet<T> = std::collections::HashSet<Identifiable<T>>;

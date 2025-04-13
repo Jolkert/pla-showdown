@@ -1,8 +1,5 @@
-use crate::{BoxSlice, BoxStr, data};
-
-use data::{Category, Move, Side, Stat, Type};
-
-use super::Identify;
+use super::{Category, Identify, Move, Side, Stat, Type};
+use crate::{BoxSlice, BoxStr};
 
 #[derive(Debug)]
 pub struct StatusCondition<'a>

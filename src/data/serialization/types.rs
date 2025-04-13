@@ -1,11 +1,6 @@
-use std::{collections::HashSet, rc::Rc};
-
-use crate::{
-	BoxSlice, BoxStr,
-	data::{Identifiable, Type},
-};
-
 use super::IntoDeserialized;
+use crate::{BoxSlice, BoxStr, data::Type};
+use std::{collections::HashSet, rc::Rc};
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct SerType

@@ -1,9 +1,7 @@
-use crate::{BoxSlice, BoxStr, data};
+use super::{Identify, Side, Type};
+use crate::{BoxSlice, BoxStr};
+
 pub use style::*;
-
-use data::{Side, Type};
-
-use super::Identify;
 
 #[derive(Debug)]
 pub struct Move<'a>

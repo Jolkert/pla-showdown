@@ -1,4 +1,4 @@
-#![allow(dead_code, unused_imports)]
+#![allow(dead_code)]
 #![feature(let_chains)]
 
 macro_rules! mod_pub_use_all {

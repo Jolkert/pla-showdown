@@ -1,11 +1,10 @@
-use std::{
-	collections::{HashMap, HashSet},
-	path::Path,
-};
-
 use pla_showdown::data::{
 	IdSet, Identify, Nature,
 	serialization::{IntoDeserialized, SerMove, SerSpecies, SerStatus, SerType},
+};
+use std::{
+	collections::{HashMap, HashSet},
+	path::Path,
 };
 
 fn main()
