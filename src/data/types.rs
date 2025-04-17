@@ -53,17 +53,31 @@ impl Type
 }
 
 #[derive(Debug)]
-pub struct TypePair<'a>(pub &'a Type, pub Option<&'a Type>);
-impl<'a> TypePair<'a>
+pub struct TypePair(Rc<Type>, Option<Rc<Type>>);
+impl TypePair
 {
+	pub fn primary(&self) -> &Type
+	{
+		&self.0
+	}
+
+	pub fn secondary(&self) -> Option<&Type>
+	{
+		self.1.as_deref()
+	}
+
 	pub fn contains(&self, typ: &Type) -> bool
 	{
-		self.0.id == typ.id || self.1.is_some_and(|t| t.id == typ.id)
+		self.primary().id == typ.id || self.secondary().is_some_and(|t| t.id == typ.id)
 	}
 
 	pub fn damage_multiplier_from(&self, typ: &Type) -> f64
 	{
-		match self.0.weakness_to(typ) + self.1.map(|t| t.weakness_to(typ)).unwrap_or_default()
+		match self.primary().weakness_to(typ)
+			+ self
+				.secondary()
+				.map(|t| t.weakness_to(typ))
+				.unwrap_or_default()
 		{
 			WeaknessLevel::Immunity => 0.0,
 			WeaknessLevel::DoubleResist => 0.4,
@@ -72,6 +86,15 @@ impl<'a> TypePair<'a>
 			WeaknessLevel::Weak => 2.0,
 			WeaknessLevel::DoubleWeak => 2.5,
 		}
+	}
+}
+impl<O> From<(Rc<Type>, O)> for TypePair
+where
+	O: Into<Option<Rc<Type>>>,
+{
+	fn from(value: (Rc<Type>, O)) -> Self
+	{
+		Self(value.0, value.1.into())
 	}
 }
 

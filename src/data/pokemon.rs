@@ -7,13 +7,13 @@ use rand::Rng;
 use std::collections::{HashMap, HashSet};
 
 #[derive(Debug)]
-pub struct Species<'a>
+pub struct Species
 {
 	pub id: BoxStr,
 	pub base_stats: StatBlock,
-	pub types: TypePair<'a>,
+	pub types: TypePair,
 }
-impl<'a> Identify for Species<'a>
+impl Identify for Species
 {
 	fn id(&self) -> &str
 	{
@@ -32,17 +32,17 @@ pub enum Side
 #[derive(Debug)]
 pub struct Pokemon<'a>
 {
-	pub species: &'a Species<'a>,
+	pub species: &'a Species,
 	pub nickname: Option<String>,
 	pub is_shiny: bool,
 	pub level: u8,
 	pub nature: Nature,
 	pub effort_levels: StatBlock,
-	pub moveset: HashSet<&'a Identifiable<Move<'a>>>,
+	pub moveset: HashSet<&'a Identifiable<Move>>,
 }
 impl<'a> Pokemon<'a>
 {
-	pub fn new(species: &'a Species<'a>) -> Self
+	pub fn new(species: &'a Species) -> Self
 	{
 		Self {
 			species,
@@ -55,7 +55,7 @@ impl<'a> Pokemon<'a>
 		}
 	}
 
-	pub fn with_nickname(species: &'a Species<'a>, nickname: Option<String>) -> Self
+	pub fn with_nickname(species: &'a Species, nickname: Option<String>) -> Self
 	{
 		let mut pkmn = Self::new(species);
 		pkmn.nickname = nickname;
@@ -117,13 +117,13 @@ impl<'a> Pokemon<'a>
 	{
 		self.effort_levels = effort_levels;
 	}
-	pub fn add_move(&mut self, mv: &'a Identifiable<Move<'a>>)
+	pub fn add_move(&mut self, mv: &'a Identifiable<Move>)
 	{
 		self.moveset.insert(mv);
 	}
 	pub fn add_moves<I>(&mut self, moves: I)
 	where
-		I: IntoIterator<Item = &'a Identifiable<Move<'a>>>,
+		I: IntoIterator<Item = &'a Identifiable<Move>>,
 	{
 		for mv in moves
 		{
@@ -190,7 +190,7 @@ impl<'a> BattlePokemon<'a>
 		source_move: &'a Move,
 	)
 	{
-		if !condition.immune_types.iter().any(|it| self.is_type(it))
+		if !condition.immune_types().any(|it| self.is_type(it))
 		{
 			let applied_status = AppliedStatus {
 				condition,
@@ -268,7 +268,7 @@ impl<'a> BattlePokemon<'a>
 			target,
 			&mv.power,
 			mv.category,
-			mv.move_type,
+			mv.move_type(),
 			style,
 		);
 

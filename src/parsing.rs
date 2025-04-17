@@ -11,8 +11,8 @@ static EFFORT_REGEX: &Lazy<Regex> = regex!(r"(?<val>\d+)\s*(?<stat>(hp|atk|def|s
 
 pub fn deserialize_pokemon<'a>(
 	data: &str,
-	species_map: &'a HashSet<Identifiable<Species<'a>>>,
-	move_map: &'a HashSet<Identifiable<Move<'a>>>,
+	species_map: &'a HashSet<Identifiable<Species>>,
+	move_map: &'a HashSet<Identifiable<Move>>,
 	nature_map: &HashMap<BoxStr, Nature>,
 ) -> Result<Pokemon<'a>, PokemonParseError>
 {

@@ -1,3 +1,5 @@
+use std::rc::Rc;
+
 use super::IntoDeserialized;
 use crate::{
 	BoxSlice, BoxStr,
@@ -17,22 +19,23 @@ pub struct SerStatus
 	pub immune_type_ids: BoxSlice<BoxStr>,
 	pub effects: BoxSlice<Effect>,
 }
-impl<'a> IntoDeserialized<'a> for SerStatus
+impl IntoDeserialized<'_> for SerStatus
 {
-	type Deserialized = StatusCondition<'a>;
-	type RefData = IdSet<Type>;
+	type Deserialized = StatusCondition;
+	type RefData = IdSet<Rc<Type>>;
 
-	fn into_deserialized(self, data: &'a Self::RefData) -> Self::Deserialized
+	fn into_deserialized(self, data: &Self::RefData) -> Self::Deserialized
 	{
-		StatusCondition {
-			id: self.id,
-			volatility: self.volatility,
-			effects: self.effects,
-			immune_types: self
-				.immune_type_ids
-				.into_iter()
-				.map(|id| data.get(&*id).unwrap().ref_inner())
-				.collect(),
-		}
+		StatusCondition::builder()
+			.id(self.id)
+			.volatility(self.volatility)
+			.effects(self.effects)
+			.immune_types(
+				self.immune_type_ids
+					.into_iter()
+					.map(|id| (**data.get(&*id).unwrap()).clone())
+					.collect(),
+			)
+			.build()
 	}
 }

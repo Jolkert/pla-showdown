@@ -1,8 +1,9 @@
 use super::IntoDeserialized;
 use crate::{
 	BoxStr,
-	data::{IdSet, Identifiable, Species, StatBlock, Type, TypePair},
+	data::{IdSet, Species, StatBlock, Type, TypePair},
 };
+use std::rc::Rc;
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct SerSpecies
@@ -14,20 +15,21 @@ pub struct SerSpecies
 }
 impl<'a> IntoDeserialized<'a> for SerSpecies
 {
-	type Deserialized = Species<'a>;
-	type RefData = IdSet<Type>;
+	type Deserialized = Species;
+	type RefData = IdSet<Rc<Type>>;
 
 	fn into_deserialized(self, data: &'a Self::RefData) -> Self::Deserialized
 	{
 		Species {
 			id: self.id,
 			base_stats: self.base_stats,
-			types: TypePair(
-				data.get(&*self.types.0).unwrap(),
+			types: TypePair::from((
+				(**data.get(&*self.types.0).unwrap()).clone(),
 				self.types
 					.1
-					.and_then(|id| data.get(&*id).map(Identifiable::ref_inner)),
-			),
+					.and_then(|id| data.get(&*id))
+					.map(|typ| (**typ).clone()),
+			)),
 		}
 	}
 }

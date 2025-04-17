@@ -1,15 +1,24 @@
 use super::{Category, Identify, Move, Side, Stat, Type};
 use crate::{BoxSlice, BoxStr};
+use std::rc::Rc;
 
-#[derive(Debug)]
-pub struct StatusCondition<'a>
+#[derive(Debug, bon::Builder)]
+pub struct StatusCondition
 {
 	pub id: BoxStr,
 	pub volatility: Volatility,
-	pub immune_types: BoxSlice<&'a Type>,
+	immune_types: BoxSlice<Rc<Type>>,
 	pub effects: BoxSlice<Effect>,
 }
-impl<'a> Identify for StatusCondition<'a>
+impl StatusCondition
+{
+	pub fn immune_types(&self) -> impl Iterator<Item = &Type>
+	{
+		self.immune_types.iter().map(Rc::as_ref)
+	}
+}
+
+impl Identify for StatusCondition
 {
 	fn id(&self) -> &str
 	{
@@ -19,9 +28,9 @@ impl<'a> Identify for StatusCondition<'a>
 
 pub struct AppliedStatus<'a>
 {
-	pub condition: &'a StatusCondition<'a>,
+	pub condition: &'a StatusCondition,
 	pub duration: i32,
-	pub source_move: &'a Move<'a>,
+	pub source_move: &'a Move,
 }
 impl<'a> AppliedStatus<'a>
 {

@@ -1,3 +1,5 @@
+use std::rc::Rc;
+
 pub mod serialization;
 mod_pub_use_all! {
 	moves,
@@ -15,6 +17,16 @@ mod_pub_use_all! {
 pub trait Identify
 {
 	fn id(&self) -> &str;
+}
+
+impl<T> Identify for Rc<T>
+where
+	T: Identify,
+{
+	fn id(&self) -> &str
+	{
+		(**self).id()
+	}
 }
 
 /// A newtype wrapper for any `Identify` type. Allows for equality, ordering, and hashing of

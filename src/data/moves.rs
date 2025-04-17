@@ -1,13 +1,15 @@
+use std::rc::Rc;
+
 use super::{Identify, Side, Type};
 use crate::{BoxSlice, BoxStr};
 
 pub use style::*;
 
-#[derive(Debug)]
-pub struct Move<'a>
+#[derive(Debug, bon::Builder)]
+pub struct Move
 {
 	pub id: BoxStr,
-	pub move_type: &'a Type,
+	move_type: Rc<Type>,
 	pub category: Category,
 	pub pp: u32,
 	pub power: StyleTriad,
@@ -17,11 +19,19 @@ pub struct Move<'a>
 	pub crit_stage: StyleTriad,
 	pub effects: BoxSlice<MoveEffect>,
 }
-impl<'a> Identify for Move<'a>
+impl Identify for Move
 {
 	fn id(&self) -> &str
 	{
 		&self.id
+	}
+}
+
+impl Move
+{
+	pub fn move_type(&self) -> &Type
+	{
+		&self.move_type
 	}
 }
 

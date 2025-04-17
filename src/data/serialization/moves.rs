@@ -3,6 +3,7 @@ use crate::{
 	BoxSlice, BoxStr,
 	data::{Category, IdSet, Move, MoveEffect, StyleTriad, Type},
 };
+use std::rc::Rc;
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -20,24 +21,24 @@ pub struct SerMove
 	pub crit_stage: StyleTriad,
 	pub effects: BoxSlice<MoveEffect>,
 }
-impl<'a> IntoDeserialized<'a> for SerMove
+impl IntoDeserialized<'_> for SerMove
 {
-	type Deserialized = Move<'a>;
-	type RefData = IdSet<Type>;
+	type Deserialized = Move;
+	type RefData = IdSet<Rc<Type>>;
 
-	fn into_deserialized(self, data: &'a Self::RefData) -> Self::Deserialized
+	fn into_deserialized(self, data: &Self::RefData) -> Self::Deserialized
 	{
-		Move {
-			id: self.id,
-			move_type: data.get(&*self.move_type).unwrap(),
-			category: self.category,
-			pp: self.pp,
-			power: self.power,
-			accuracy: self.accuracy,
-			user_action_time: self.user_action_time,
-			target_action_time: self.target_action_time,
-			crit_stage: self.crit_stage,
-			effects: self.effects,
-		}
+		Move::builder()
+			.id(self.id)
+			.move_type((**data.get(&*self.move_type).unwrap()).clone())
+			.category(self.category)
+			.pp(self.pp)
+			.power(self.power)
+			.accuracy(self.accuracy)
+			.user_action_time(self.user_action_time)
+			.target_action_time(self.target_action_time)
+			.crit_stage(self.crit_stage)
+			.effects(self.effects)
+			.build()
 	}
 }
