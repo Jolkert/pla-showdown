@@ -4,14 +4,26 @@ use std::{
 };
 
 use pla_showdown::data::{
-	IdSet, Identify, Nature,
+	Data, IdSet, Identify, Nature,
 	serialization::{IntoDeserialized, SerMove, SerSpecies, SerStatus, SerType},
 };
+
 fn main()
 {
 	let _ = dotenv::dotenv();
 	env_logger::init();
 
+	let data = initialize_data();
+
+	log::info!("Types: {}", data.types.len());
+	log::info!("Species: {}", data.species.len());
+	log::info!("Moves: {}", data.moves.len());
+	log::info!("Statuses: {}", data.statuses.len());
+	log::info!("Natures: {}", data.natures.len());
+}
+
+fn initialize_data() -> Data
+{
 	let types = {
 		let deser_types = deserialize_dir::<SerType>("./assets/types").collect::<Vec<_>>();
 		let ids = deser_types
@@ -26,16 +38,16 @@ fn main()
 	let moves = id_set_from(deserialize_dir::<SerMove>("./assets/moves"), &types);
 	let statuses = id_set_from(deserialize_dir::<SerStatus>("./assets/statuses"), &types);
 
-	let natures = toml::from_str::<HashMap<Box<str>, Nature>>(
-		&std::fs::read_to_string("./assets/natures.toml").unwrap(),
-	)
-	.unwrap();
-
-	log::info!("Types: {}", types.len());
-	log::info!("Species: {}", species.len());
-	log::info!("Moves: {}", moves.len());
-	log::info!("Statuses: {}", statuses.len());
-	log::info!("Natures: {}", natures.len());
+	Data {
+		types,
+		species,
+		moves,
+		statuses,
+		natures: toml::from_str::<HashMap<Box<str>, Nature>>(
+			&std::fs::read_to_string("./assets/natures.toml").unwrap(),
+		)
+		.unwrap(),
+	}
 }
 
 fn deserialize_dir<T: serde::de::DeserializeOwned>(

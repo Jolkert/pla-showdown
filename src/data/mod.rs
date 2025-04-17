@@ -1,4 +1,6 @@
-use std::rc::Rc;
+use std::{collections::HashMap, rc::Rc};
+
+use crate::BoxStr;
 
 pub mod serialization;
 mod_pub_use_all! {
@@ -7,6 +9,23 @@ mod_pub_use_all! {
 	stats,
 	status,
 	types,
+}
+
+#[derive(Debug)]
+pub struct Data
+{
+	pub types: IdSet<Rc<Type>>,
+	pub species: IdSet<Species>,
+	pub moves: IdSet<Move>,
+	pub statuses: IdSet<StatusCondition>,
+	pub natures: HashMap<BoxStr, Nature>,
+}
+impl Data
+{
+	pub fn types(&self) -> impl Iterator<Item = &Type>
+	{
+		self.types.iter().map(|ty| &***ty)
+	}
 }
 
 /// A trait for any data which can be given a unique (string) id

@@ -1,10 +1,12 @@
+use std::collections::{HashMap, HashSet};
+
+use rand::Rng;
+
 use super::{
 	AppliedStatus, Category, Effect, Identifiable, Identify, Move, Nature, Stat, StatBlock,
 	StatusCondition, Style, StyleTriad, Type, TypePair, Volatility,
 };
 use crate::{BoxStr, data};
-use rand::Rng;
-use std::collections::{HashMap, HashSet};
 
 #[derive(Debug)]
 pub struct Species
@@ -97,9 +99,9 @@ impl<'a> Pokemon<'a>
 		}
 	}
 
-	pub fn set_nickname(&mut self, nickname: Option<String>)
+	pub fn set_nickname(&mut self, nickname: impl Into<Option<String>>)
 	{
-		self.nickname = nickname;
+		self.nickname = nickname.into();
 	}
 	pub fn set_shiny(&mut self, is_shiny: bool)
 	{
@@ -139,7 +141,7 @@ impl<'a> Pokemon<'a>
 
 pub struct BattlePokemon<'a>
 {
-	pub pokemon: &'a Pokemon<'a>,
+	pokemon: &'a Pokemon<'a>,
 	damage: i32,
 	action_time: i32,
 	non_volatile_status: Option<AppliedStatus<'a>>,
@@ -347,5 +349,15 @@ impl<'a> BattlePokemon<'a>
 			.product::<f64>();
 
 		(f64::from(base_damage) * effects_multiplier * type_multiplier * stab_multiplier) as i32
+	}
+}
+
+impl<'a> std::ops::Deref for BattlePokemon<'a>
+{
+	type Target = Pokemon<'a>;
+
+	fn deref(&self) -> &Self::Target
+	{
+		self.pokemon
 	}
 }
