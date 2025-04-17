@@ -1,9 +1,9 @@
 use std::rc::Rc;
 
+pub use style::*;
+
 use super::{Identify, Side, Type};
 use crate::{BoxSlice, BoxStr};
-
-pub use style::*;
 
 #[derive(Debug, bon::Builder)]
 pub struct Move

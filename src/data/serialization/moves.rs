@@ -1,9 +1,10 @@
+use std::rc::Rc;
+
 use super::IntoDeserialized;
 use crate::{
 	BoxSlice, BoxStr,
 	data::{Category, IdSet, Move, MoveEffect, StyleTriad, Type},
 };
-use std::rc::Rc;
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "snake_case")]

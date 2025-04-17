@@ -1,6 +1,7 @@
+use std::rc::Rc;
+
 use super::{Category, Identify, Move, Side, Stat, Type};
 use crate::{BoxSlice, BoxStr};
-use std::rc::Rc;
 
 #[derive(Debug, bon::Builder)]
 pub struct StatusCondition
