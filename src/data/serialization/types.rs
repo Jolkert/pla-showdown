@@ -1,6 +1,7 @@
+use std::{collections::HashSet, rc::Rc};
+
 use super::IntoDeserialized;
 use crate::{BoxSlice, BoxStr, data::Type};
-use std::{collections::HashSet, rc::Rc};
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct SerType
@@ -17,12 +18,12 @@ pub struct SerType
 
 impl<'a> IntoDeserialized<'a> for SerType
 {
-	type Deserialized = Type;
+	type Deserialized = Rc<Type>;
 	type RefData = HashSet<Rc<str>>;
 
 	fn into_deserialized(self, data: &Self::RefData) -> Self::Deserialized
 	{
-		Type {
+		Rc::from(Type {
 			id: self.id,
 			weakness_ids: self
 				.weakness_ids
@@ -39,6 +40,6 @@ impl<'a> IntoDeserialized<'a> for SerType
 				.into_iter()
 				.filter_map(|immunity| data.get(&*immunity).map(Rc::downgrade))
 				.collect(),
-		}
+		})
 	}
 }
