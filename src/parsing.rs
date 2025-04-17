@@ -1,11 +1,12 @@
+use std::collections::{HashMap, HashSet};
+
+use data::{Move, Nature, Pokemon, Species, Stat, StatBlock};
+use lazy_regex::{Lazy, Regex, regex};
+
 use crate::{
 	BoxStr,
 	data::{self, Identifiable},
 };
-
-use data::{Move, Nature, Pokemon, Species, Stat, StatBlock};
-use lazy_regex::{Lazy, Regex, regex};
-use std::collections::{HashMap, HashSet};
 
 static EFFORT_REGEX: &Lazy<Regex> = regex!(r"(?<val>\d+)\s*(?<stat>(hp|atk|def|spa|spd|spe))");
 
