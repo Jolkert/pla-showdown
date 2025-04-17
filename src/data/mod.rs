@@ -20,13 +20,6 @@ pub struct Data
 	pub statuses: IdSet<StatusCondition>,
 	pub natures: HashMap<BoxStr, Nature>,
 }
-impl Data
-{
-	pub fn types(&self) -> impl Iterator<Item = &Type>
-	{
-		self.types.iter().map(|ty| &***ty)
-	}
-}
 
 /// A trait for any data which can be given a unique (string) id
 /// for use in conjunction with  `Identifiable<T>`. For this reason, any implementers
