@@ -43,7 +43,7 @@ where
 
 /// A newtype wrapper for any `Identify` type. Allows for equality, ordering, and hashing of
 /// the inner type based solely on the value of its string id.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Identifiable<T: Identify>(T);
 impl<T: Identify> Identifiable<T>
 {

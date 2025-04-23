@@ -23,7 +23,9 @@ impl Identify for Species
 	}
 }
 
-#[derive(Debug, Hash, PartialEq, Eq, Clone, Copy, serde::Serialize, serde::Deserialize)]
+#[derive(
+	Debug, Hash, PartialEq, Eq, Clone, Copy, serde::Serialize, serde::Deserialize, strum::Display,
+)]
 #[serde(rename_all = "snake_case")]
 pub enum Side
 {

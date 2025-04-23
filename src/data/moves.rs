@@ -1,4 +1,4 @@
-use std::rc::Rc;
+use std::{fmt::Write, rc::Rc};
 
 pub use style::*;
 
@@ -35,7 +35,9 @@ impl Move
 	}
 }
 
-#[derive(Debug, Clone, Copy, Hash, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[derive(
+	Debug, Clone, Copy, Hash, PartialEq, Eq, serde::Serialize, serde::Deserialize, strum::Display,
+)]
 #[serde(rename_all = "snake_case")]
 pub enum Category
 {
@@ -108,6 +110,26 @@ mod style
 				strong: val,
 			}
 		}
+
+		pub fn are_all_equal(&self) -> bool
+		{
+			self.regular == self.agile && self.regular == self.strong
+		}
+	}
+
+	impl std::fmt::Display for StyleTriad
+	{
+		fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result
+		{
+			if !self.are_all_equal()
+			{
+				write!(f, "{} | {} | {}", self.regular, self.agile, self.strong)
+			}
+			else
+			{
+				write!(f, "{}", self.regular)
+			}
+		}
 	}
 }
 
@@ -178,6 +200,129 @@ pub enum MoveEffect
 	},
 }
 
+impl MoveEffect
+{
+	pub fn condition(&self) -> &MoveEffectCondition
+	{
+		match self
+		{
+			Self::Heal { condition, .. } => condition,
+			Self::Recoil { condition, .. } => condition,
+			Self::ApplyStatus { condition, .. } => condition,
+			Self::CureStatus { condition, .. } => condition,
+			Self::MultiplyPower { condition, .. } => condition,
+			Self::ModifyData { condition, .. } => condition,
+			Self::SwapOffenseAndDefense { condition, .. } => condition,
+		}
+	}
+}
+
+impl std::fmt::Display for MoveEffect
+{
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result
+	{
+		match self
+		{
+			Self::Heal {
+				percent_of,
+				percent,
+				..
+			} =>
+			{
+				write!(f, "Heals {percent} percent of {percent_of}")?;
+			}
+			Self::Recoil {
+				percent_of,
+				percent,
+				..
+			} =>
+			{
+				write!(
+					f,
+					"User takes {percent} percent of {percent_of} as recoil damage"
+				)?;
+			}
+			Self::ApplyStatus {
+				to,
+				status_option_ids,
+				duration,
+				chance,
+				..
+			} =>
+			{
+				if chance.are_all_equal() && chance.regular == 100
+				{
+					write!(f, "Inflicts ")?;
+				}
+				else
+				{
+					write!(f, "{chance} percent chance to inflict ")?;
+				}
+
+				write!(f, "{to} with ")?;
+				write_or_string(f, status_option_ids)?;
+				write!(f, " for {duration} turns")?;
+			}
+			Self::CureStatus { of, status_ids, .. } =>
+			{
+				write!(f, "Cures {of} of ")?;
+				write_or_string(f, status_ids)?;
+			}
+			Self::MultiplyPower { multiplier, .. } =>
+			{
+				write!(f, "{multiplier}x power")?;
+			}
+			Self::SwapOffenseAndDefense { of, .. } =>
+			{
+				write!(f, "Swaps {of}'s offensive and defensive stats")?;
+			}
+			Self::ModifyData {
+				power,
+				accuracy,
+				user_action_time,
+				target_action_time,
+				crit_stage,
+				..
+			} =>
+			{
+				write!(f, "Move stats become: ")?;
+				let mut data_string = String::new();
+				if let Some(power) = power
+				{
+					write!(data_string, "{power} power, ")?;
+				}
+				if let Some(accuracy) = accuracy
+				{
+					write!(data_string, "{accuracy} accuracy, ")?;
+				}
+				if let Some(user_action_time) = user_action_time
+				{
+					write!(data_string, "{user_action_time} AT (user), ")?;
+				}
+				if let Some(target_action_time) = target_action_time
+				{
+					write!(data_string, "{target_action_time} AT (target), ")?;
+				}
+				if let Some(crit_stage) = crit_stage
+				{
+					write!(data_string, "{crit_stage} crit, ")?;
+				}
+
+				_ = data_string.pop();
+				_ = data_string.pop();
+				write!(f, "{data_string}")?;
+			}
+		}
+
+		if !self.condition().both_are_none()
+		{
+			write!(f, " if {}", self.condition())?;
+		}
+
+		Ok(())
+	}
+}
+
 fn always() -> StyleTriad
 {
 	StyleTriad::all(100)
@@ -199,6 +344,27 @@ impl MoveEffectCondition
 	}
 }
 
+impl std::fmt::Display for MoveEffectCondition
+{
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result
+	{
+		if let Some(user_condition) = &self.user
+		{
+			write!(f, "user {user_condition}")?;
+			if self.target.is_some()
+			{
+				write!(f, " and ")?;
+			}
+		}
+		if let Some(target_condition) = &self.target
+		{
+			write!(f, "target {target_condition}")?;
+		}
+
+		Ok(())
+	}
+}
+
 #[derive(Debug, Hash, PartialEq, Eq, Clone, serde::Serialize, serde::Deserialize)]
 pub struct PokemonConditionData
 {
@@ -208,10 +374,74 @@ pub struct PokemonConditionData
 	pub status_ids: Option<BoxSlice<BoxStr>>,
 }
 
+impl std::fmt::Display for PokemonConditionData
+{
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result
+	{
+		if let Some(species) = &self.species_id
+		{
+			write!(f, "is {species}")?;
+			if self.status_ids.is_some()
+			{
+				write!(f, " and ")?;
+			}
+		}
+		if let Some(statuses) = &self.status_ids
+		{
+			write!(f, "is afflicted with ")?;
+			write_or_string(f, statuses)?;
+		}
+
+		Ok(())
+	}
+}
+
+fn write_or_string<T: std::fmt::Display>(
+	f: &mut std::fmt::Formatter<'_>,
+	options: &[T],
+) -> std::fmt::Result
+{
+	if options.len() == 1
+	{
+		write!(f, "{}", options[0])?;
+	}
+	else
+	{
+		for (i, option) in options.iter().enumerate()
+		{
+			if i == 0
+			{
+				write!(f, "{option}")?;
+			}
+			else if i == options.len() - 1
+			{
+				write!(f, ", or {option}")?;
+			}
+			else
+			{
+				write!(f, ", {option}")?;
+			}
+		}
+	}
+
+	Ok(())
+}
+
 #[derive(Debug, Hash, PartialEq, Eq, Clone, Copy, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum DamageOrMaxHp
 {
 	DamageDealt,
 	MaxHp,
+}
+impl std::fmt::Display for DamageOrMaxHp
+{
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result
+	{
+		match self
+		{
+			Self::DamageDealt => write!(f, "damage dealt"),
+			Self::MaxHp => write!(f, "max HP"),
+		}
+	}
 }

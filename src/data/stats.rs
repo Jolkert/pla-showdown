@@ -176,6 +176,18 @@ impl StatBlock
 	}
 }
 
+impl std::fmt::Display for StatBlock
+{
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result
+	{
+		write!(
+			f,
+			"{} HP\n{} Atk\n{} Def\n{} SpAtk\n{} SpDef\n{} Spe",
+			self.hp, self.atk, self.def, self.spatk, self.spdef, self.spe
+		)
+	}
+}
+
 pub fn effort_bonus(effort_level: i32, pokemon_level: u8, base_stat: i32) -> Option<i32>
 {
 	// im less convinced with the readability of this one than the stat calc one in ::pokemon

@@ -98,6 +98,19 @@ where
 	}
 }
 
+impl std::fmt::Display for TypePair
+{
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result
+	{
+		write!(f, "{}", self.0.id())?;
+		if let Some(second) = &self.1
+		{
+			write!(f, " / {}", second.id())?;
+		}
+		Ok(())
+	}
+}
+
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum WeaknessLevel
 {
