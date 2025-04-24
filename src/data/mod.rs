@@ -40,7 +40,7 @@ where
 {
 	fn id(&self) -> &str
 	{
-		(**self).id()
+		self.as_ref().id()
 	}
 }
 
@@ -48,6 +48,11 @@ impl<T> Identify for &T
 where
 	T: Identify,
 {
+	// i wanted to do the `AsRef::as_ref` thing that i did for the `Rc` blanket impl
+	// but unfortunately `AsRef` just doesnt work like that
+	// (see: https://doc.rust-lang.org/std/convert/trait.AsRef.html#reflexivity)
+	// this makes me very sad. i dont wanna do the `**self` but it must be done :(
+	// -morgan 2025-04-24
 	fn id(&self) -> &str
 	{
 		(**self).id()
