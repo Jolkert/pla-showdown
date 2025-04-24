@@ -104,10 +104,10 @@ fn pokemon_id_from(string: &str) -> String
 		.trim()
 		.to_lowercase()
 		.chars()
-		.map(|it| {
-			if it.is_ascii() && (it.is_alphanumeric() || it == '-')
+		.map(|char| {
+			if char.is_ascii() && (char.is_alphanumeric() || char == '-')
 			{
-				it
+				char
 			}
 			else
 			{
@@ -119,13 +119,13 @@ fn pokemon_id_from(string: &str) -> String
 		.replace("__", "_")
 }
 
-fn find_last(ch: char, string: &str) -> Option<usize>
+fn find_last(search_char: char, string: &str) -> Option<usize>
 {
 	string
 		.char_indices()
-		.filter(|it| it.1 == ch)
+		.filter(|(_, char)| *char == search_char)
 		.next_back()
-		.map(|it| it.0)
+		.map(|(i, _)| i)
 }
 
 fn substring_after_start<'a>(string: &'a str, pattern: &str) -> Option<&'a str>

@@ -68,7 +68,9 @@ impl<'a> Pokemon<'a>
 
 	pub fn name(&self) -> &str
 	{
-		self.nickname.as_deref().map_or(&self.species.id, |it| it)
+		self.nickname
+			.as_deref()
+			.map_or(&self.species.id, std::convert::identity)
 	}
 
 	pub fn stats(&self) -> StatBlock
@@ -170,8 +172,8 @@ impl<'a> BattlePokemon<'a>
 	pub fn status_conditions(&self) -> impl Iterator<Item = &AppliedStatus>
 	{
 		std::iter::once(&self.non_volatile_status)
-			.filter_map(Option::as_ref)
-			.chain(self.volatile_statuses.iter().map(|it| it.1))
+			.flatten()
+			.chain(self.volatile_statuses.values())
 	}
 
 	pub fn status_effects(&self) -> impl Iterator<Item = &Effect>
@@ -194,7 +196,7 @@ impl<'a> BattlePokemon<'a>
 		source_move: &'a Move,
 	)
 	{
-		if !condition.immune_types().any(|it| self.is_type(it))
+		if !condition.immune_types().any(|typ| self.is_type(typ))
 		{
 			let applied_status = AppliedStatus {
 				condition,
@@ -224,9 +226,10 @@ impl<'a> BattlePokemon<'a>
 			}
 		}
 		self.volatile_statuses
-			.iter_mut()
-			.for_each(|it| it.1.tick_down());
-		self.volatile_statuses.retain(|_, it| it.duration > 0);
+			.values_mut()
+			.for_each(|status| status.tick_down());
+		self.volatile_statuses
+			.retain(|_, status| status.duration > 0);
 	}
 
 	pub fn multiplier_to_stat(&self, st: Stat) -> f64
@@ -345,9 +348,9 @@ impl<'a> BattlePokemon<'a>
 
 		let effects_multiplier = attacker
 			.status_effects()
-			.map(|it| (Side::User, it))
-			.chain(target.status_effects().map(|it| (Side::Target, it)))
-			.map(|it| it.1.damge_multiplier(category, it.0))
+			.map(|effect| (Side::User, effect))
+			.chain(target.status_effects().map(|effect| (Side::Target, effect)))
+			.map(|(side, effect)| effect.damge_multiplier(category, side))
 			.product::<f64>();
 
 		(f64::from(base_damage) * effects_multiplier * type_multiplier * stab_multiplier) as i32
