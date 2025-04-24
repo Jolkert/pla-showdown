@@ -68,9 +68,7 @@ impl<'a> Pokemon<'a>
 
 	pub fn name(&self) -> &str
 	{
-		self.nickname
-			.as_deref()
-			.map_or(&self.species.id, std::convert::identity)
+		self.nickname.as_deref().unwrap_or(&self.species.id)
 	}
 
 	pub fn stats(&self) -> StatBlock
