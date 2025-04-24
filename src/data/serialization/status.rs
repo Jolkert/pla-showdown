@@ -33,7 +33,7 @@ impl IntoDeserialized<'_> for SerStatus
 			.immune_types(
 				self.immune_type_ids
 					.into_iter()
-					.map(|id| (**data.get(&*id).unwrap()).clone())
+					.map(|id| data.get(id.as_ref()).unwrap().clone())
 					.collect(),
 			)
 			.build()

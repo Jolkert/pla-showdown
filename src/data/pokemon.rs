@@ -1,9 +1,9 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 
 use rand::Rng;
 
 use super::{
-	AppliedStatus, Category, Effect, Identifiable, Identify, Move, Nature, Stat, StatBlock,
+	AppliedStatus, Category, Effect, IdSet, Identifiable, Identify, Move, Nature, Stat, StatBlock,
 	StatusCondition, Style, StyleTriad, Type, TypePair, Volatility,
 };
 use crate::{BoxStr, data};
@@ -42,7 +42,7 @@ pub struct Pokemon<'a>
 	pub level: u8,
 	pub nature: Nature,
 	pub effort_levels: StatBlock,
-	pub moveset: HashSet<&'a Identifiable<Move>>,
+	pub moveset: IdSet<&'a Move>,
 }
 impl<'a> Pokemon<'a>
 {
@@ -55,7 +55,7 @@ impl<'a> Pokemon<'a>
 			level: 100,
 			nature: Nature::default(),
 			effort_levels: StatBlock::all(10),
-			moveset: HashSet::new(),
+			moveset: IdSet::new(),
 		}
 	}
 
@@ -121,7 +121,7 @@ impl<'a> Pokemon<'a>
 	{
 		self.effort_levels = effort_levels;
 	}
-	pub fn add_move(&mut self, mv: &'a Identifiable<Move>)
+	pub fn add_move(&mut self, mv: &'a Move)
 	{
 		self.moveset.insert(mv);
 	}

@@ -1,4 +1,7 @@
-use std::{collections::HashMap, rc::Rc};
+use std::{
+	collections::{HashMap, HashSet},
+	rc::Rc,
+};
 
 use crate::BoxStr;
 
@@ -41,6 +44,16 @@ where
 	}
 }
 
+impl<T> Identify for &T
+where
+	T: Identify,
+{
+	fn id(&self) -> &str
+	{
+		(**self).id()
+	}
+}
+
 /// A newtype wrapper for any `Identify` type. Allows for equality, ordering, and hashing of
 /// the inner type based solely on the value of its string id.
 #[derive(Debug, Clone)]
@@ -62,9 +75,9 @@ impl<T: Identify> std::ops::Deref for Identifiable<T>
 		&self.0
 	}
 }
-impl<T: Identify> std::borrow::Borrow<T> for Identifiable<T>
+impl<T: Identify> AsRef<T> for Identifiable<T>
 {
-	fn borrow(&self) -> &T
+	fn as_ref(&self) -> &T
 	{
 		&self.0
 	}
@@ -117,4 +130,55 @@ impl<T: Identify> From<T> for Identifiable<T>
 	}
 }
 
-pub type IdSet<T> = std::collections::HashSet<Identifiable<T>>;
+#[derive(Debug, Clone, PartialEq, Eq, Default)]
+pub struct IdSet<T: Identify>(HashSet<Identifiable<T>>);
+
+impl<T: Identify> IdSet<T>
+{
+	pub fn new() -> Self
+	{
+		Self(HashSet::new())
+	}
+
+	pub fn get<Q>(&self, value: &Q) -> Option<&T>
+	where
+		Identifiable<T>: std::borrow::Borrow<Q>,
+		Q: std::hash::Hash + Eq + ?Sized,
+	{
+		self.0.get(value).map(AsRef::as_ref)
+	}
+
+	pub fn iter(&self) -> impl Iterator<Item = &Identifiable<T>>
+	{
+		self.0.iter()
+	}
+
+	pub fn insert(&mut self, item: T) -> bool
+	{
+		self.0.insert(Identifiable::from(item))
+	}
+}
+
+impl<T: Identify> IntoIterator for IdSet<T>
+{
+	type Item = Identifiable<T>;
+	type IntoIter = std::collections::hash_set::IntoIter<Identifiable<T>>;
+
+	fn into_iter(self) -> Self::IntoIter
+	{
+		self.0.into_iter()
+	}
+}
+
+impl<T: Identify, C> FromIterator<C> for IdSet<T>
+where
+	Identifiable<T>: std::hash::Hash + Eq,
+	C: Into<Identifiable<T>>,
+{
+	fn from_iter<I: IntoIterator<Item = C>>(iter: I) -> Self
+	{
+		Self(FromIterator::from_iter(
+			iter.into_iter().map(Into::<Identifiable<T>>::into),
+		))
+	}
+}

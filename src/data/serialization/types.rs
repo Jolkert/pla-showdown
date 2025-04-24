@@ -28,17 +28,17 @@ impl<'a> IntoDeserialized<'a> for SerType
 			weakness_ids: self
 				.weakness_ids
 				.into_iter()
-				.filter_map(|weakness| data.get(&*weakness).map(Rc::downgrade))
+				.filter_map(|weakness| data.get(weakness.as_ref()).map(Rc::downgrade))
 				.collect(),
 			resistance_ids: self
 				.resistance_ids
 				.into_iter()
-				.filter_map(|resistance| data.get(&*resistance).map(Rc::downgrade))
+				.filter_map(|resistance| data.get(resistance.as_ref()).map(Rc::downgrade))
 				.collect(),
 			immunity_ids: self
 				.immunity_ids
 				.into_iter()
-				.filter_map(|immunity| data.get(&*immunity).map(Rc::downgrade))
+				.filter_map(|immunity| data.get(immunity.as_ref()).map(Rc::downgrade))
 				.collect(),
 		})
 	}

@@ -86,7 +86,7 @@ impl Showdown
 					"weak: [{}]",
 					typ.weakness_ids
 						.iter()
-						.filter_map(|id| { id.upgrade().map(|rc| String::from(&*rc)) })
+						.filter_map(|id| { id.upgrade().map(|rc| String::from(rc.as_ref())) })
 						.collect::<Vec<_>>()
 						.join(", ")
 				));
@@ -94,7 +94,7 @@ impl Showdown
 					"resist: [{}]",
 					typ.resistance_ids
 						.iter()
-						.filter_map(|id| { id.upgrade().map(|rc| String::from(&*rc)) })
+						.filter_map(|id| { id.upgrade().map(|rc| String::from(rc.as_ref())) })
 						.collect::<Vec<_>>()
 						.join(", ")
 				));
@@ -102,7 +102,7 @@ impl Showdown
 					"immune: [{}]",
 					typ.immunity_ids
 						.iter()
-						.filter_map(|id| { id.upgrade().map(|rc| String::from(&*rc)) })
+						.filter_map(|id| { id.upgrade().map(|rc| String::from(rc.as_ref())) })
 						.collect::<Vec<_>>()
 						.join(", ")
 				));
@@ -248,6 +248,6 @@ where
 	D: Identify,
 {
 	iter.into_iter()
-		.map(|item| item.into_deserialized(data).into())
+		.map(|item| item.into_deserialized(data))
 		.collect()
 }

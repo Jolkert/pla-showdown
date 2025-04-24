@@ -25,11 +25,11 @@ impl<'a> IntoDeserialized<'a> for SerSpecies
 			id: self.id,
 			base_stats: self.base_stats,
 			types: TypePair::from((
-				(**data.get(&*self.types.0).unwrap()).clone(),
+				data.get(self.types.0.as_ref()).unwrap().clone(),
 				self.types
 					.1
-					.and_then(|id| data.get(&*id))
-					.map(|typ| (**typ).clone()),
+					.and_then(|id| data.get(id.as_ref()))
+					.map(Rc::clone),
 			)),
 		}
 	}

@@ -31,7 +31,7 @@ impl IntoDeserialized<'_> for SerMove
 	{
 		Move::builder()
 			.id(self.id)
-			.move_type((**data.get(&*self.move_type).unwrap()).clone())
+			.move_type(data.get(self.move_type.as_ref()).unwrap().clone())
 			.category(self.category)
 			.pp(self.pp)
 			.power(self.power)

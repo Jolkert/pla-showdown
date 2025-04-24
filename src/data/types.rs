@@ -24,7 +24,7 @@ impl Type
 		if self.immunity_ids.iter().any(|immunity| {
 			immunity
 				.upgrade()
-				.is_some_and(|immunity| &*immunity == typ.id())
+				.is_some_and(|immunity| immunity.as_ref() == typ.id())
 		})
 		{
 			WeaknessLevel::Immunity
@@ -32,7 +32,7 @@ impl Type
 		else if self.weakness_ids.iter().any(|weakness| {
 			weakness
 				.upgrade()
-				.is_some_and(|weakness| &*weakness == typ.id())
+				.is_some_and(|weakness| weakness.as_ref() == typ.id())
 		})
 		{
 			WeaknessLevel::Weak
@@ -40,7 +40,7 @@ impl Type
 		else if self.resistance_ids.iter().any(|resistance| {
 			resistance
 				.upgrade()
-				.is_some_and(|resistance| &*resistance == typ.id())
+				.is_some_and(|resistance| resistance.as_ref() == typ.id())
 		})
 		{
 			WeaknessLevel::Resist
