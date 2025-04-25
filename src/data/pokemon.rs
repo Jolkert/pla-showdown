@@ -1,6 +1,7 @@
 use std::{collections::HashMap, rc::Rc};
 
 use rand::Rng;
+use tap::Pipe;
 
 use super::{
 	AppliedStatus, Category, Effect, IdSet, Identifiable, Identify, Move, Nature, Stat, StatBlock,
@@ -81,23 +82,31 @@ impl Pokemon
 		let base = self.species.base_stats[stat];
 		if stat == Stat::Hp
 		{
-			// is this more readable? i think maybe ¯\_(ツ)_/¯
-			// the lack of a giant block of parentheses is at least nice -morgan 2023-12-14
-			f64::floor(
-				f64::from(self.level)
-					.mul_add(0.01, 1.0)
-					.mul_add(f64::from(base), f64::from(self.level))
-					.floor(),
-			) as i32 + data::effort_bonus(self.effort_levels[stat], self.level, base)
-				.expect("effort level was not in range [0, 10]")
+			// so i think this one actually *is* a decent bit more readable
+			// `pipe` truly is a blessing here. it really cleans up the giant parenthetical mess we
+			// had before at the very least so thats a good thing. genuinely unsure if this is an
+			// incredible improvement or new toy syndrome lol. at least for now i like it
+			// we shall see how i feel about it the next time i come back here lol
+			// -morgan 2025-04-25
+
+			f64::from(self.level)
+				.pipe(|lvl| lvl.mul_add(0.01, 1.0).mul_add(f64::from(base), lvl))
+				.pipe(|pre_elb| {
+					(f64::floor(pre_elb) as i32)
+						+ data::effort_bonus(self.effort_levels[stat], self.level, base)
+							.expect("Effort level was not in range [0, 10]")
+				})
 		}
 		else
 		{
-			f64::floor(
-				(f64::from(self.level).mul_add(0.02, 1.0) * f64::from(base) / 1.5).floor()
-					* self.nature.multiplier(stat),
-			) as i32 + data::effort_bonus(self.effort_levels[stat], self.level, base)
-				.expect("effort level was not in range [0, 10]")
+			f64::from(self.level)
+				.pipe(|lvl| lvl.mul_add(0.02, 1.0) * f64::from(base) / 1.5)
+				.pipe(|pre_nature| pre_nature.floor() * self.nature.multiplier(stat))
+				.pipe(|pre_elb| {
+					(pre_elb as i32)
+						+ data::effort_bonus(self.effort_levels[stat], self.level, base)
+							.expect("Effort level was not in range [0, 10]")
+				})
 		}
 	}
 
