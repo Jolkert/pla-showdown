@@ -101,7 +101,10 @@ impl Showdown
 								.find_map(|(id, nature)| {
 									(*nature == pokemon.nature).then_some(id.as_ref())
 								})
-								.unwrap_or(""),
+								.unwrap_or_else(|| {
+									log::warn!("Failed to find nature id: {}", pokemon.nature);
+									""
+								}),
 						)
 						.show_ui(ui, |ui| {
 							for (id, nature) in &self.data.clone().natures
