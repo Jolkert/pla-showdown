@@ -4,11 +4,12 @@ use std::{
 	rc::Rc,
 };
 
-use eframe::egui;
+use eframe::egui::{self, Widget};
 use pla_showdown::data::{
-	Data, IdSet, Identify, Move, Nature, Species, Type,
+	Data, IdSet, Identify, Move, Nature, NatureEffect, Pokemon, Species, Stat, Type,
 	serialization::{IntoDeserialized, SerMove, SerSpecies, SerStatus, SerType},
 };
+use strum::VariantArray;
 
 fn main()
 {
@@ -23,59 +24,180 @@ fn main()
 	let _ = eframe::run_native(
 		"pla-showdown",
 		options,
-		Box::new(|_| {
-			Ok(Box::from(Showdown {
-				data: Rc::from(initialize_data()),
-			}))
-		}),
+		Box::new(|_| Ok(Box::from(Showdown::new(initialize_data())))),
 	);
 }
 
 struct Showdown
 {
 	data: Rc<Data>,
+	test_pokemon: Option<Pokemon>,
+	nickname_buffer: String,
+	species_buffer: String,
 }
 impl eframe::App for Showdown
 {
 	fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame)
 	{
 		egui::CentralPanel::default().show(ctx, |ui| {
-			self.debug_panel(ui);
+			ui.with_layout(
+				egui::Layout::left_to_right(egui::Align::TOP).with_cross_justify(true),
+				|ui| {
+					self.debug_panel(ui);
+					self.pokemon_panel(ui);
+				},
+			);
 		});
 	}
 }
 
 impl Showdown
 {
+	fn new(data: Data) -> Self
+	{
+		Self {
+			data: Rc::from(data),
+			test_pokemon: None,
+			nickname_buffer: String::new(),
+			species_buffer: String::new(),
+		}
+	}
+
 	fn data(&self) -> Rc<Data>
 	{
 		self.data.clone()
 	}
 
+	fn pokemon_panel(&mut self, ui: &mut egui::Ui)
+	{
+		ui.vertical(|ui| {
+			if let Some(pokemon) = &mut self.test_pokemon
+			{
+				let remove_button = ui.button("delete");
+				if remove_button.clicked()
+				{
+					self.test_pokemon = None;
+					return;
+				}
+
+				ui.horizontal(|ui| {
+					let species_text_edit = egui::TextEdit::singleline(&mut self.species_buffer)
+						.hint_text(pokemon.species.id());
+					species_text_edit.show(ui);
+
+					ui.label("Lvl");
+					let level_drag_value = egui::DragValue::new(&mut pokemon.level).range(1..=100);
+					level_drag_value.ui(ui);
+				});
+
+				ui.horizontal(|ui| {
+					ui.label("Nature");
+					egui::ComboBox::from_label("")
+						.selected_text(
+							self.data
+								.clone()
+								.natures
+								.iter()
+								.find_map(|(id, nature)| {
+									(*nature == pokemon.nature).then_some(id.as_ref())
+								})
+								.unwrap_or(""),
+						)
+						.show_ui(ui, |ui| {
+							for (id, nature) in &self.data.clone().natures
+							{
+								ui.selectable_value(
+									&mut pokemon.nature,
+									*nature,
+									format!("{} | {}", id, nature),
+								);
+							}
+						});
+
+					ui.label(pokemon.nature.to_string());
+					ui.separator();
+
+					ui.checkbox(&mut pokemon.is_shiny, "Shiny");
+				});
+
+				for stat in Stat::VARIANTS
+				{
+					egui::Grid::new(format!("{stat}grid")).show(ui, |ui| {
+						ui.label(stat.to_string());
+						let effort_slider =
+							egui::Slider::new(&mut pokemon.effort_levels[*stat], 0..=10);
+						effort_slider.ui(ui);
+
+						ui.label(format!(
+							"{}{}",
+							pokemon.stats()[*stat],
+							match pokemon.nature.effect_on(*stat)
+							{
+								NatureEffect::Decrease => "-",
+								NatureEffect::Neutral => "",
+								NatureEffect::Increase => "+",
+							}
+						));
+					});
+				}
+
+				// update nickname
+				if let Some(nickname) = &mut pokemon.nickname
+				{
+					if nickname.as_str() != self.nickname_buffer
+					{
+						*nickname = self.nickname_buffer.clone();
+					}
+				}
+				else if !self.nickname_buffer.is_empty()
+				{
+					pokemon.set_nickname(self.nickname_buffer.clone());
+				}
+			}
+			else
+			{
+				ui.horizontal(|ui| {
+					ui.label("Species: ");
+					ui.text_edit_singleline(&mut self.species_buffer);
+				});
+				let add_pokemon_button = ui.button("add");
+				if add_pokemon_button.clicked()
+				{
+					if let Some(species) = self.data().species.get(self.species_buffer.as_str())
+					{
+						self.test_pokemon = Some(Pokemon::new(species));
+					}
+				}
+			}
+		});
+	}
+
 	fn debug_panel(&mut self, ui: &mut egui::Ui)
 	{
-		egui::ScrollArea::vertical()
-			.auto_shrink([false, false])
-			.show(ui, |ui| {
-				ui.collapsing("Types", |ui| {
-					for typ in itertools::sorted(self.data().types.iter())
-					{
-						self.show_type(ui, typ);
-					}
+		ui.vertical(|ui| {
+			egui::ScrollArea::vertical()
+				.auto_shrink([true, false])
+				.show(ui, |ui| {
+					ui.collapsing("Types", |ui| {
+						for typ in itertools::sorted(self.data().types.iter())
+						{
+							self.show_type(ui, typ);
+						}
+					});
+					ui.collapsing("Pokemon", |ui| {
+						for mon in itertools::sorted(self.data().species.iter())
+						{
+							self.show_species(ui, mon)
+						}
+					});
+					ui.collapsing("Moves", |ui| {
+						for mov in itertools::sorted(self.data().moves.iter())
+						{
+							self.show_move(ui, mov)
+						}
+					});
 				});
-				ui.collapsing("Pokemon", |ui| {
-					for mon in itertools::sorted(self.data().species.iter())
-					{
-						self.show_species(ui, mon)
-					}
-				});
-				ui.collapsing("Moves", |ui| {
-					for mov in itertools::sorted(self.data().moves.iter())
-					{
-						self.show_move(ui, mov)
-					}
-				});
-			});
+		});
 	}
 
 	fn show_type(&mut self, ui: &mut egui::Ui, typ: &Type)

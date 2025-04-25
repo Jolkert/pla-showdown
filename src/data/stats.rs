@@ -17,7 +17,18 @@ pub fn base_action_time(speed: i32) -> i32
 	}
 }
 
-#[derive(Debug, Hash, PartialEq, Eq, Clone, Copy, serde::Serialize, serde::Deserialize)]
+#[derive(
+	Debug,
+	Hash,
+	PartialEq,
+	Eq,
+	Clone,
+	Copy,
+	serde::Serialize,
+	serde::Deserialize,
+	strum::Display,
+	strum::VariantArray,
+)]
 #[serde(rename_all = "lowercase")]
 pub enum Stat
 {
@@ -68,24 +79,50 @@ impl Nature
 {
 	pub fn multiplier(self, stat: Stat) -> f64
 	{
+		match self.effect_on(stat)
+		{
+			NatureEffect::Decrease => 0.9,
+			NatureEffect::Neutral => 1.0,
+			NatureEffect::Increase => 1.1,
+		}
+	}
+
+	pub fn effect_on(self, stat: Stat) -> NatureEffect
+	{
 		// is there a more idomatic way to do this? maybe! -morgan 2023-12-11
 		if self.increased == self.decreased
 		{
-			1.0
+			NatureEffect::Neutral
 		}
 		else if stat == self.increased
 		{
-			1.1
+			NatureEffect::Increase
 		}
 		else if stat == self.decreased
 		{
-			0.9
+			NatureEffect::Decrease
 		}
 		else
 		{
-			1.0
+			NatureEffect::Neutral
 		}
 	}
+}
+
+impl std::fmt::Display for Nature
+{
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result
+	{
+		write!(f, "+{} / -{}", self.increased, self.decreased)
+	}
+}
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+pub enum NatureEffect
+{
+	Decrease,
+	Neutral,
+	Increase,
 }
 
 #[derive(Debug)]
@@ -114,6 +151,21 @@ impl std::ops::Index<Stat> for StatBlock
 			Stat::SpAtk => &self.spatk,
 			Stat::SpDef => &self.spdef,
 			Stat::Spe => &self.spe,
+		}
+	}
+}
+impl std::ops::IndexMut<Stat> for StatBlock
+{
+	fn index_mut(&mut self, index: Stat) -> &mut Self::Output
+	{
+		match index
+		{
+			Stat::Hp => &mut self.hp,
+			Stat::Atk => &mut self.atk,
+			Stat::Def => &mut self.def,
+			Stat::SpAtk => &mut self.spatk,
+			Stat::SpDef => &mut self.spdef,
+			Stat::Spe => &mut self.spe,
 		}
 	}
 }
