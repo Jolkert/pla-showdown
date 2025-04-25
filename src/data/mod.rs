@@ -18,8 +18,8 @@ mod_pub_use_all! {
 pub struct Data
 {
 	pub types: IdSet<Rc<Type>>,
-	pub species: IdSet<Species>,
-	pub moves: IdSet<Move>,
+	pub species: IdSet<Rc<Species>>,
+	pub moves: IdSet<Rc<Move>>,
 	pub statuses: IdSet<StatusCondition>,
 	pub natures: HashMap<BoxStr, Nature>,
 }

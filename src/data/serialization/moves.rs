@@ -24,22 +24,24 @@ pub struct SerMove
 }
 impl IntoDeserialized<'_> for SerMove
 {
-	type Deserialized = Move;
+	type Deserialized = Rc<Move>;
 	type RefData = IdSet<Rc<Type>>;
 
 	fn into_deserialized(self, data: &Self::RefData) -> Self::Deserialized
 	{
-		Move::builder()
-			.id(self.id)
-			.move_type(data.get(self.move_type.as_ref()).unwrap().clone())
-			.category(self.category)
-			.pp(self.pp)
-			.power(self.power)
-			.accuracy(self.accuracy)
-			.user_action_time(self.user_action_time)
-			.target_action_time(self.target_action_time)
-			.crit_stage(self.crit_stage)
-			.effects(self.effects)
-			.build()
+		Rc::from(
+			Move::builder()
+				.id(self.id)
+				.move_type(data.get(self.move_type.as_ref()).unwrap().clone())
+				.category(self.category)
+				.pp(self.pp)
+				.power(self.power)
+				.accuracy(self.accuracy)
+				.user_action_time(self.user_action_time)
+				.target_action_time(self.target_action_time)
+				.crit_stage(self.crit_stage)
+				.effects(self.effects)
+				.build(),
+		)
 	}
 }

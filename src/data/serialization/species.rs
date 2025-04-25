@@ -16,12 +16,12 @@ pub struct SerSpecies
 }
 impl<'a> IntoDeserialized<'a> for SerSpecies
 {
-	type Deserialized = Species;
+	type Deserialized = Rc<Species>;
 	type RefData = IdSet<Rc<Type>>;
 
 	fn into_deserialized(self, data: &'a Self::RefData) -> Self::Deserialized
 	{
-		Species {
+		Rc::from(Species {
 			id: self.id,
 			base_stats: self.base_stats,
 			types: TypePair::from((
@@ -31,7 +31,7 @@ impl<'a> IntoDeserialized<'a> for SerSpecies
 					.and_then(|id| data.get(id.as_ref()))
 					.map(Rc::clone),
 			)),
-		}
+		})
 	}
 }
 

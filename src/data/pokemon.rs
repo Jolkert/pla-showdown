@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, rc::Rc};
 
 use rand::Rng;
 
@@ -34,22 +34,22 @@ pub enum Side
 }
 
 #[derive(Debug)]
-pub struct Pokemon<'a>
+pub struct Pokemon
 {
-	pub species: &'a Species,
+	pub species: Rc<Species>,
 	pub nickname: Option<String>,
 	pub is_shiny: bool,
 	pub level: u8,
 	pub nature: Nature,
 	pub effort_levels: StatBlock,
-	pub moveset: IdSet<&'a Move>,
+	pub moveset: IdSet<Rc<Move>>,
 }
-impl<'a> Pokemon<'a>
+impl Pokemon
 {
-	pub fn new(species: &'a Species) -> Self
+	pub fn new(species: &Rc<Species>) -> Self
 	{
 		Self {
-			species,
+			species: species.clone(),
 			nickname: None,
 			is_shiny: false,
 			level: 100,
@@ -59,7 +59,7 @@ impl<'a> Pokemon<'a>
 		}
 	}
 
-	pub fn with_nickname(species: &'a Species, nickname: Option<String>) -> Self
+	pub fn with_nickname(species: &Rc<Species>, nickname: Option<String>) -> Self
 	{
 		let mut pkmn = Self::new(species);
 		pkmn.nickname = nickname;
@@ -121,17 +121,17 @@ impl<'a> Pokemon<'a>
 	{
 		self.effort_levels = effort_levels;
 	}
-	pub fn add_move(&mut self, mv: &'a Move)
+	pub fn add_move(&mut self, mv: &Rc<Move>)
 	{
-		self.moveset.insert(mv);
+		self.moveset.insert(mv.clone());
 	}
 	pub fn add_moves<I>(&mut self, moves: I)
 	where
-		I: IntoIterator<Item = &'a Identifiable<Move>>,
+		I: IntoIterator<Item = Identifiable<Rc<Move>>>,
 	{
 		for mv in moves
 		{
-			self.moveset.insert(mv);
+			self.moveset.insert(mv.as_ref().clone());
 		}
 	}
 
@@ -143,7 +143,7 @@ impl<'a> Pokemon<'a>
 
 pub struct BattlePokemon<'a>
 {
-	pokemon: &'a Pokemon<'a>,
+	pokemon: &'a Pokemon,
 	damage: i32,
 	action_time: i32,
 	non_volatile_status: Option<AppliedStatus<'a>>,
@@ -357,7 +357,7 @@ impl<'a> BattlePokemon<'a>
 
 impl<'a> std::ops::Deref for BattlePokemon<'a>
 {
-	type Target = Pokemon<'a>;
+	type Target = Pokemon;
 
 	fn deref(&self) -> &Self::Target
 	{
