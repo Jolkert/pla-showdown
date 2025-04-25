@@ -92,7 +92,7 @@ impl Pokemon
 			f64::from(self.level)
 				.pipe(|lvl| lvl.mul_add(0.01, 1.0).mul_add(f64::from(base), lvl))
 				.pipe(|pre_elb| {
-					(f64::floor(pre_elb) as i32)
+					(pre_elb.floor() as i32)
 						+ data::effort_bonus(self.effort_levels[stat], self.level, base)
 							.expect("Effort level was not in range [0, 10]")
 				})
@@ -103,7 +103,7 @@ impl Pokemon
 				.pipe(|lvl| lvl.mul_add(0.02, 1.0) * f64::from(base) / 1.5)
 				.pipe(|pre_nature| pre_nature.floor() * self.nature.multiplier(stat))
 				.pipe(|pre_elb| {
-					(pre_elb as i32)
+					(pre_elb.floor() as i32)
 						+ data::effort_bonus(self.effort_levels[stat], self.level, base)
 							.expect("Effort level was not in range [0, 10]")
 				})
