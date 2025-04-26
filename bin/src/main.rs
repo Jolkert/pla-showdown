@@ -63,16 +63,13 @@ impl Showdown
 		}
 	}
 
-	fn data(&self) -> Rc<Data>
-	{
-		self.data.clone()
-	}
-
 	fn pokemon_panel(&mut self, ui: &mut egui::Ui)
 	{
 		ui.vertical(|ui| {
 			if let Some(pokemon) = &mut self.test_pokemon
 			{
+				let data = self.data.clone();
+
 				let remove_button = ui.button("delete");
 				if remove_button.clicked()
 				{
@@ -94,9 +91,7 @@ impl Showdown
 					ui.label("Nature");
 					egui::ComboBox::from_label("")
 						.selected_text(
-							self.data
-								.clone()
-								.natures
+							data.natures
 								.iter()
 								.find_map(|(id, nature)| {
 									(*nature == pokemon.nature).then_some(id.as_ref())
@@ -107,12 +102,12 @@ impl Showdown
 								}),
 						)
 						.show_ui(ui, |ui| {
-							for (id, nature) in &self.data.clone().natures
+							for (id, nature) in &data.natures
 							{
 								ui.selectable_value(
 									&mut pokemon.nature,
 									*nature,
-									format!("{} | {}", id, nature),
+									format!("{id} | {nature}"),
 								);
 							}
 						});
@@ -149,7 +144,7 @@ impl Showdown
 				{
 					if nickname.as_str() != self.nickname_buffer
 					{
-						*nickname = self.nickname_buffer.clone();
+						nickname.clone_from(&self.nickname_buffer);
 					}
 				}
 				else if !self.nickname_buffer.is_empty()
@@ -166,7 +161,7 @@ impl Showdown
 				let add_pokemon_button = ui.button("add");
 				if add_pokemon_button.clicked()
 				{
-					if let Some(species) = self.data().species.get(self.species_buffer.as_str())
+					if let Some(species) = self.data.species.get(self.species_buffer.as_str())
 					{
 						self.test_pokemon = Some(Pokemon::new(species));
 					}
@@ -175,35 +170,35 @@ impl Showdown
 		});
 	}
 
-	fn debug_panel(&mut self, ui: &mut egui::Ui)
+	fn debug_panel(&self, ui: &mut egui::Ui)
 	{
 		ui.vertical(|ui| {
 			egui::ScrollArea::vertical()
 				.auto_shrink([true, false])
 				.show(ui, |ui| {
 					ui.collapsing("Types", |ui| {
-						for typ in itertools::sorted(self.data().types.iter())
+						for typ in itertools::sorted(self.data.types.iter())
 						{
-							self.show_type(ui, typ);
+							Self::show_type(ui, typ);
 						}
 					});
 					ui.collapsing("Pokemon", |ui| {
-						for mon in itertools::sorted(self.data().species.iter())
+						for mon in itertools::sorted(self.data.species.iter())
 						{
-							self.show_species(ui, mon)
+							Self::show_species(ui, mon);
 						}
 					});
 					ui.collapsing("Moves", |ui| {
-						for mov in itertools::sorted(self.data().moves.iter())
+						for mov in itertools::sorted(self.data.moves.iter())
 						{
-							self.show_move(ui, mov)
+							Self::show_move(ui, mov);
 						}
 					});
 				});
 		});
 	}
 
-	fn show_type(&mut self, ui: &mut egui::Ui, typ: &Type)
+	fn show_type(ui: &mut egui::Ui, typ: &Type)
 	{
 		ui.vertical(|ui| {
 			ui.collapsing(typ.id(), |ui| {
@@ -235,7 +230,7 @@ impl Showdown
 		});
 	}
 
-	fn show_species(&mut self, ui: &mut egui::Ui, species: &Species)
+	fn show_species(ui: &mut egui::Ui, species: &Species)
 	{
 		ui.vertical(|ui| {
 			ui.collapsing(species.id(), |ui| {
@@ -245,7 +240,7 @@ impl Showdown
 		});
 	}
 
-	fn show_move(&mut self, ui: &mut egui::Ui, mov: &Move)
+	fn show_move(ui: &mut egui::Ui, mov: &Move)
 	{
 		ui.vertical(|ui| {
 			ui.collapsing(mov.id(), |ui| {
@@ -363,9 +358,9 @@ fn deserialize_dir<T: serde::de::DeserializeOwned>(
 						toml::from_str::<T>(&toml_str)
 							.inspect_err(|err| {
 								log::error!(
-									"Failed to deserialize file {:#?}\n{err}",
-									file.file_name()
-								)
+									"Failed to deserialize file {}\n{err}",
+									file.file_name().display()
+								);
 							})
 							.ok()
 					})

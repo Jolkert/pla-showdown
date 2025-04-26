@@ -206,13 +206,13 @@ impl MoveEffect
 	{
 		match self
 		{
-			Self::Heal { condition, .. } => condition,
-			Self::Recoil { condition, .. } => condition,
-			Self::ApplyStatus { condition, .. } => condition,
-			Self::CureStatus { condition, .. } => condition,
-			Self::MultiplyPower { condition, .. } => condition,
-			Self::ModifyData { condition, .. } => condition,
-			Self::SwapOffenseAndDefense { condition, .. } => condition,
+			Self::Heal { condition, .. }
+			| Self::Recoil { condition, .. }
+			| Self::ApplyStatus { condition, .. }
+			| Self::CureStatus { condition, .. }
+			| Self::MultiplyPower { condition, .. }
+			| Self::ModifyData { condition, .. }
+			| Self::SwapOffenseAndDefense { condition, .. } => condition,
 		}
 	}
 }

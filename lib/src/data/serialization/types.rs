@@ -18,7 +18,7 @@ pub struct SerType
 	pub immunity_ids: BoxSlice<BoxStr>,
 }
 
-impl<'a> IntoDeserialized<'a> for SerType
+impl IntoDeserialized<'_> for SerType
 {
 	type Deserialized = Rc<Type>;
 	type RefData = HashSet<Rc<str>>;
@@ -48,7 +48,7 @@ impl<'a> IntoDeserialized<'a> for SerType
 					data.get(resistance.as_ref())
 						.map(Rc::downgrade)
 						.tap_none(|| {
-							log::warn!("{} could not find resistance {}", self.id, resistance)
+							log::warn!("{} could not find resistance {}", self.id, resistance);
 						})
 				})
 				.collect(),

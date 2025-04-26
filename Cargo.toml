@@ -1,3 +1,34 @@
 [workspace]
-resolver = "2"
+resolver = "3"
 members = ["lib", "bin"]
+
+[workspace.lints.clippy]
+pedantic = "warn"
+nursery = "warn"
+empty_structs_with_brackets = "warn"
+if_then_some_else_none = "warn"
+same_name_method = "warn"
+lossy_float_literal = "warn"
+
+# this isnt actual library code. i dont really care that much
+# its just gonna add a bunch of extra keywords and attributes
+# and i dont wanna commit to something that could just change
+# at any time
+missing_const_for_fn = { level = "allow", priority = 1 }
+must_use_candidate = { level = "allow", priority = 1 }
+return_self_not_must_use = { level = "allow", priority = 1 }
+
+# again, not actual library code meant to be used by other people
+too_long_first_doc_paragraph = { level = "allow", priority = 1 }
+missing_errors_doc = { level = "allow", priority = 1 }
+
+# yeah i know. we kinda have to do this in a couple places tho
+cast_possible_truncation = { level = "allow", priority = 1 }
+
+# clippy i promise you that sometimes it just makes more sense
+# for the semantics to be "unless this is the case, do this; otherwise, do that"
+# like sometimes its just "oh if not A do this small thing, but if A, we gotta do a lot of work"
+# the bigger the "lot of work" block gets, the harder its gonna be to mentally map the if and else
+# together. i say you always wanna put the simpler code in the `if` block not the simpler condition
+# -morgan 2025-04-26
+if_not_else = { level = "allow", priority = 127 }

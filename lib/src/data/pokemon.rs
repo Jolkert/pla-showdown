@@ -232,7 +232,7 @@ impl<'a> BattlePokemon<'a>
 		}
 		self.volatile_statuses
 			.values_mut()
-			.for_each(|status| status.tick_down());
+			.for_each(AppliedStatus::tick_down);
 		self.volatile_statuses
 			.retain(|_, status| status.duration > 0);
 	}
@@ -362,7 +362,7 @@ impl<'a> BattlePokemon<'a>
 	}
 }
 
-impl<'a> std::ops::Deref for BattlePokemon<'a>
+impl std::ops::Deref for BattlePokemon<'_>
 {
 	type Target = Pokemon;
 

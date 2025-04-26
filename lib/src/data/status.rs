@@ -33,7 +33,7 @@ pub struct AppliedStatus<'a>
 	pub duration: i32,
 	pub source_move: &'a Move,
 }
-impl<'a> AppliedStatus<'a>
+impl AppliedStatus<'_>
 {
 	pub fn tick_down(&mut self)
 	{

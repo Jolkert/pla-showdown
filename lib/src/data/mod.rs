@@ -121,6 +121,8 @@ impl<T: Identify> Ord for Identifiable<T>
 
 impl<T: Identify> std::hash::Hash for Identifiable<T>
 {
+	// this one actually makes sense semantically
+	#[allow(clippy::semicolon_if_nothing_returned)]
 	fn hash<H: std::hash::Hasher>(&self, state: &mut H)
 	{
 		self.id().hash(state)
@@ -131,7 +133,7 @@ impl<T: Identify> From<T> for Identifiable<T>
 {
 	fn from(value: T) -> Self
 	{
-		Identifiable(value)
+		Self(value)
 	}
 }
 
@@ -182,8 +184,10 @@ where
 {
 	fn from_iter<I: IntoIterator<Item = C>>(iter: I) -> Self
 	{
-		Self(FromIterator::from_iter(
-			iter.into_iter().map(Into::<Identifiable<T>>::into),
-		))
+		Self(
+			iter.into_iter()
+				.map(Into::<Identifiable<T>>::into)
+				.collect(),
+		)
 	}
 }
