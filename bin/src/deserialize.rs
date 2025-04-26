@@ -60,7 +60,7 @@ fn deserialize_dir<T: serde::de::DeserializeOwned>(
 					.and_then(|toml_str| {
 						toml::from_str::<T>(&toml_str)
 							.inspect_err(|err| {
-								log::error!(
+								log::warn!(
 									"Failed to deserialize file {}\n{err}",
 									file.file_name().display()
 								);
