@@ -1,5 +1,7 @@
 use std::str::FromStr;
 
+use tap::Pipe;
+
 pub fn base_action_time(speed: i32) -> i32
 {
 	match speed
@@ -242,13 +244,19 @@ impl std::fmt::Display for StatBlock
 
 pub fn effort_bonus(effort_level: i32, pokemon_level: u8, base_stat: i32) -> i32
 {
-	// im less convinced with the readability of this one than the stat calc one in ::pokemon
-	// consider changing it back -morgan 2023-12-14
-	(f64::from(base_stat).sqrt().mul_add(
-		f64::from(effort_multiplier(effort_level)),
-		f64::from(pokemon_level),
-	) / 2.5)
-		.round() as i32
+	// turns out i think calculations like this are one of the best uses of `pipe` since most of
+	// them need dot-notation or operators and optionally and the parens get ugly and unweildy
+	// so breaking it up with multiple `pipe`s makes me very pleased
+	// -morgan 2025-04-26
+
+	f64::from(base_stat)
+		.pipe(|stat| {
+			stat.sqrt().mul_add(
+				f64::from(effort_multiplier(effort_level)),
+				f64::from(pokemon_level),
+			) / 2.5
+		})
+		.pipe(|elb| elb.round() as i32)
 }
 
 fn effort_multiplier(effort_level: i32) -> i32
