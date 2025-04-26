@@ -1,0 +1,15 @@
+[package]
+name = "bin"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+pla_showdown = { path = "../lib" }
+dotenv = "0.15.0"
+eframe = "0.31.1"
+env_logger = "0.11.8"
+toml = "0.8.21"
+itertools = "0.14.0"
+log = "0.4.27"
+serde = { version = "1.0.219", features = ["derive", "rc"] }
+strum = "0.27.1"
