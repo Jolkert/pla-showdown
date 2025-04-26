@@ -312,6 +312,7 @@ impl Showdown
 
 fn initialize_data() -> Data
 {
+	log::info!("Loading types...");
 	let types = {
 		let deser_types = deserialize_dir::<SerType>("./assets/types").collect::<Vec<_>>();
 		let ids = deser_types
@@ -322,8 +323,13 @@ fn initialize_data() -> Data
 		id_set_from(deser_types, &ids)
 	};
 
+	log::info!("Loading species...");
 	let species = id_set_from(deserialize_dir::<SerSpecies>("./assets/species"), &types);
+
+	log::info!("Loading moves...");
 	let moves = id_set_from(deserialize_dir::<SerMove>("./assets/moves"), &types);
+
+	log::info!("Loading statuses...");
 	let statuses = id_set_from(deserialize_dir::<SerStatus>("./assets/statuses"), &types);
 
 	Data {

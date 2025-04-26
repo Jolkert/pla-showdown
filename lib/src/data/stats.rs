@@ -240,35 +240,36 @@ impl std::fmt::Display for StatBlock
 	}
 }
 
-pub fn effort_bonus(effort_level: i32, pokemon_level: u8, base_stat: i32) -> Option<i32>
+pub fn effort_bonus(effort_level: i32, pokemon_level: u8, base_stat: i32) -> i32
 {
 	// im less convinced with the readability of this one than the stat calc one in ::pokemon
 	// consider changing it back -morgan 2023-12-14
-	Some(
-		(f64::from(base_stat).sqrt().mul_add(
-			f64::from(effort_multiplier(effort_level)?),
-			f64::from(pokemon_level),
-		) / 2.5)
-			.round() as i32,
-	)
+	(f64::from(base_stat).sqrt().mul_add(
+		f64::from(effort_multiplier(effort_level)),
+		f64::from(pokemon_level),
+	) / 2.5)
+		.round() as i32
 }
 
-fn effort_multiplier(effort_level: i32) -> Option<i32>
+fn effort_multiplier(effort_level: i32) -> i32
 {
+	if !(0..=10).contains(&effort_level)
+	{
+		log::warn!("Found invalid effort level {effort_level}! Clamping to range [0, 10]");
+	}
 	// 0, 2, 3, 4, 7, 8, 9, 14, 15, 16, 25
 	match effort_level
 	{
-		0 => Some(0),
-		1 => Some(2),
-		2 => Some(3),
-		3 => Some(4),
-		4 => Some(7),
-		5 => Some(8),
-		6 => Some(9),
-		7 => Some(14),
-		8 => Some(15),
-		9 => Some(16),
-		10 => Some(25),
-		_ => None,
+		..=0 => 0,
+		1 => 2,
+		2 => 3,
+		3 => 4,
+		4 => 7,
+		5 => 8,
+		6 => 9,
+		7 => 14,
+		8 => 15,
+		9 => 16,
+		10.. => 25,
 	}
 }

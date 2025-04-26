@@ -94,7 +94,6 @@ impl Pokemon
 				.pipe(|pre_elb| {
 					(pre_elb.floor() as i32)
 						+ data::effort_bonus(self.effort_levels[stat], self.level, base)
-							.expect("Effort level was not in range [0, 10]")
 				})
 		}
 		else
@@ -105,7 +104,6 @@ impl Pokemon
 				.pipe(|pre_elb| {
 					(pre_elb.floor() as i32)
 						+ data::effort_bonus(self.effort_levels[stat], self.level, base)
-							.expect("Effort level was not in range [0, 10]")
 				})
 		}
 	}
