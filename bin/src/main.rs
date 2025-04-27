@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use std::rc::Rc;
 
 use color_eyre::eyre;
@@ -47,7 +49,7 @@ impl eframe::App for Showdown
 				egui::Layout::left_to_right(egui::Align::TOP).with_cross_justify(true),
 				|ui| {
 					self.debug_panel(ui);
-					self.pokemon_panel(ui);
+					// self.pokemon_panel(ui);
 				},
 			);
 		});
