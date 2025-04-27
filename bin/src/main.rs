@@ -11,7 +11,7 @@ fn main() -> eyre::Result<()>
 {
 	color_eyre::install()?;
 
-	let _ = dotenv::dotenv();
+	dotenv::dotenv()?;
 	env_logger::init();
 
 	let options = eframe::NativeOptions {
@@ -19,6 +19,9 @@ fn main() -> eyre::Result<()>
 		..Default::default()
 	};
 
+	// cant propagate this error with `?` because `eframe:Error` isnt `Sync + Send` 🙃
+	// come up with a new solution at some point please :)
+	// -morgan 2025-04-26
 	_ = eframe::run_native(
 		"pla-showdown",
 		options,
