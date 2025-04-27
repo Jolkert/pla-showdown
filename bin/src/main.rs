@@ -1,13 +1,16 @@
 use std::rc::Rc;
 
+use color_eyre::eyre;
 use eframe::egui::{self, Widget};
 use pla_showdown::data::{Data, Identify, Move, NatureEffect, Pokemon, Species, Stat, Type};
 use strum::VariantArray;
 
 mod deserialize;
 
-fn main()
+fn main() -> eyre::Result<()>
 {
+	color_eyre::install()?;
+
 	let _ = dotenv::dotenv();
 	env_logger::init();
 
@@ -16,11 +19,13 @@ fn main()
 		..Default::default()
 	};
 
-	let _ = eframe::run_native(
+	_ = eframe::run_native(
 		"pla-showdown",
 		options,
-		Box::new(|_| Ok(Box::from(Showdown::new(deserialize::initialize_data())))),
+		Box::new(|_| Ok(Box::from(Showdown::new(deserialize::initialize_data()?)))),
 	);
+
+	Ok(())
 }
 
 struct Showdown

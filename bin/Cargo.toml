@@ -13,6 +13,7 @@ itertools = "0.14.0"
 log = "0.4.27"
 serde = { version = "1.0.219", features = ["derive", "rc"] }
 strum = "0.27.1"
+color-eyre = "0.6.3"
 
 [lints]
 workspace = true
