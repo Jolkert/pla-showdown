@@ -77,6 +77,16 @@ impl Pokemon
 		StatBlock::generate(|stat| self.calculate_stat(stat))
 	}
 
+	pub fn types(&self) -> &TypePair
+	{
+		&self.species.types
+	}
+
+	pub fn is_type(&self, typ: &Type) -> bool
+	{
+		self.types().contains(typ)
+	}
+
 	fn calculate_stat(&self, stat: Stat) -> i32
 	{
 		let base = self.species.base_stats[stat];
@@ -254,15 +264,6 @@ impl BattlePokemon
 				}
 			})
 			.product()
-	}
-
-	pub fn types(&self) -> &TypePair
-	{
-		&self.pokemon.species.types
-	}
-	pub fn is_type(&self, typ: &Type) -> bool
-	{
-		self.types().contains(typ)
 	}
 
 	pub fn base_action_time(&self) -> i32
