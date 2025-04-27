@@ -21,21 +21,23 @@ pub struct SerStatus
 }
 impl IntoDeserialized<'_> for SerStatus
 {
-	type Deserialized = StatusCondition;
+	type Deserialized = Rc<StatusCondition>;
 	type RefData = IdSet<Rc<Type>>;
 
 	fn into_deserialized(self, data: &Self::RefData) -> Self::Deserialized
 	{
-		StatusCondition::builder()
-			.id(self.id)
-			.volatility(self.volatility)
-			.effects(self.effects)
-			.immune_types(
-				self.immune_type_ids
-					.into_iter()
-					.map(|id| data.get(id.as_ref()).unwrap().clone())
-					.collect(),
-			)
-			.build()
+		Rc::from(
+			StatusCondition::builder()
+				.id(self.id)
+				.volatility(self.volatility)
+				.effects(self.effects)
+				.immune_types(
+					self.immune_type_ids
+						.into_iter()
+						.map(|id| data.get(id.as_ref()).unwrap().clone())
+						.collect(),
+				)
+				.build(),
+		)
 	}
 }

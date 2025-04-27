@@ -148,22 +148,24 @@ impl Pokemon
 	}
 }
 
-pub struct BattlePokemon<'a>
+pub struct BattlePokemon
 {
-	pokemon: &'a Pokemon,
+	pokemon: Pokemon,
 	damage: i32,
 	action_time: i32,
-	non_volatile_status: Option<AppliedStatus<'a>>,
-	volatile_statuses: HashMap<BoxStr, AppliedStatus<'a>>,
+	non_volatile_status: Option<AppliedStatus>,
+	volatile_statuses: HashMap<BoxStr, AppliedStatus>,
 }
-impl<'a> BattlePokemon<'a>
+impl BattlePokemon
 {
-	pub fn new(pokemon: &'a Pokemon) -> Self
+	pub fn new(pokemon: Pokemon) -> Self
 	{
+		let action_time = pokemon.base_action_time();
+
 		Self {
 			pokemon,
 			damage: 0,
-			action_time: pokemon.base_action_time(),
+			action_time,
 			non_volatile_status: None,
 			volatile_statuses: HashMap::new(),
 		}
@@ -196,17 +198,17 @@ impl<'a> BattlePokemon<'a>
 
 	pub fn apply_status(
 		&mut self,
-		condition: &'a StatusCondition,
+		condition: &Rc<StatusCondition>,
 		duration: i32,
-		source_move: &'a Move,
+		source_move: &Rc<Move>,
 	)
 	{
 		if !condition.immune_types().any(|typ| self.is_type(typ))
 		{
 			let applied_status = AppliedStatus {
-				condition,
+				condition: condition.clone(),
 				duration,
-				source_move,
+				source_move: source_move.clone(),
 			};
 			match condition.volatility
 			{
@@ -268,12 +270,7 @@ impl<'a> BattlePokemon<'a>
 		data::base_action_time(self.effective_stats().spe)
 	}
 
-	pub fn calculate_damage(
-		attacker: &BattlePokemon,
-		target: &BattlePokemon,
-		mv: &Move,
-		style: Style,
-	) -> i32
+	pub fn calculate_damage(attacker: &Self, target: &Self, mv: &Move, style: Style) -> i32
 	{
 		let base_damage = Self::calculate_damage_no_roll(
 			attacker,
@@ -310,8 +307,8 @@ impl<'a> BattlePokemon<'a>
 	}
 
 	pub fn calculate_damage_no_roll(
-		attacker: &BattlePokemon,
-		target: &BattlePokemon,
+		attacker: &Self,
+		target: &Self,
 		base_power: &StyleTriad,
 		category: Category,
 		move_type: &Type,
@@ -362,12 +359,12 @@ impl<'a> BattlePokemon<'a>
 	}
 }
 
-impl std::ops::Deref for BattlePokemon<'_>
+impl std::ops::Deref for BattlePokemon
 {
 	type Target = Pokemon;
 
 	fn deref(&self) -> &Self::Target
 	{
-		self.pokemon
+		&self.pokemon
 	}
 }

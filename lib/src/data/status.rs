@@ -27,13 +27,13 @@ impl Identify for StatusCondition
 	}
 }
 
-pub struct AppliedStatus<'a>
+pub struct AppliedStatus
 {
-	pub condition: &'a StatusCondition,
+	pub condition: Rc<StatusCondition>,
 	pub duration: i32,
-	pub source_move: &'a Move,
+	pub source_move: Rc<Move>,
 }
-impl AppliedStatus<'_>
+impl AppliedStatus
 {
 	pub fn tick_down(&mut self)
 	{

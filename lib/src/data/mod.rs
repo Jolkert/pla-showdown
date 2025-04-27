@@ -20,7 +20,7 @@ pub struct Data
 	pub types: IdSet<Rc<Type>>,
 	pub species: IdSet<Rc<Species>>,
 	pub moves: IdSet<Rc<Move>>,
-	pub statuses: IdSet<StatusCondition>,
+	pub statuses: IdSet<Rc<StatusCondition>>,
 	pub natures: HashMap<BoxStr, Nature>,
 }
 
