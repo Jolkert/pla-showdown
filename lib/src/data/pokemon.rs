@@ -333,10 +333,9 @@ impl BattlePokemon
 			Stat::SpDef
 		}];
 
-		let base_damage = (((100 + attack_stat + (15 * i32::from(attacker.pokemon.level)))
-			* base_power[style])
-			/ (defense_stat + 50))
-			/ 5;
+		let base_damage = attack_stat
+			.pipe(|atk| 100 + atk + (15 * i32::from(attacker.level)))
+			.pipe(|dmg| dmg * base_power[style] / (defense_stat + 50) / 5);
 
 		let type_multiplier = target.types().damage_multiplier_from(move_type);
 		let stab_multiplier = if attacker.is_type(move_type)
@@ -355,7 +354,8 @@ impl BattlePokemon
 			.map(|(side, effect)| effect.damge_multiplier(category, side))
 			.product::<f64>();
 
-		(f64::from(base_damage) * effects_multiplier * type_multiplier * stab_multiplier) as i32
+		f64::floor(f64::from(base_damage) * effects_multiplier * type_multiplier * stab_multiplier)
+			as i32
 	}
 }
 
