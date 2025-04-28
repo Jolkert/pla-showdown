@@ -46,6 +46,17 @@ impl AppliedStatus
 	}
 }
 
+// this is really only a thing you should do because you cant have the same effect
+// applied twice. oh well ¯\_(ツ)_/¯
+// -morgan 2025-04-27
+impl Identify for AppliedStatus
+{
+	fn id(&self) -> &str
+	{
+		self.condition.id()
+	}
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum Volatility

@@ -182,19 +182,19 @@ impl Showdown
 				.auto_shrink([true, false])
 				.show(ui, |ui| {
 					ui.collapsing("Types", |ui| {
-						for typ in itertools::sorted(self.data.types.iter())
+						for typ in itertools::sorted(self.data.types.id_iter())
 						{
 							Self::show_type(ui, typ);
 						}
 					});
 					ui.collapsing("Pokemon", |ui| {
-						for mon in itertools::sorted(self.data.species.iter())
+						for mon in itertools::sorted(self.data.species.id_iter())
 						{
 							Self::show_species(ui, mon);
 						}
 					});
 					ui.collapsing("Moves", |ui| {
-						for mov in itertools::sorted(self.data.moves.iter())
+						for mov in itertools::sorted(self.data.moves.id_iter())
 						{
 							Self::show_move(ui, mov);
 						}

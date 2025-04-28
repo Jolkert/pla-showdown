@@ -87,6 +87,13 @@ impl<T: Identify> AsRef<T> for Identifiable<T>
 		&self.0
 	}
 }
+impl<T: Identify> AsMut<T> for Identifiable<T>
+{
+	fn as_mut(&mut self) -> &mut T
+	{
+		&mut self.0
+	}
+}
 impl<T: Identify> std::borrow::Borrow<str> for Identifiable<T>
 {
 	fn borrow(&self) -> &str
@@ -155,7 +162,12 @@ impl<T: Identify> IdSet<T>
 		self.0.get(value).map(AsRef::as_ref)
 	}
 
-	pub fn iter(&self) -> impl Iterator<Item = &Identifiable<T>>
+	pub fn iter(&self) -> impl Iterator<Item = &T>
+	{
+		self.0.iter().map(AsRef::as_ref)
+	}
+
+	pub fn id_iter(&self) -> impl Iterator<Item = &Identifiable<T>>
 	{
 		self.0.iter()
 	}
@@ -163,6 +175,31 @@ impl<T: Identify> IdSet<T>
 	pub fn insert(&mut self, item: T) -> bool
 	{
 		self.0.insert(Identifiable::from(item))
+	}
+
+	// this is a horribly jank way to do this but it works i guess
+	// -morgan 2025-04-27
+	pub fn update_all<F>(&mut self, mut f: F)
+	where
+		F: FnMut(&mut T),
+	{
+		// this absolutely is not needless i promise
+		// (this false positive is further evidence of the jank at play here)
+		// morgan 2025-04-27
+		#[allow(clippy::needless_collect)]
+		for mut t in self.0.drain().collect::<Vec<_>>()
+		{
+			f(t.as_mut());
+			self.0.insert(t);
+		}
+	}
+
+	#[allow(clippy::semicolon_if_nothing_returned)]
+	pub fn retain<F>(&mut self, mut f: F)
+	where
+		F: FnMut(&T) -> bool,
+	{
+		self.0.retain(|id_t| f(&**id_t))
 	}
 }
 

@@ -1,4 +1,4 @@
-use std::{collections::HashMap, rc::Rc};
+use std::rc::Rc;
 
 use rand::Rng;
 use tap::Pipe;
@@ -164,7 +164,7 @@ pub struct BattlePokemon
 	damage: i32,
 	action_time: i32,
 	non_volatile_status: Option<AppliedStatus>,
-	volatile_statuses: HashMap<BoxStr, AppliedStatus>,
+	volatile_statuses: IdSet<AppliedStatus>,
 }
 impl BattlePokemon
 {
@@ -177,7 +177,7 @@ impl BattlePokemon
 			damage: 0,
 			action_time,
 			non_volatile_status: None,
-			volatile_statuses: HashMap::new(),
+			volatile_statuses: IdSet::new(),
 		}
 	}
 
@@ -190,7 +190,7 @@ impl BattlePokemon
 	{
 		std::iter::once(&self.non_volatile_status)
 			.flatten()
-			.chain(self.volatile_statuses.values())
+			.chain(self.volatile_statuses.iter())
 	}
 
 	pub fn status_effects(&self) -> impl Iterator<Item = &Effect>
@@ -225,8 +225,7 @@ impl BattlePokemon
 				Volatility::NonVolatile => self.non_volatile_status = Some(applied_status),
 				Volatility::Volatile =>
 				{
-					self.volatile_statuses
-						.insert(applied_status.condition.id.clone(), applied_status);
+					self.volatile_statuses.insert(applied_status);
 				}
 			}
 		}
@@ -242,11 +241,9 @@ impl BattlePokemon
 				self.non_volatile_status = None;
 			}
 		}
-		self.volatile_statuses
-			.values_mut()
-			.for_each(AppliedStatus::tick_down);
-		self.volatile_statuses
-			.retain(|_, status| status.duration > 0);
+
+		self.volatile_statuses.update_all(AppliedStatus::tick_down);
+		self.volatile_statuses.retain(|status| status.duration > 0);
 	}
 
 	pub fn multiplier_to_stat(&self, st: Stat) -> f64
